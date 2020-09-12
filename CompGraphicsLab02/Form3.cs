@@ -1,8 +1,10 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +37,7 @@ namespace CompGraphicsLab02
         // Открыть изображение
         private void button2_Click(object sender, EventArgs e)
         {
+            label4.Text = "";
             OpenFileDialog ofd = new OpenFileDialog();
             // маска для типа файлов
             ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
@@ -60,10 +63,35 @@ namespace CompGraphicsLab02
             if (pictureBox1.Image != null)
             {
                 Bitmap input = new Bitmap(pictureBox1.Image);
-                pictureBox2.Image = GetRgbChannels(input)[0];
+                var img = GetRgbChannels(input)[0];
+                pictureBox2.Image = img;
+                pictureBox3.Image = DrawHistogram(img, "R");
             }
         }
 
+        // Получение канала G
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Image != null)
+            {
+                Bitmap input = new Bitmap(pictureBox1.Image);
+                var img = GetRgbChannels(input)[1];
+                pictureBox2.Image = img;
+                pictureBox3.Image = DrawHistogram(img, "G");
+            }
+        }
+        //Получение канала B
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (pictureBox1.Image != null)
+            {
+                Bitmap input = new Bitmap(pictureBox1.Image);
+                var img = GetRgbChannels(input)[2];
+                pictureBox2.Image = img;
+                pictureBox3.Image = DrawHistogram(img, "B");
+            }
+        }
+        /*
         static Bitmap[] GetRgbChannels(Bitmap source)
         {
             Bitmap[] result = new Bitmap[3] { new Bitmap(source.Width, source.Height), new Bitmap(source.Width, source.Height), new Bitmap(source.Width, source.Height) };
@@ -78,24 +106,96 @@ namespace CompGraphicsLab02
                 }
             }
             return result;
-        }
-        // Получение канала G
-        private void button4_Click(object sender, EventArgs e)
+        }*/
+        static Bitmap[] GetRgbChannels(Bitmap source)
         {
-            if (pictureBox1.Image != null)
+            Bitmap[] result = new Bitmap[3];
+            ImageAttributes imageAttributes = new ImageAttributes();
+            ColorMatrix[] matrices = new ColorMatrix[3];
+            for (int i = 0; i < matrices.Length; i++)
             {
-                Bitmap input = new Bitmap(pictureBox1.Image);
-                pictureBox2.Image = GetRgbChannels(input)[1];
+                float[][] elements ={
+                new float[]{i == 0 ? 1 : 0, 0, 0, 0, 0},
+                new float[]{0, i == 1 ? 1 : 0, 0, 0, 0},
+                new float[]{0, 0, i == 2 ? 1 : 0, 0, 0},
+                new float[]{0, 0, 0, 1, 0},
+                new float[]{0, 0, 0, 0, 0}
+                };
+                matrices[i] = new ColorMatrix(elements);
             }
+            int w = source.Width, h = source.Height;
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new Bitmap(source);
+                imageAttributes.ClearColorMatrix();
+                imageAttributes.SetColorMatrix(matrices[i], ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                using (Graphics g = Graphics.FromImage(result[i]))
+                {
+                    g.DrawImage(result[i], new Rectangle(0, 0, w, h), 0, 0, w, h, GraphicsUnit.Pixel, imageAttributes);
+                }
+            }
+            return result;
         }
-        //Получение канала B
-        private void button5_Click(object sender, EventArgs e)
+        private Bitmap DrawHistogram(Bitmap image, string clr)
         {
-            if (pictureBox1.Image != null)
+            int width = image.Width, height = image.Height;
+            int boxWidth = pictureBox3.Width, boxHeight = pictureBox3.Height;
+            Bitmap hist = new Bitmap(boxWidth, boxHeight);
+
+            //массив, для хранения количества повторений каждого из значений каналов
+            int[] arr = new int[256];
+
+            Color color;
+            for (int i = 0; i < width; ++i)
+                for (int j = 0; j < height; ++j)
+                {
+                    color = image.GetPixel(i, j);
+                    if (clr == "R")
+                    {
+                        arr[color.R]++;
+                    }
+                    else if (clr == "G")
+                    {
+                        arr[color.G]++;
+                    }
+                    else
+                    {
+                        arr[color.B]++;
+                    }
+                }
+
+            // определяем коэффициент масштабирования по высоте
+            int max = 0;
+            for (int i = 0; i < 256; ++i)
             {
-                Bitmap input = new Bitmap(pictureBox1.Image);
-                pictureBox2.Image = GetRgbChannels(input)[2];
+                if (arr[i] > max)
+                    max = arr[i];
             }
+            label4.Text = max.ToString();
+            double point = (double)max / boxHeight;
+
+            // рисуем гистограмму
+            Color histColor;
+            if (clr == "R")
+            {
+                histColor = Color.Red;
+            }
+            else if (clr == "G")
+            {
+                histColor = Color.Green;
+            }
+            else
+            {
+                histColor = Color.Blue;
+            }
+            for (int i = 0; i < 256; ++i)
+            {
+                for (var j = boxHeight - 1; j > boxHeight - arr[i] / point; --j)
+                {
+                    hist.SetPixel(i, j, histColor);
+                }
+            }
+            return hist;
         }
     }
 }
