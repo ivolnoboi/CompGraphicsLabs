@@ -57,7 +57,7 @@ namespace CompGraphicsLab02
             if (Equal(Max, G))
                 H = 60 * (B - R) / diff + 120;
             else
-            //if (Equal(Max, B))
+                //if (Equal(Max, B))
                 H = 60 * (R - G) / diff + 240;
 
             double S = Equal(Max, 0) ? 0 : (1 - Min / Max);
@@ -98,34 +98,59 @@ namespace CompGraphicsLab02
         /// </summary>
         void test()
         {
-            for (int i = 0; i < 100; ++i)
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < 1000; ++i)
             {
-                Random rnd = new Random();
                 double R = rnd.NextDouble(), G = rnd.NextDouble(), B = rnd.NextDouble();
 
                 // RGB -> HSV
                 var res = ConvertRGBtoHSV(R, G, B);
                 // HSV -> RGB
                 var res1 = ConvertHSVtoRGB(res.H, res.S, res.V);
+
                 // Проверяем, что в результате получили исходные значения
                 Debug.Assert(Equal(res1.R, R));
                 Debug.Assert(Equal(res1.G, G));
                 Debug.Assert(Equal(res1.B, B));
                 this.Text = ($"{R} {G} {B}");
             }
+            MessageBox.Show("Тесты пройдены");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            test();
+            //test();
+
+            double dH = trackBarH.Value;
+            double dS = trackBarS.Value / 100.0;
+            double dV = trackBarV.Value / 100.0;
+
+
             // Исправить этот колхоз
             Bitmap myBitmap = new Bitmap(@"c:\Users\Dima\CompGraphicsLabs\CompGraphicsLab02\test.jpg");
 
-            for (int i = 0; i < 10 /*myBitmap.Width*/; ++i)
-                for (int j = 0; j < 10 /*myBitmap.Height*/; ++j)
+            for (int i = 0; i < myBitmap.Width; ++i)
+                for (int j = 0; j < myBitmap.Height; ++j)
                 {
-                    //  this.Text = $"{myBitmap.GetPixel(i, j).R}";
+                    var px = myBitmap.GetPixel(i, j);
+                    var res = ConvertRGBtoHSV(px.R / 255.0, px.G / 255.0, px.B / 255.0);
+
+                    res.H += dH;
+                    res.H = Math.Min(360, res.H);
+
+                    res.S += dS;
+                    res.S = Math.Min(1, res.S);
+
+                    res.V += dV;
+                    res.V = Math.Min(1, res.V);
+
+                    var outres = ConvertHSVtoRGB(res.H, res.S, res.V);
+
+                    myBitmap.SetPixel(i, j,
+                        Color.FromArgb((int)(outres.R * 255), (int)(outres.G * 255), (int)(outres.B * 255)));
                 }
+
+            myBitmap.Save("result.jpg");
         }
     }
 }
