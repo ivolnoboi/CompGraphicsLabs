@@ -56,20 +56,21 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(192, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(347, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(563, 408);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.Size = new System.Drawing.Size(768, 480);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // button2
             // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.button2.Location = new System.Drawing.Point(13, 356);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(108, 37);
             this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
+            this.button2.Text = "Показать";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -79,7 +80,7 @@
             this.trackBarH.Maximum = 180;
             this.trackBarH.Minimum = -180;
             this.trackBarH.Name = "trackBarH";
-            this.trackBarH.Size = new System.Drawing.Size(173, 53);
+            this.trackBarH.Size = new System.Drawing.Size(318, 53);
             this.trackBarH.TabIndex = 3;
             // 
             // label1
@@ -106,7 +107,7 @@
             this.trackBarS.Maximum = 100;
             this.trackBarS.Minimum = -100;
             this.trackBarS.Name = "trackBarS";
-            this.trackBarS.Size = new System.Drawing.Size(173, 53);
+            this.trackBarS.Size = new System.Drawing.Size(318, 53);
             this.trackBarS.TabIndex = 5;
             // 
             // label3
@@ -124,14 +125,14 @@
             this.trackBarV.Maximum = 100;
             this.trackBarV.Minimum = -100;
             this.trackBarV.Name = "trackBarV";
-            this.trackBarV.Size = new System.Drawing.Size(173, 53);
+            this.trackBarV.Size = new System.Drawing.Size(317, 53);
             this.trackBarV.TabIndex = 7;
             // 
             // Form4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1126, 501);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.trackBarV);
             this.Controls.Add(this.label2);

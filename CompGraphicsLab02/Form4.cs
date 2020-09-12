@@ -35,7 +35,7 @@ namespace CompGraphicsLab02
         bool Equal(double x, double y, double eps = 0.001)
         => Math.Abs(x - y) < eps;
 
-        //R, G, B —значения цвета в цветовой модели RGBв диапазоне [0; 1]
+        //R, G, B — значения цвета в цветовой модели RGB в диапазоне [0; 1]
         //MAX—максимум из трёх значений (R, G, B)MIN—минимум из трёх значений (R, G, B)
         (double H, double S, double V) ConvertRGBtoHSV(double R, double G, double B)
         {
@@ -69,8 +69,8 @@ namespace CompGraphicsLab02
 
         (double R, double G, double B) ConvertHSVtoRGB(double H, double S, double V)
         {
-            double Hi = Math.Floor(H / 60f) % 6;
-            double f = H / 60f - Math.Floor(H / 60f);
+            double Hi = Math.Floor(H / 60.0) % 6;
+            double f = H / 60.0 - Math.Floor(H / 60.0);
             double p = V * (1 - S);
             double q = V * (1 - f * S);
             double t = V * (1 - (1 - f) * S);
@@ -99,7 +99,7 @@ namespace CompGraphicsLab02
         void test()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; i < 1000; ++i)
+            for (int i = 0; i < 10000; ++i)
             {
                 double R = rnd.NextDouble(), G = rnd.NextDouble(), B = rnd.NextDouble();
 
@@ -112,22 +112,19 @@ namespace CompGraphicsLab02
                 Debug.Assert(Equal(res1.R, R));
                 Debug.Assert(Equal(res1.G, G));
                 Debug.Assert(Equal(res1.B, B));
-                this.Text = ($"{R} {G} {B}");
             }
             MessageBox.Show("Тесты пройдены");
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        void draw()
         {
-            //test();
-
             double dH = trackBarH.Value;
             double dS = trackBarS.Value / 100.0;
             double dV = trackBarV.Value / 100.0;
 
 
             // Исправить этот колхоз
-            Bitmap myBitmap = new Bitmap(@"c:\Users\Dima\CompGraphicsLabs\CompGraphicsLab02\test.jpg");
+            Bitmap myBitmap = new Bitmap(@"c:\Users\Dima\CompGraphicsLabs\CompGraphicsLab02\fruit.jpg");
 
             for (int i = 0; i < myBitmap.Width; ++i)
                 for (int j = 0; j < myBitmap.Height; ++j)
@@ -136,13 +133,15 @@ namespace CompGraphicsLab02
                     var res = ConvertRGBtoHSV(px.R / 255.0, px.G / 255.0, px.B / 255.0);
 
                     res.H += dH;
-                    res.H = Math.Min(360, res.H);
+                    res.H = Math.Abs(res.H % 360);
 
                     res.S += dS;
                     res.S = Math.Min(1, res.S);
+                    res.S = Math.Max(0, res.S);
 
                     res.V += dV;
                     res.V = Math.Min(1, res.V);
+                    res.V = Math.Max(0, res.V);
 
                     var outres = ConvertHSVtoRGB(res.H, res.S, res.V);
 
@@ -151,6 +150,13 @@ namespace CompGraphicsLab02
                 }
 
             myBitmap.Save("result.jpg");
+            pictureBox1.LoadAsync("result.jpg");
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //test();
+
+            draw();
         }
     }
 }
