@@ -34,10 +34,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
             this.label4 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -50,7 +50,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(301, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(482, 46);
+            this.label1.Size = new System.Drawing.Size(476, 44);
             this.label1.TabIndex = 0;
             this.label1.Text = "Лабораторная работа 2";
             // 
@@ -95,22 +95,6 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(810, 131);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.Controls.Add(this.label3);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(231, 257);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(810, 82);
-            this.flowLayoutPanel2.TabIndex = 5;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.label4);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(234, 405);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(810, 100);
-            this.flowLayoutPanel3.TabIndex = 6;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -122,6 +106,14 @@
             this.label2.TabIndex = 0;
             this.label2.Text = resources.GetString("label2.Text");
             // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.label3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(231, 257);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(810, 82);
+            this.flowLayoutPanel2.TabIndex = 5;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -131,7 +123,15 @@
             this.label3.Size = new System.Drawing.Size(765, 50);
             this.label3.TabIndex = 0;
             this.label3.Text = "2) Выделить из полноцветного изображения один из каналов R, G, B  и вывести резул" +
-    "ьтат. Построить гистограмму по цветам";
+    "ьтат. Построить гистограмму по цветам.";
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.label4);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(234, 405);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(810, 100);
+            this.flowLayoutPanel3.TabIndex = 6;
             // 
             // label4
             // 
