@@ -31,14 +31,25 @@ namespace CompGraphicsLab02
             Application.Exit();
         }
 
-
+        /// <summary>
+        /// Сравнение на равенство двух вещественных чисел
+        /// </summary>
         bool Equal(double x, double y, double eps = 0.001)
         => Math.Abs(x - y) < eps;
 
-        //R, G, B — значения цвета в цветовой модели RGB в диапазоне [0; 1]
-        //MAX—максимум из трёх значений (R, G, B)MIN—минимум из трёх значений (R, G, B)
+
+        /// <summary>
+        /// Преобразование из RGB в HSV
+        /// </summary>
+        /// <param name="R">Красный (от 0 до 1)</param>
+        /// <param name="G">Зеленый (от 0 до 1)</param>
+        /// <param name="B">Голубой (от 0 до 1)</param>
+        /// <returns>(Тон от 0 до 360, Насыщенность от 0 до 1, Яркость от 0 до 1)</returns>
         (double H, double S, double V) ConvertRGBtoHSV(double R, double G, double B)
         {
+            //R, G, B — значения цвета в цветовой модели RGB в диапазоне [0; 1]
+            // MAX — максимум из трёх значений (R, G, B)
+            // MIN — минимум из трёх значений (R, G, B)
             double Max = Math.Max(Math.Max(R, G), B);
             double Min = Math.Min(Math.Min(R, G), B);
             double diff = Max - Min;
@@ -67,6 +78,13 @@ namespace CompGraphicsLab02
             return (H, S, V);
         }
 
+        /// <summary>
+        /// Преобразование из HSV в RGB
+        /// </summary>
+        /// <param name="H">Тон (от 0 до 360)</param>
+        /// <param name="S">Насыщенность (от 0 до 1)</param>
+        /// <param name="V">Яркость (от 0 до 1)</param>
+        /// <returns>(Red, Green, Blue) от 0 до 1</returns>
         (double R, double G, double B) ConvertHSVtoRGB(double H, double S, double V)
         {
             double Hi = Math.Floor(H / 60.0) % 6;
@@ -96,7 +114,7 @@ namespace CompGraphicsLab02
         /// <summary>
         /// Тестирование правильность перевода RGB -> HSV
         /// </summary>
-        void test()
+        void Test()
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < 10000; ++i)
@@ -116,45 +134,51 @@ namespace CompGraphicsLab02
             MessageBox.Show("Тесты пройдены");
         }
 
-        void draw()
+        void Draw()
         {
+            // Изменение значение H, S, V
             double dH = trackBarH.Value;
             double dS = trackBarS.Value / 100.0;
             double dV = trackBarV.Value / 100.0;
 
-            Bitmap myBitmap = (Bitmap)picture.Clone(); 
+            Bitmap myBitmap = (Bitmap)picture.Clone();
 
             for (int i = 0; i < myBitmap.Width; ++i)
                 for (int j = 0; j < myBitmap.Height; ++j)
                 {
+                    // Чтение пикселя
                     var px = myBitmap.GetPixel(i, j);
+                    // Преобразование в HSV
                     var res = ConvertRGBtoHSV(px.R / 255.0, px.G / 255.0, px.B / 255.0);
 
+                    // Изменение тона (при превышении 360 зацикливаем)
                     res.H += dH;
                     res.H = Math.Abs(res.H % 360);
 
+                    // Изменение насыщенность (обрезаем при выходе за [0; 1])
                     res.S += dS;
                     res.S = Math.Min(1, res.S);
                     res.S = Math.Max(0, res.S);
 
+                    // Изменение яркости (обрезаем при выходе за [0; 1])
                     res.V += dV;
                     res.V = Math.Min(1, res.V);
                     res.V = Math.Max(0, res.V);
 
+                    // Для вывода на экран и сохранения в файл преобразуем обратно в RGB
                     var outres = ConvertHSVtoRGB(res.H, res.S, res.V);
 
                     myBitmap.SetPixel(i, j,
                         Color.FromArgb(px.A, (int)(outres.R * 255), (int)(outres.G * 255), (int)(outres.B * 255)));
                 }
-
+            // Сохраняем в файл и показываем результат
+            pictureBox1.Image = myBitmap;
             myBitmap.Save("result.jpg");
-            pictureBox1.LoadAsync("result.jpg");
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            //test();
-
-            draw();
+           // Test();
+            Draw();
         }
         Bitmap picture;
         private void button3_Click(object sender, EventArgs e)
