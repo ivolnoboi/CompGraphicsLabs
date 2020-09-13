@@ -122,9 +122,7 @@ namespace CompGraphicsLab02
             double dS = trackBarS.Value / 100.0;
             double dV = trackBarV.Value / 100.0;
 
-
-            // Исправить этот колхоз
-            Bitmap myBitmap = new Bitmap(@"c:\Users\Dima\CompGraphicsLabs\CompGraphicsLab02\fruit.jpg");
+            Bitmap myBitmap = (Bitmap)picture.Clone(); 
 
             for (int i = 0; i < myBitmap.Width; ++i)
                 for (int j = 0; j < myBitmap.Height; ++j)
@@ -146,7 +144,7 @@ namespace CompGraphicsLab02
                     var outres = ConvertHSVtoRGB(res.H, res.S, res.V);
 
                     myBitmap.SetPixel(i, j,
-                        Color.FromArgb((int)(outres.R * 255), (int)(outres.G * 255), (int)(outres.B * 255)));
+                        Color.FromArgb(px.A, (int)(outres.R * 255), (int)(outres.G * 255), (int)(outres.B * 255)));
                 }
 
             myBitmap.Save("result.jpg");
@@ -158,5 +156,30 @@ namespace CompGraphicsLab02
 
             draw();
         }
+        Bitmap picture;
+        private void button3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                // Маска для файлов
+                Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    picture = new Bitmap(ofd.FileName);
+                    pictureBox1.Image = picture;
+                    button2.Enabled = true;
+                }
+                catch
+                {
+                    MessageBox.Show("Невозможно открыть выбранный файл", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
     }
 }
