@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,9 +15,11 @@ namespace CompGraphicsLab02
     public partial class Form4 : Form
     {
         private Form1 _form1;
+        private Form5 form5;
         public Form4(Form1 form1)
         {
             _form1 = form1;
+            form5 = new Form5(this) { Visible = false };
             InitializeComponent();
         }
 
@@ -34,7 +37,7 @@ namespace CompGraphicsLab02
         /// <summary>
         /// Сравнение на равенство двух вещественных чисел
         /// </summary>
-        bool Equal(double x, double y, double eps = 0.001)
+        bool Equal(double x, double y, double eps = 0.0001)
         => Math.Abs(x - y) < eps;
 
 
@@ -47,6 +50,11 @@ namespace CompGraphicsLab02
         /// <returns>(Тон от 0 до 360, Насыщенность от 0 до 1, Яркость от 0 до 1)</returns>
         (double H, double S, double V) ConvertRGBtoHSV(double R, double G, double B)
         {
+            double eps = 0.0001;
+            Debug.Assert(R > -eps && R < 1 + eps);
+            Debug.Assert(G > -eps && G < 1 + eps);
+            Debug.Assert(B > -eps && B < 1 + eps);
+
             //R, G, B — значения цвета в цветовой модели RGB в диапазоне [0; 1]
             // MAX — максимум из трёх значений (R, G, B)
             // MIN — минимум из трёх значений (R, G, B)
@@ -87,6 +95,11 @@ namespace CompGraphicsLab02
         /// <returns>(Red, Green, Blue) от 0 до 1</returns>
         (double R, double G, double B) ConvertHSVtoRGB(double H, double S, double V)
         {
+            double eps = 0.0001;
+            Debug.Assert(H > -eps && H < 360 + eps);
+            Debug.Assert(S > -eps && S < 1 + eps);
+            Debug.Assert(V > -eps && V < 1 + eps);
+
             double Hi = Math.Floor(H / 60.0) % 6;
             double f = H / 60.0 - Math.Floor(H / 60.0);
             double p = V * (1 - S);
@@ -177,7 +190,7 @@ namespace CompGraphicsLab02
         }
         private void button2_Click(object sender, EventArgs e)
         {
-           // Test();
+            // Test();
             Draw();
         }
         Bitmap picture;
@@ -195,6 +208,7 @@ namespace CompGraphicsLab02
                     picture = new Bitmap(ofd.FileName);
                     pictureBox1.Image = picture;
                     button2.Enabled = true;
+                    button4.Enabled = true;
                 }
                 catch
                 {
@@ -205,5 +219,41 @@ namespace CompGraphicsLab02
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            form5.Visible = true;
+
+            Bitmap myBitmap = new Bitmap(pictureBox1.Image);
+
+            Bitmap output1 = new Bitmap(myBitmap.Width, myBitmap.Height);
+            Bitmap output2 = new Bitmap(myBitmap.Width, myBitmap.Height);
+            Bitmap output3 = new Bitmap(myBitmap.Width, myBitmap.Height);
+
+            for (int j = 0; j < myBitmap.Height; j++)
+                for (int i = 0; i < myBitmap.Width; i++)
+                {
+                    var px = myBitmap.GetPixel(i, j);
+
+                    double R, G, B;
+
+                    (double H, double S, double V) = ConvertRGBtoHSV(px.R / 255.0, px.G / 255.0, px.B / 255.0);
+
+                    (R, G, B) = ConvertHSVtoRGB(360, S, V);
+                    output1.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
+
+
+                    (R, G, B) = ConvertHSVtoRGB(H, 1, V);
+                    output2.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
+
+
+                    (R, G, B) = ConvertHSVtoRGB(H, S, 1);
+                    output3.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
+                }
+
+            (form5.Controls["pictureBox1"] as PictureBox).Image = output1;
+            (form5.Controls["pictureBox2"] as PictureBox).Image = output2;
+            (form5.Controls["pictureBox3"] as PictureBox).Image = output3;
+        }
     }
 }
