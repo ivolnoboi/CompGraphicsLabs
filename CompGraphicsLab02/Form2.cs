@@ -116,11 +116,13 @@ namespace CompGraphicsLab02
                 }
             //Подсчёт минимума
             var min = (t.Min(a => a.Min(i => i.Item1)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)));
+            var max = (t.Max(a => a.Max(i => i.Item1)), t.Max(a => a.Max(i => i.Item2)), t.Max(a => a.Max(i => i.Item2)), t.Max(a => a.Max(i => i.Item2)));
+            var dif = (max.Item1 - min.Item1, max.Item2 - min.Item2, max.Item3 - min.Item3, max.Item4 - min.Item4);
             //Нормализация на основе минимума
             for (int i = 0; i < source1.Width; i++)
                 for (int j = 0; j < source1.Height; j++)
                 {
-                    diff.SetPixel(i, j, Color.FromArgb(source1.GetPixel(i,j).A, t[i][j].Item2 - min.Item2, t[i][j].Item3 - min.Item3, t[i][j].Item4 - min.Item4));
+                    diff.SetPixel(i, j, Color.FromArgb((t[i][j].Item2 - min.Item2)*(255/dif.Item2), (t[i][j].Item3 - min.Item3) * (255 / dif.Item3), (t[i][j].Item4 - min.Item4) * (255 / dif.Item4)));
                 }
             return diff;
         }
