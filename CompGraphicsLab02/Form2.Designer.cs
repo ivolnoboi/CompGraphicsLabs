@@ -66,12 +66,12 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(650, 9);
+            this.label3.Location = new System.Drawing.Point(605, 10);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(109, 20);
+            this.label3.Size = new System.Drawing.Size(195, 20);
             this.label3.TabIndex = 17;
-            this.label3.Text = "Гистограмма";
+            this.label3.Text = "Гистограмма NTSC RGB";
             // 
             // label2
             // 
@@ -80,9 +80,9 @@
             this.label2.Location = new System.Drawing.Point(367, 9);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 20);
+            this.label2.Size = new System.Drawing.Size(91, 20);
             this.label2.TabIndex = 16;
-            this.label2.Text = "Способ 1";
+            this.label2.Text = "NTSC RGB";
             // 
             // label1
             // 
@@ -139,23 +139,23 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(650, 216);
+            this.label4.Location = new System.Drawing.Point(624, 217);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(109, 20);
+            this.label4.Size = new System.Drawing.Size(157, 20);
             this.label4.TabIndex = 21;
-            this.label4.Text = "Гистограмма";
+            this.label4.Text = "Гистограмма sRGB";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(367, 216);
+            this.label5.Location = new System.Drawing.Point(385, 217);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 20);
+            this.label5.Size = new System.Drawing.Size(53, 20);
             this.label5.TabIndex = 20;
-            this.label5.Text = "Способ 2";
+            this.label5.Text = "sRGB";
             // 
             // pictureBox4
             // 
