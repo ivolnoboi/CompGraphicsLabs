@@ -212,7 +212,6 @@ namespace CompGraphicsLab02
                     picture = new Bitmap(ofd.FileName);
                     pictureBox1.Image = picture;
                     button2.Enabled = true;
-                    button4.Enabled = true;
                 }
                 catch
                 {
@@ -223,41 +222,5 @@ namespace CompGraphicsLab02
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            /*  this.Visible = false;
-              form5.Visible = true;
-
-              Bitmap myBitmap = new Bitmap(pictureBox1.Image);
-
-              Bitmap output1 = new Bitmap(myBitmap.Width, myBitmap.Height);
-              Bitmap output2 = new Bitmap(myBitmap.Width, myBitmap.Height);
-              Bitmap output3 = new Bitmap(myBitmap.Width, myBitmap.Height);
-
-              for (int j = 0; j < myBitmap.Height; j++)
-                  for (int i = 0; i < myBitmap.Width; i++)
-                  {
-                      var px = myBitmap.GetPixel(i, j);
-
-                      double R, G, B;
-
-                      (double H, double S, double V) = ConvertRGBtoHSV(px.R / 255.0, px.G / 255.0, px.B / 255.0);
-
-                      (R, G, B) = ConvertHSVtoRGB(360, S, V);
-                      output1.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
-
-
-                      (R, G, B) = ConvertHSVtoRGB(H, 1, V);
-                      output2.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
-
-
-                      (R, G, B) = ConvertHSVtoRGB(H, S, 1);
-                      output3.SetPixel(i, j, Color.FromArgb((int)(R * 255), (int)(G * 255), (int)(B * 255)));
-                  }
-
-              (form5.Controls["pictureBox1"] as PictureBox).Image = output1;
-              (form5.Controls["pictureBox2"] as PictureBox).Image = output2;
-              (form5.Controls["pictureBox3"] as PictureBox).Image = output3;*/
-        }
     }
 }
