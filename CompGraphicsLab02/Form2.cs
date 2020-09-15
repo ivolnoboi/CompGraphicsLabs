@@ -29,5 +29,132 @@ namespace CompGraphicsLab02
             this.Visible = false;
             _form1.Visible = true;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            // маска для типа файлов
+            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    pictureBox1.Image = new Bitmap(ofd.FileName);
+                    if (pictureBox1.Image != null)
+                    {
+                        Bitmap input = new Bitmap(pictureBox1.Image);
+                        var img = GetShadesOfgray(input, "NTSC RGB");
+                        pictureBox2.Image = img;
+                        pictureBox3.Image = DrawHistogram(img, pictureBox3.Width, pictureBox3.Height);
+                        var img1 = GetShadesOfgray(input, "sRGB");
+                        pictureBox5.Image = img1;
+                        pictureBox4.Image = DrawHistogram(img1, pictureBox4.Width, pictureBox4.Height);
+
+                        pictureBox6.Image = GetDiff(img, img1);
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Невозможно открыть выбранный файл", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        static private Bitmap GetShadesOfgray(Bitmap source, string channel)
+        {
+            Bitmap result = new Bitmap(source.Width, source.Height);
+            switch (channel)
+            {
+                case "NTSC RGB":
+                    for (int i = 0; i < source.Width; i++)
+                        for (int j = 0; j < source.Height; j++)
+                        {
+                            Color color = source.GetPixel(i, j);
+                            var newColor = 0.299 * color.R + 0.587 * color.G + 0.114 * color.B;
+                            var newColorI =(int)(newColor <= 255 ? newColor : 255);
+                            result.SetPixel(i, j, Color.FromArgb(color.A, newColorI, newColorI, newColorI));
+                        }
+                    break;
+                case "sRGB":
+                    for (int i = 0; i < source.Width; i++)
+                        for (int j = 0; j < source.Height; j++)
+                        {
+                            Color color = source.GetPixel(i, j);
+                            var newColor = 0.2126 * color.R + 0.7152 * color.G + 0.0722 * color.B;
+                            var newColorI = (int)(newColor <= 255 ? newColor : 255);
+                            result.SetPixel(i, j, Color.FromArgb(color.A, newColorI, newColorI, newColorI));
+                        }
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
+
+        private Bitmap DrawHistogram(Bitmap image, int boxWidth, int boxHeight)
+        {
+            // ширина и высота входного изображения
+            int width = image.Width, height = image.Height;
+            Bitmap hist = new Bitmap(boxWidth, boxHeight);
+
+            //массив, для хранения количества повторений каждого из значений каналов
+            int[] arr = new int[256];
+
+            // получаем количество повторений каждого из значений канала
+            for (int i = 0; i < width; ++i)
+                for (int j = 0; j < height; ++j)
+                {
+                    arr[image.GetPixel(i, j).B]++;
+                }
+
+            // определяем коэффициент масштабирования по высоте
+            int max = 0;
+            for (int i = 0; i < 256; ++i)
+            {
+                if (arr[i] > max)
+                    max = arr[i];
+            }
+
+            // коэффициент масштабирования
+            double point = (double)max / boxHeight;
+
+            // рисуем гистограмму
+            for (int i = 0; i < 256; ++i)
+            {
+                for (var j = boxHeight - 1; j > boxHeight - arr[i] / point; --j)
+                {
+                    hist.SetPixel(i, j, Color.Black);
+                }
+            }
+            return hist;
+        }
+
+        static private Bitmap GetDiff(Bitmap source1, Bitmap source2)
+        {
+            Bitmap diff = new Bitmap(source1.Width, source1.Height);
+            List<List<(int, int, int, int)>> t = new List<List<(int, int, int, int)>>(source1.Width);
+            for (int i = 0; i < source1.Width; i++)
+            {
+                t.Add(new List<(int, int, int, int)>(source1.Height));
+                for (int j = 0; j < source1.Height; j++)
+                    t[i].Add((0, 0, 0, 0));
+            }
+            
+
+            for (int i = 0; i < source1.Width; i++)
+                for (int j = 0; j < source1.Height; j++)
+                {
+                    Color color1 = source1.GetPixel(i, j);
+                    Color color2 = source2.GetPixel(i, j);
+                    t[i][j] = (color1.A - color2.A, color1.R - color2.R, color1.G - color2.G, color1.B - color2.B);
+                }
+            var min = (t.Min(a => a.Min(i => i.Item1)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)));
+            for (int i = 0; i < source1.Width; i++)
+                for (int j = 0; j < source1.Height; j++)
+                {
+                    diff.SetPixel(i, j, Color.FromArgb(source1.GetPixel(i,j).A, t[i][j].Item2 - min.Item2, t[i][j].Item3 - min.Item3, t[i][j].Item4 - min.Item4));
+                }
+            return diff;
+        }
     }
 }
