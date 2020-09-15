@@ -45,10 +45,11 @@ namespace CompGraphicsLab02
                         Bitmap input = new Bitmap(pictureBox1.Image);
                         var img = GetShadesOfgray(input, "NTSC RGB");
                         pictureBox2.Image = img;
-                        pictureBox3.Image = DrawHistogram(img, pictureBox3.Width, pictureBox3.Height);
+                        string outt;
+                        pictureBox3.Image = Form3.DrawHistogram(img,"GRAY", pictureBox3.Width, pictureBox3.Height, out outt);
                         var img1 = GetShadesOfgray(input, "sRGB");
                         pictureBox5.Image = img1;
-                        pictureBox4.Image = DrawHistogram(img1, pictureBox4.Width, pictureBox4.Height);
+                        pictureBox4.Image = Form3.DrawHistogram(img1, "GRAY", pictureBox4.Width, pictureBox4.Height, out outt);
 
                         pictureBox6.Image = GetDiff(img, img1);
                     }
@@ -91,46 +92,11 @@ namespace CompGraphicsLab02
             return result;
         }
 
-        private Bitmap DrawHistogram(Bitmap image, int boxWidth, int boxHeight)
-        {
-            // ширина и высота входного изображения
-            int width = image.Width, height = image.Height;
-            Bitmap hist = new Bitmap(boxWidth, boxHeight);
-
-            //массив, для хранения количества повторений каждого из значений каналов
-            int[] arr = new int[256];
-
-            // получаем количество повторений каждого из значений канала
-            for (int i = 0; i < width; ++i)
-                for (int j = 0; j < height; ++j)
-                {
-                    arr[image.GetPixel(i, j).B]++;
-                }
-
-            // определяем коэффициент масштабирования по высоте
-            int max = 0;
-            for (int i = 0; i < 256; ++i)
-            {
-                if (arr[i] > max)
-                    max = arr[i];
-            }
-
-            // коэффициент масштабирования
-            double point = (double)max / boxHeight;
-
-            // рисуем гистограмму
-            for (int i = 0; i < 256; ++i)
-            {
-                for (var j = boxHeight - 1; j > boxHeight - arr[i] / point; --j)
-                {
-                    hist.SetPixel(i, j, Color.Black);
-                }
-            }
-            return hist;
-        }
+        
 
         static private Bitmap GetDiff(Bitmap source1, Bitmap source2)
         {
+            //Инициализация
             Bitmap diff = new Bitmap(source1.Width, source1.Height);
             List<List<(int, int, int, int)>> t = new List<List<(int, int, int, int)>>(source1.Width);
             for (int i = 0; i < source1.Width; i++)
@@ -140,7 +106,7 @@ namespace CompGraphicsLab02
                     t[i].Add((0, 0, 0, 0));
             }
             
-
+            //Вычисление разницы
             for (int i = 0; i < source1.Width; i++)
                 for (int j = 0; j < source1.Height; j++)
                 {
@@ -148,7 +114,9 @@ namespace CompGraphicsLab02
                     Color color2 = source2.GetPixel(i, j);
                     t[i][j] = (color1.A - color2.A, color1.R - color2.R, color1.G - color2.G, color1.B - color2.B);
                 }
+            //Подсчёт минимума
             var min = (t.Min(a => a.Min(i => i.Item1)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)), t.Min(a => a.Min(i => i.Item2)));
+            //Нормализация на основе минимума
             for (int i = 0; i < source1.Width; i++)
                 for (int j = 0; j < source1.Height; j++)
                 {
