@@ -221,7 +221,7 @@ namespace CompGraphicsLab02
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Visible = false;
+          /*  this.Visible = false;
             form5.Visible = true;
 
             Bitmap myBitmap = new Bitmap(pictureBox1.Image);
@@ -253,7 +253,7 @@ namespace CompGraphicsLab02
 
             (form5.Controls["pictureBox1"] as PictureBox).Image = output1;
             (form5.Controls["pictureBox2"] as PictureBox).Image = output2;
-            (form5.Controls["pictureBox3"] as PictureBox).Image = output3;
+            (form5.Controls["pictureBox3"] as PictureBox).Image = output3;*/
         }
     }
 }
