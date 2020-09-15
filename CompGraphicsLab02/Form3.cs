@@ -65,7 +65,9 @@ namespace CompGraphicsLab02
                 Bitmap input = new Bitmap(pictureBox1.Image);
                 var img = GetRgbChannels(input, "R");
                 pictureBox2.Image = img;
-                pictureBox3.Image = DrawHistogram(img, "R");
+                var tuple = DrawHistogram(img, "R", pictureBox3.Width, pictureBox3.Height);
+                pictureBox3.Image = tuple.Item1;
+                label4.Text = tuple.Item2;
             }
         }
 
@@ -77,7 +79,9 @@ namespace CompGraphicsLab02
                 Bitmap input = new Bitmap(pictureBox1.Image);
                 var img = GetRgbChannels(input, "G");
                 pictureBox2.Image = img;
-                pictureBox3.Image = DrawHistogram(img, "G");
+                var tuple = DrawHistogram(img, "G", pictureBox3.Width, pictureBox3.Height);
+                pictureBox3.Image = tuple.Item1;
+                label4.Text = tuple.Item2;
             }
         }
         //Получение канала B
@@ -88,7 +92,9 @@ namespace CompGraphicsLab02
                 Bitmap input = new Bitmap(pictureBox1.Image);
                 var img = GetRgbChannels(input, "B");
                 pictureBox2.Image = img;
-                pictureBox3.Image = DrawHistogram(img, "B");
+                var tuple = DrawHistogram(img, "B", pictureBox3.Width, pictureBox3.Height);
+                pictureBox3.Image = tuple.Item1;
+                label4.Text = tuple.Item2;
             }
         }
 
@@ -127,12 +133,11 @@ namespace CompGraphicsLab02
             return result;
         }
 
-        private Bitmap DrawHistogram(Bitmap image, string channel)
+        private (Bitmap, string) DrawHistogram(Bitmap image, string channel, int boxWidth, int boxHeight)
         {
             // ширина и высота входного изображения
             int width = image.Width, height = image.Height;
             // ширина и высота pictureBox, куда выводится гистограмма
-            int boxWidth = pictureBox3.Width, boxHeight = pictureBox3.Height;
             Bitmap hist = new Bitmap(boxWidth, boxHeight);
 
             //массив, для хранения количества повторений каждого из значений каналов
@@ -166,7 +171,7 @@ namespace CompGraphicsLab02
                     max = arr[i];
             }
             // выводим максимальное значение на график
-            label4.Text = max.ToString();
+            string maxStr = max.ToString();
             // коэффициент масштабирования
             double point = (double)max / boxHeight;
 
@@ -191,7 +196,7 @@ namespace CompGraphicsLab02
                     hist.SetPixel(i, j, histColor);
                 }
             }
-            return hist;
+            return (hist, maxStr);
         }
 
         /*
