@@ -39,27 +39,7 @@ namespace CompGraphicsLab03
             {
                 penFill.Color = colorDialog1.Color;
                 button2.BackColor = colorDialog1.Color;
-
             }
-            /*OpenFileDialog ofd = new OpenFileDialog
-            {
-                // Маска для файлов
-                Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*"
-            };
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    bmp = new Bitmap(ofd.FileName);
-                    pictureBox1.Image = bmp;
-                    button2.Enabled = true;
-                }
-                catch
-                {
-                    MessageBox.Show("Невозможно открыть выбранный файл", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }*/
         }
         private Point old;
         private bool drawing = false;
@@ -68,13 +48,16 @@ namespace CompGraphicsLab03
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             areaColor = ((Bitmap)pictureBox1.Image).GetPixel(e.X, e.Y);
-            //fillArea(e.X, e.Y);
-            fillAreaPic(e.Location);
+
+            if (checkBox1.Checked)
+                fillAreaPic(e.X, e.Y);
+            else
+                fillArea(e.X, e.Y);
         }
 
         enum Direction
         {
-            left = -1, right = 1
+            left, right
         };
         /// <summary>
         /// Копирует линию из рисунка для заливки на заливаемую область
@@ -139,11 +122,9 @@ namespace CompGraphicsLab03
             pictureBox1.Invalidate();
         }
         Bitmap bmpFill;
-        void fillAreaPic(Point start)
+        void fillAreaPic(int x, int y)
         {
-            Image img = Image.FromFile("test0.jpg");
-            bmpFill = new Bitmap(img, pictureBox1.Width, pictureBox1.Height);
-            FillPicHelp(start.X, start.Y, pictureBox1.Width / 2, pictureBox1.Height / 2);
+            FillPicHelp(x, y, pictureBox1.Image.Width / 2, pictureBox1.Image.Height / 2);
         }
 
         void fillArea(int x, int y)
@@ -204,6 +185,37 @@ namespace CompGraphicsLab03
         {
             g.Clear(Color.White);
             pictureBox1.Invalidate();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                // Маска для файлов
+                Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*"
+            };
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    Image imgFill = Image.FromFile(ofd.FileName);
+                    bmpFill = new Bitmap(imgFill, pictureBox1.Width, pictureBox1.Height);
+                }
+                catch
+                {
+                    MessageBox.Show("Невозможно открыть выбранный файл", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            button4.Enabled = (sender as CheckBox).Checked;
+            button2.Enabled = !(sender as CheckBox).Checked;
+            button2.BackColor = DefaultBackColor;
         }
     }
 }
