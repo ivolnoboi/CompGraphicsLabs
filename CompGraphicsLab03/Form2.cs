@@ -38,7 +38,7 @@ namespace CompGraphicsLab03
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
                 penFill.Color = colorDialog1.Color;
-                button2.BackColor= colorDialog1.Color;
+                button2.BackColor = colorDialog1.Color;
 
             }
             /*OpenFileDialog ofd = new OpenFileDialog
@@ -68,8 +68,84 @@ namespace CompGraphicsLab03
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             areaColor = ((Bitmap)pictureBox1.Image).GetPixel(e.X, e.Y);
-            fillArea(e.X, e.Y);
+            //fillArea(e.X, e.Y);
+            fillAreaPic(e.Location);
         }
+
+        enum Direction
+        {
+            left = -1, right = 1
+        };
+        /// <summary>
+        /// Копирует линию из рисунка для заливки на заливаемую область
+        /// </summary>
+        /// <param name="x">Координата х заливаемой области</param>
+        /// <param name="y">Координата y заливаемой области</param>
+        /// <param name="px">Координата х рисунка для заливки</param>
+        /// <param name="py">Координата y рисунка для заливки</param>
+        /// <param name="d">Направление движения: влево или вправо</param>
+        /// <returns>Новые позиции х-координат для считывания</returns>
+        (int x, int px) CopyLine(int x, int y, int px, int py, Direction d)
+        {
+            while (x > 0 && x < pictureBox1.Image.Width)
+            {
+                if (((Bitmap)pictureBox1.Image).GetPixel(x, y) != areaColor
+                    || ((Bitmap)pictureBox1.Image).GetPixel(x, y) == pen.Color)
+                    break;
+
+                if (px < 0)
+                    px += pictureBox1.Image.Width;
+                else if (px >= pictureBox1.Image.Width)
+                    px -= pictureBox1.Image.Width;
+
+                ((Bitmap)pictureBox1.Image).SetPixel(x, y, bmpFill.GetPixel(px, py));
+                if (d == Direction.right)
+                {
+                    x++;
+                    px++;
+                }
+                else
+                {
+                    x--;
+                    px--;
+                }
+            }
+            pictureBox1.Invalidate();
+            return (x, px);
+        }
+        void FillPicHelp(int x, int y, int px, int py)
+        {
+
+            Bitmap bitmap = pictureBox1.Image as Bitmap;
+            if (bitmap.GetPixel(x, y) != areaColor || bitmap.GetPixel(x, y) == penFill.Color)
+                return;
+
+            if (py < 0)
+                py += bitmap.Height;
+            else if (py >= bitmap.Height)
+                py -= bitmap.Height;
+
+            (int x_left, int px_left) = CopyLine(x, y, px, py, Direction.left);
+            (int x_right, _) = CopyLine(x + 1, y, px + 1, py, Direction.right);
+
+            if (y + 1 < bitmap.Height)
+                for (int i = x_left + 1, j = px_left + 1; i < x_right; ++i, ++j)
+                    FillPicHelp(i, y + 1, j, py + 1);
+
+            if (y - 1 > 0)
+                for (int i = x_left + 1, j = px_left + 1; i < x_right; ++i, ++j)
+                    FillPicHelp(i, y - 1, j, py - 1);
+
+            pictureBox1.Invalidate();
+        }
+        Bitmap bmpFill;
+        void fillAreaPic(Point start)
+        {
+            Image img = Image.FromFile("test0.jpg");
+            bmpFill = new Bitmap(img, pictureBox1.Width, pictureBox1.Height);
+            FillPicHelp(start.X, start.Y, pictureBox1.Width / 2, pictureBox1.Height / 2);
+        }
+
         void fillArea(int x, int y)
         {
             Bitmap bitmap = pictureBox1.Image as Bitmap;
