@@ -133,5 +133,10 @@ namespace CompGraphicsLab03
         {
             checkBox1.Checked = !checkBox2.Checked;
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+        }
     }
 }
