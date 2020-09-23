@@ -77,11 +77,13 @@ namespace CompGraphicsLab03
                     break;
 
                 if (px < 0)
-                    px += pictureBox1.Image.Width;
-                else if (px >= pictureBox1.Image.Width)
-                    px -= pictureBox1.Image.Width;
+                    px += bmpFill.Width;
+                else if (px >= bmpFill.Width)
+                    px %= bmpFill.Width;
 
-                ((Bitmap)pictureBox1.Image).SetPixel(x, y, bmpFill.GetPixel(px, py));
+
+                Color c =  bmpFill.GetPixel(px, py);
+                ((Bitmap)pictureBox1.Image).SetPixel(x, y, c);
                 if (d == Direction.right)
                 {
                     x++;
@@ -104,9 +106,11 @@ namespace CompGraphicsLab03
                 return;
 
             if (py < 0)
-                py += bitmap.Height;
-            else if (py >= bitmap.Height)
-                py -= bitmap.Height;
+                py += bmpFill.Height;//bitmap.Height;
+            else if (py >= bmpFill.Height)//bitmap.Height)
+                py %= bmpFill.Height;//bitmap.Height;
+            /* if (py == 0)
+                 py =  1;*/
 
             (int x_left, int px_left) = CopyLine(x, y, px, py, Direction.left);
             (int x_right, _) = CopyLine(x + 1, y, px + 1, py, Direction.right);
@@ -124,7 +128,7 @@ namespace CompGraphicsLab03
         Bitmap bmpFill;
         void fillAreaPic(int x, int y)
         {
-            FillPicHelp(x, y, pictureBox1.Image.Width / 2, pictureBox1.Image.Height / 2);
+            FillPicHelp(x, y, bmpFill.Width / 2, bmpFill.Height / 2);//pictureBox1.Image.Width / 2, pictureBox1.Image.Height / 2);
         }
 
         void fillArea(int x, int y)
@@ -145,7 +149,7 @@ namespace CompGraphicsLab03
             {
                 x_right++;
             }
-            g.DrawLine(penFill, x_left, y, x_right, y);
+            g.DrawLine(penFill, x_left + 1, y, x_right - 1, y);
 
             if (y + 1 < bitmap.Height)
                 for (int i = x_left + 1; i < x_right; ++i)
@@ -200,7 +204,7 @@ namespace CompGraphicsLab03
                 try
                 {
                     Image imgFill = Image.FromFile(ofd.FileName);
-                    bmpFill = new Bitmap(imgFill, pictureBox1.Width, pictureBox1.Height);
+                    bmpFill = new Bitmap(imgFill);//, pictureBox1.Width, pictureBox1.Height);
                 }
                 catch
                 {

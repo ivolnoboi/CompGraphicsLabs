@@ -52,9 +52,9 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(296, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(232, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(756, 424);
+            this.pictureBox1.Size = new System.Drawing.Size(911, 511);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
@@ -85,11 +85,11 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(31, 433);
+            this.checkBox1.Location = new System.Drawing.Point(31, 434);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(350, 21);
+            this.checkBox1.Size = new System.Drawing.Size(148, 21);
             this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Заливка изображением вместо сплошного цвета";
+            this.checkBox1.Text = "Заливка из файла";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
@@ -108,7 +108,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1099, 490);
+            this.ClientSize = new System.Drawing.Size(1155, 535);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.button3);
