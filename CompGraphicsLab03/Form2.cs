@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CompGraphicsLab03
@@ -14,11 +8,13 @@ namespace CompGraphicsLab03
     {
         private Form1 _form1;
         private Graphics g;
+        Pen pen, penFill;
         public Form2(Form1 form1)
         {
             _form1 = form1;
             InitializeComponent();
-
+            pen = new Pen(Color.Black, 1);
+            penFill = new Pen(Color.Red, 1);
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(pictureBox1.Image);
         }
@@ -44,15 +40,20 @@ namespace CompGraphicsLab03
         private Point old;
         private bool drawing = false;
 
-        private Color areaColor;
+        private Color areaToFillColor;
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            areaColor = ((Bitmap)pictureBox1.Image).GetPixel(e.X, e.Y);
+            areaToFillColor = ((Bitmap)pictureBox1.Image).GetPixel(e.X, e.Y);
 
             if (checkBox1.Checked)
                 fillAreaPic(e.X, e.Y);
             else
-                fillArea(e.X, e.Y);
+            {
+                // Исключаем повторую заливку тем же цветом
+                if (!(areaToFillColor.R == penFill.Color.R && areaToFillColor.G == penFill.Color.G
+                    && areaToFillColor.B == penFill.Color.B))
+                    fillArea(e.X, e.Y);
+            }
         }
 
         enum Direction
@@ -72,7 +73,7 @@ namespace CompGraphicsLab03
         {
             while (x > 0 && x < pictureBox1.Image.Width)
             {
-                if (((Bitmap)pictureBox1.Image).GetPixel(x, y) != areaColor
+                if (((Bitmap)pictureBox1.Image).GetPixel(x, y) != areaToFillColor
                     || ((Bitmap)pictureBox1.Image).GetPixel(x, y) == pen.Color)
                     break;
 
@@ -102,15 +103,14 @@ namespace CompGraphicsLab03
         {
 
             Bitmap bitmap = pictureBox1.Image as Bitmap;
-            if (bitmap.GetPixel(x, y) != areaColor || bitmap.GetPixel(x, y) == penFill.Color)
+            if (bitmap.GetPixel(x, y) != areaToFillColor || bitmap.GetPixel(x, y) == pen.Color)
                 return;
 
             if (py < 0)
-                py += bmpFill.Height;//bitmap.Height;
-            else if (py >= bmpFill.Height)//bitmap.Height)
-                py %= bmpFill.Height;//bitmap.Height;
-            /* if (py == 0)
-                 py =  1;*/
+                py += bmpFill.Height;
+            else if (py >= bmpFill.Height)
+                py %= bmpFill.Height;
+
 
             (int x_left, int px_left) = CopyLine(x, y, px, py, Direction.left);
             (int x_right, _) = CopyLine(x + 1, y, px + 1, py, Direction.right);
@@ -128,24 +128,25 @@ namespace CompGraphicsLab03
         Bitmap bmpFill;
         void fillAreaPic(int x, int y)
         {
-            FillPicHelp(x, y, bmpFill.Width / 2, bmpFill.Height / 2);//pictureBox1.Image.Width / 2, pictureBox1.Image.Height / 2);
+            FillPicHelp(x, y, bmpFill.Width / 2, bmpFill.Height / 2);
         }
 
         void fillArea(int x, int y)
         {
             Bitmap bitmap = pictureBox1.Image as Bitmap;
 
-            if (bitmap.GetPixel(x, y) != areaColor || bitmap.GetPixel(x, y) == penFill.Color)
+            Color currentColor = bitmap.GetPixel(x, y);
+            if (currentColor != areaToFillColor || currentColor == penFill.Color)
                 return;
 
             int x_left = x;
-            while (x_left > 0 && bitmap.GetPixel(x_left, y) == areaColor)
+            while (x_left > 0 && bitmap.GetPixel(x_left, y) == areaToFillColor)
             {
                 x_left--;
             }
 
             int x_right = x;
-            while (x_right < bitmap.Size.Width && bitmap.GetPixel(x_right, y) == areaColor)
+            while (x_right < bitmap.Size.Width && bitmap.GetPixel(x_right, y) == areaToFillColor)
             {
                 x_right++;
             }
@@ -162,8 +163,7 @@ namespace CompGraphicsLab03
             pictureBox1.Invalidate();
         }
 
-        Pen pen = new Pen(Color.Black, 1);
-        Pen penFill = new Pen(Color.Red, 1);
+
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
             if (drawing)
