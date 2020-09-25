@@ -29,6 +29,7 @@ namespace CompGraphicsLab03
             image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = image;
             g = Graphics.FromImage(pictureBox1.Image);
+            g.Clear(Color.White);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,27 +44,15 @@ namespace CompGraphicsLab03
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {/*
-            OpenFileDialog ofd = new OpenFileDialog();
-            // маска для типа файлов
-            ofd.Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*";
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    image = new Bitmap(ofd.FileName);
-                    pictureBox1.Image = image;
-                }
-                catch
-                {
-                    MessageBox.Show("Невозможно открыть файл", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }*/
+        {
             FindBorder(newP.X, newP.Y);
             DrawBorder(); 
         }
 
+       /* 3 2 1
+        * 4 X 0
+        * 5 6 7
+         */
         // получить координаты следующего пикселя по направлению
         private Tuple<int, int> nextPixel(int x, int y, int direction)
         {
@@ -108,10 +97,6 @@ namespace CompGraphicsLab03
             return image.GetPixel(point.Item1, point.Item2);
         }
 
-        /* 3 2 1
-         * 4 X 0
-         * 5 6 7
-         */
         private void FindBorder(int x, int y)
         {
             var areaColor = image.GetPixel(x, y); // цвет области, границу которой ищем
@@ -145,7 +130,7 @@ namespace CompGraphicsLab03
                 currentDirection = (currentDirection + 8 - 2) % 8;
                 points.AddLast(Tuple.Create(x, y));
             }
-            // идем по часовой стрелке, при этом держим границу слева относительно текущего пикселя
+
             while ((x != x_start || y != y_start || currentDirection != startDirection)&&count!=maxCount)
             {
                 count++;
@@ -183,15 +168,6 @@ namespace CompGraphicsLab03
             }
             pictureBox1.Image = image;
         }
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            var x = e.Location.X;
-            var y = e.Location.Y;
-            /*
-            FindBorder(771, 312);
-            DrawBorder();*/
-
-        }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -214,6 +190,38 @@ namespace CompGraphicsLab03
                 old = e.Location;
                 pictureBox1.Image = image;
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            g.Clear(Color.White);
+            pictureBox1.Invalidate();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            int width = 300;
+            int height = 300;
+            int x = (pictureBox1.Width - width) / 2;
+            int y = (pictureBox1.Height - height) / 2;
+            newP.X = x + width;
+            newP.Y = y + height/2;
+
+            g.DrawEllipse(Pens.Black, x, y, width, height);
+            pictureBox1.Image = image;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int width = 300;
+            int height = 300;
+            int x = (pictureBox1.Width - width) / 2;
+            int y = (pictureBox1.Height - height) / 2;
+            newP.X = x + width;
+            newP.Y = y;
+
+            g.DrawRectangle(Pens.Black, x, y, width, height);
+            pictureBox1.Image = image;
         }
     }
 }
