@@ -97,6 +97,10 @@ namespace CompGraphicsLab03
             return image.GetPixel(point.Item1, point.Item2);
         }
 
+        /* 3 2 1
+        * 4 X 0
+        * 5 6 7
+        */
         private void FindBorder(int x, int y)
         {
             var areaColor = image.GetPixel(x, y); // цвет области, границу которой ищем
