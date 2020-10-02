@@ -37,6 +37,7 @@ namespace CompGraphicsLab04
             if (radioButton1.Checked) // если выбрана точка
             {
                 points.AddLast(e.Location);
+                checkedListBox1.Items.Add("point");
             }
             if (radioButton2.Checked) // если выбран отрезок
             {
@@ -49,6 +50,7 @@ namespace CompGraphicsLab04
                 {
                     first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
                     lines.AddLast(Tuple.Create(first, e.Location));
+                    checkedListBox1.Items.Add("line");
                 }
             }
             if (radioButton3.Checked)
@@ -87,13 +89,44 @@ namespace CompGraphicsLab04
 
         private void radioButton3_MouseClick(object sender, MouseEventArgs e)
         {
-            // Не знаю, что с этим делать. Добавляет список точек в список полигонов, а потом удаляет его
+            // HELP HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL 
+            // Не знаю, что с этим делать. Добавляет список точек в список полигонов, а потом удаляет его. Я так понимаю, копию он не создаёт.
+            // А нужно, чтоб он добавлял копию, а потом обнулял текущий, чтоб можно было рисовать несколько полигонов.
             polygons.AddLast(current);
+            checkedListBox1.Items.Add("polygon"); // А ещё хз, куда вот это вставлять. По идее оно должно добавляться, когда закончили рисовать полигон
             current.Clear(); 
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // HELP HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL 
+            // А ещё после отчистки полигоны не рисуются. Нужно на radioButton полигон нажать, чтоб хотя бы один нарисовался
+            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            pictureBox1.Image = bmp;
+            /* points = new LinkedList<Point>();
+             lines = new LinkedList<Tuple<Point, Point>>();
+             current = new LinkedList<Point>();
+             polygons = new LinkedList<LinkedList<Point>>();*/
+            points.Clear();
+            lines.Clear();
+            current.Clear();
+            polygons.Clear();
+        }
+        // С List тоже не получилось сделать. Также не добавляются полигоны.
 
-        // radioButton1.Checked - если нажата radioButton1
-        // button1.Enabled - доступна ли кнопка
+        //перемножение матриц
+        private double[,] multMatrix(double[,] m1, double[,] m2)
+        {
+            double[,] res = new double[m1.GetLength(0), m2.GetLength(1)];
+
+            for (int i = 0; i < m1.GetLength(0); ++i)
+                for (int j = 0; j < m2.GetLength(1); ++j)
+                    for (int k = 0; k < m2.GetLength(0); k++)
+                    {
+                        res[i, j] += m1[i, k] * m2[k, j];
+                    }
+
+            return res;
+        }
     }
 }
