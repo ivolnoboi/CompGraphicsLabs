@@ -73,7 +73,7 @@ namespace CompGraphicsLab04
             {
                 g.DrawLine(pen, point.Item1, point.Item2);
             }
-            foreach (var polygon in polygons)
+            foreach (var polygon in polygons) // рисуем полигоны
             {
                 // рисуем полигон
                 var cur = polygon.First;
@@ -90,22 +90,13 @@ namespace CompGraphicsLab04
 
         private void radioButton3_MouseClick(object sender, MouseEventArgs e)
         {
-            // HELP HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL 
-            // Не знаю, что с этим делать. Добавляет список точек в список полигонов, а потом удаляет его. Я так понимаю, копию он не создаёт.
-            // А нужно, чтоб он добавлял копию, а потом обнулял текущий, чтоб можно было рисовать несколько полигонов.
-
             polygons.AddLast(new LinkedList<Point>()); // добавляем новый полигон
             current = current.Next; // переходим к новому полигону для добавления точек
-            //LinkedList<Point> p = new LinkedList<Point>(current);
-            //polygons.AddLast(p);
-            checkedListBox1.Items.Add("polygon"); // А ещё хз, куда вот это вставлять. По идее оно должно добавляться, когда закончили рисовать полигон
-            //current.Clear();
+            checkedListBox1.Items.Add("polygon"); 
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // HELP HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL 
-            // А ещё после отчистки полигоны не рисуются. Нужно на radioButton полигон нажать, чтоб хотя бы один нарисовался
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
             points.Clear();
@@ -114,7 +105,6 @@ namespace CompGraphicsLab04
             polygons.AddLast(new LinkedList<Point>());
             current = polygons.First;
         }
-        // С List тоже не получилось сделать. Также не добавляются полигоны.
 
         //перемножение матриц
         private double[,] multMatrix(double[,] m1, double[,] m2)
