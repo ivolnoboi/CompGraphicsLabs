@@ -28,11 +28,8 @@ namespace CompGraphicsLab04
             points = new LinkedList<Point>();
             lines = new LinkedList<Tuple<Point, Point>>();
             polygons = new LinkedList<LinkedList<Point>>();
-            //polygons.AddLast(new LinkedList<Point>());
-            //current = polygons.First;
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
-            checkedListBox1.CheckOnClick = true; // выбирать элемент в один клик
             index_point = 0;
             index_line = 0;
             index_polygon = 0;
@@ -44,8 +41,8 @@ namespace CompGraphicsLab04
         {
             if (radioButton1.Checked) // если выбрана точка
             {
-                points.AddLast(e.Location);
-                checkedListBox1.Items.Add("point" + ++index_point);
+                TreeNode node = treeView1.Nodes.Add("point" + ++index_point);
+                node.Tag = points.AddLast(e.Location);
             }
             if (radioButton2.Checked) // если выбран отрезок
             {
@@ -57,8 +54,8 @@ namespace CompGraphicsLab04
                 else
                 {
                     first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
-                    lines.AddLast(Tuple.Create(first, e.Location));
-                    checkedListBox1.Items.Add("line" + ++index_line);
+                    TreeNode node = treeView1.Nodes.Add("line" + ++index_line);
+                    node.Tag = lines.AddLast(Tuple.Create(first, e.Location));
                 }
             }
             if (radioButton3.Checked)
@@ -97,9 +94,9 @@ namespace CompGraphicsLab04
 
         private void radioButton3_MouseClick(object sender, MouseEventArgs e)
         {
-            polygons.AddFirst(new LinkedList<Point>()); // добавляем новый полигон
+            TreeNode node = treeView1.Nodes.Add("polygon" + ++index_polygon);
+            node.Tag = polygons.AddFirst(new LinkedList<Point>()); // добавляем новый полигон
             current = polygons.First; // переходим к новому полигону для добавления точек
-            checkedListBox1.Items.Add("polygon" + ++index_polygon); 
         }
 
         // Кнопка "Очистить"
@@ -110,7 +107,7 @@ namespace CompGraphicsLab04
             points.Clear();
             lines.Clear();
             polygons.Clear();
-            checkedListBox1.Items.Clear();
+            treeView1.Nodes.Clear();
             radioButton1.Checked = true;
             index_point = 0;
             index_line = 0;
