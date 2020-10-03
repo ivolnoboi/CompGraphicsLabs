@@ -92,9 +92,11 @@ namespace CompGraphicsLab04
             // HELP HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL HEPL 
             // Не знаю, что с этим делать. Добавляет список точек в список полигонов, а потом удаляет его. Я так понимаю, копию он не создаёт.
             // А нужно, чтоб он добавлял копию, а потом обнулял текущий, чтоб можно было рисовать несколько полигонов.
-            polygons.AddLast(current);
+
+            LinkedList<Point> points = new LinkedList<Point>(current);
+            polygons.AddLast(points);
             checkedListBox1.Items.Add("polygon"); // А ещё хз, куда вот это вставлять. По идее оно должно добавляться, когда закончили рисовать полигон
-            current.Clear(); 
+            current.Clear();
         }
 
         private void button1_Click(object sender, EventArgs e)
