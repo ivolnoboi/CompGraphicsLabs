@@ -131,5 +131,49 @@ namespace CompGraphicsLab04
 
             return res;
         }
+
+        enum Position { Left, Right, Undefined }
+        /// <summary>
+        /// Определяет положение точки относительно направленного ребра
+        /// </summary>
+        private Position PointPosition(Tuple<Point, Point> edge, Point b)
+        {
+            // edge — направленное ребро (Oa в лекции)
+            Point a = edge.Item2;
+            // b слева от Оа, если y_b * x_a - x_b * y_a > 0
+            int sign = b.Y * a.X - b.X * a.Y;
+
+            if (sign > 0)
+                return Position.Left;
+            if (sign < 0)
+                return Position.Right;
+            return Position.Undefined;
+        }
+
+        private bool IsPointInside(LinkedList<Point> polygon, Point point)
+        {
+            Position lastPosition = Position.Undefined;
+            bool isFirst = true;
+            var item = polygon.First;
+            while (item != null)
+            {
+                //Console.Write(item.Value + " ");
+                var tmp = item;
+                item = item.Next;
+                Tuple<Point, Point> edge = Tuple.Create(tmp.Value, item.Value);
+                Position pos = PointPosition(edge, point);
+                if (isFirst)
+                {
+                    lastPosition = pos;
+                    isFirst = false;
+                }
+                else
+                {
+                    if (pos != lastPosition)
+                        return false;
+                }
+            }
+            return true;
+        }
     }
 }
