@@ -18,6 +18,9 @@ namespace CompGraphicsLab04
         LinkedListNode<LinkedList<Point>> current; // текущий полигон
         private Pen pen = new Pen(Color.Black);
         private Bitmap bmp;
+        int index_point;
+        int index_line;
+        int index_polygon;
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +32,10 @@ namespace CompGraphicsLab04
             //current = polygons.First;
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
+            checkedListBox1.CheckOnClick = true; // выбирать элемент в один клик
+            index_point = 0;
+            index_line = 0;
+            index_polygon = 0;
         }
 
         private bool first_point_line = true;
@@ -38,7 +45,7 @@ namespace CompGraphicsLab04
             if (radioButton1.Checked) // если выбрана точка
             {
                 points.AddLast(e.Location);
-                checkedListBox1.Items.Add("point");
+                checkedListBox1.Items.Add("point" + ++index_point);
             }
             if (radioButton2.Checked) // если выбран отрезок
             {
@@ -51,7 +58,7 @@ namespace CompGraphicsLab04
                 {
                     first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
                     lines.AddLast(Tuple.Create(first, e.Location));
-                    checkedListBox1.Items.Add("line");
+                    checkedListBox1.Items.Add("line" + ++index_line);
                 }
             }
             if (radioButton3.Checked)
@@ -92,9 +99,10 @@ namespace CompGraphicsLab04
         {
             polygons.AddFirst(new LinkedList<Point>()); // добавляем новый полигон
             current = polygons.First; // переходим к новому полигону для добавления точек
-            checkedListBox1.Items.Add("polygon"); 
+            checkedListBox1.Items.Add("polygon" + ++index_polygon); 
         }
 
+        // Кнопка "Очистить"
         private void button1_Click(object sender, EventArgs e)
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -104,6 +112,9 @@ namespace CompGraphicsLab04
             polygons.Clear();
             checkedListBox1.Items.Clear();
             radioButton1.Checked = true;
+            index_point = 0;
+            index_line = 0;
+            index_polygon = 0;
         }
 
         //перемножение матриц
