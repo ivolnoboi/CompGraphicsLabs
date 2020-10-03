@@ -15,7 +15,7 @@ namespace CompGraphicsLab04
         private LinkedList<Point> points; // список всех точек на pictureBox
         private LinkedList<Tuple<Point, Point>> lines; // список всех отрезков на pictureBox
         private LinkedList<LinkedList<Point>> polygons; // список всех полигонов на pictureBox
-        LinkedList<Point> current; // текущий полигон
+        LinkedListNode<LinkedList<Point>> current; // текущий полигон
         private Pen pen = new Pen(Color.Black);
         private Bitmap bmp;
         public Form1()
@@ -24,8 +24,9 @@ namespace CompGraphicsLab04
             radioButton1.Checked = true;
             points = new LinkedList<Point>();
             lines = new LinkedList<Tuple<Point, Point>>();
-            current = new LinkedList<Point>();
             polygons = new LinkedList<LinkedList<Point>>();
+            polygons.AddLast(new LinkedList<Point>());
+            current = polygons.First;
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
         }
@@ -55,7 +56,7 @@ namespace CompGraphicsLab04
             }
             if (radioButton3.Checked)
             {
-                current.AddLast(e.Location);
+                current.Value.AddLast(e.Location);
             }
             DrawPrimitives();
         }
@@ -93,10 +94,12 @@ namespace CompGraphicsLab04
             // Не знаю, что с этим делать. Добавляет список точек в список полигонов, а потом удаляет его. Я так понимаю, копию он не создаёт.
             // А нужно, чтоб он добавлял копию, а потом обнулял текущий, чтоб можно было рисовать несколько полигонов.
 
-            LinkedList<Point> points = new LinkedList<Point>(current);
-            polygons.AddLast(points);
+            polygons.AddLast(new LinkedList<Point>()); // добавляем новый полигон
+            current = current.Next; // переходим к новому полигону для добавления точек
+            //LinkedList<Point> p = new LinkedList<Point>(current);
+            //polygons.AddLast(p);
             checkedListBox1.Items.Add("polygon"); // А ещё хз, куда вот это вставлять. По идее оно должно добавляться, когда закончили рисовать полигон
-            current.Clear();
+            //current.Clear();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -105,14 +108,11 @@ namespace CompGraphicsLab04
             // А ещё после отчистки полигоны не рисуются. Нужно на radioButton полигон нажать, чтоб хотя бы один нарисовался
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
-            /* points = new LinkedList<Point>();
-             lines = new LinkedList<Tuple<Point, Point>>();
-             current = new LinkedList<Point>();
-             polygons = new LinkedList<LinkedList<Point>>();*/
             points.Clear();
             lines.Clear();
-            current.Clear();
             polygons.Clear();
+            polygons.AddLast(new LinkedList<Point>());
+            current = polygons.First;
         }
         // С List тоже не получилось сделать. Также не добавляются полигоны.
 
