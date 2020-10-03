@@ -21,6 +21,7 @@ namespace CompGraphicsLab04
         int index_point;
         int index_line;
         int index_polygon;
+        bool isLocked = false;
         public Form1()
         {
             InitializeComponent();
@@ -39,30 +40,58 @@ namespace CompGraphicsLab04
         private Point first;
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (radioButton1.Checked) // если выбрана точка
+            // Если выбрано задание Принадлежит ли точка выпуклому многоугольнику
+            if (checkBox1.Checked)
             {
-                TreeNode node = treeView1.Nodes.Add("point" + ++index_point);
-                node.Tag = points.AddLast(e.Location);
+                MessageBox.Show(IsPointInside(treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>, e.Location).ToString());
             }
-            if (radioButton2.Checked) // если выбран отрезок
+            else if (checkBox2.Checked) // Если выбрано задание Классифицировать положение точки относительно ребра
             {
-                if (first_point_line)
+                var edge = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>).Value;
+                Position p =
+                    PointPosition(edge, e.Location);
+                switch (p)
                 {
-                    first_point_line = false; // говорим, что первая точка уже есть
-                    first = e.Location;
-                }
-                else
-                {
-                    first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
-                    TreeNode node = treeView1.Nodes.Add("line" + ++index_line);
-                    node.Tag = lines.AddLast(Tuple.Create(first, e.Location));
+                    case Position.Left:
+                        MessageBox.Show("Точка находится слева от ребра");
+                        break;
+                    case Position.Right:
+                        MessageBox.Show("Точка находится справа от ребра");
+                        break;
+                    case Position.Undefined:
+                        MessageBox.Show("Точка находится хз где от ребра");
+                        break;
+                    default:
+                        break;
                 }
             }
-            if (radioButton3.Checked)
+            else
             {
-                current.Value.AddLast(e.Location);
+                if (radioButton1.Checked) // если выбрана точка
+                {
+                    TreeNode node = treeView1.Nodes.Add("point" + ++index_point);
+                    node.Tag = points.AddLast(e.Location);
+                }
+                if (radioButton2.Checked) // если выбран отрезок
+                {
+                    if (first_point_line)
+                    {
+                        first_point_line = false; // говорим, что первая точка уже есть
+                        first = e.Location;
+                    }
+                    else
+                    {
+                        first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
+                        TreeNode node = treeView1.Nodes.Add("line" + ++index_line);
+                        node.Tag = lines.AddLast(Tuple.Create(first, e.Location));
+                    }
+                }
+                if (radioButton3.Checked)
+                {
+                    current.Value.AddLast(e.Location);
+                }
+                DrawPrimitives();
             }
-            DrawPrimitives();
         }
 
         private void DrawPrimitives()
@@ -147,17 +176,16 @@ namespace CompGraphicsLab04
             return Position.Undefined;
         }
 
-        private bool IsPointInside(LinkedList<Point> polygon, Point point)
+        private bool IsPointInside(LinkedListNode<LinkedList<Point>> polygon, Point point)
         {
             Position lastPosition = Position.Undefined;
             bool isFirst = true;
-            var item = polygon.First;
-            while (item != null)
+            var list = polygon.Value;
+            var cur = list.First;
+
+            do  //while (cur != )
             {
-                //Console.Write(item.Value + " ");
-                var tmp = item;
-                item = item.Next;
-                Tuple<Point, Point> edge = Tuple.Create(tmp.Value, item.Value);
+                Tuple<Point, Point> edge = Tuple.Create(cur.Value, cur.Next.Value);
                 Position pos = PointPosition(edge, point);
                 if (isFirst)
                 {
@@ -169,8 +197,38 @@ namespace CompGraphicsLab04
                     if (pos != lastPosition)
                         return false;
                 }
-            }
+                cur = cur.Next;
+            } while (cur != list.Last);
             return true;
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            
+            if (checkBox1.Checked || checkBox2.Checked)
+            {
+                MessageBox.Show("Выберите точку мышкой");
+            }
+            
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //isLocked = true;
+           /* radioButton1.Enabled = false;
+            radioButton2.Enabled = false;
+            radioButton3.Enabled = false;*/
+
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
