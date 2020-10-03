@@ -25,8 +25,8 @@ namespace CompGraphicsLab04
             points = new LinkedList<Point>();
             lines = new LinkedList<Tuple<Point, Point>>();
             polygons = new LinkedList<LinkedList<Point>>();
-            polygons.AddLast(new LinkedList<Point>());
-            current = polygons.First;
+            //polygons.AddLast(new LinkedList<Point>());
+            //current = polygons.First;
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
         }
@@ -90,8 +90,8 @@ namespace CompGraphicsLab04
 
         private void radioButton3_MouseClick(object sender, MouseEventArgs e)
         {
-            polygons.AddLast(new LinkedList<Point>()); // добавляем новый полигон
-            current = current.Next; // переходим к новому полигону для добавления точек
+            polygons.AddFirst(new LinkedList<Point>()); // добавляем новый полигон
+            current = polygons.First; // переходим к новому полигону для добавления точек
             checkedListBox1.Items.Add("polygon"); 
         }
 
@@ -102,8 +102,8 @@ namespace CompGraphicsLab04
             points.Clear();
             lines.Clear();
             polygons.Clear();
-            polygons.AddLast(new LinkedList<Point>());
-            current = polygons.First;
+            checkedListBox1.Items.Clear();
+            radioButton1.Checked = true;
         }
 
         //перемножение матриц
