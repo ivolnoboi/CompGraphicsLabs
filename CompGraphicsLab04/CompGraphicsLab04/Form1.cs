@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +105,8 @@ namespace CompGraphicsLab04
             }
             foreach (var point in lines) // рисуем отрезки
             {
+                Pen pen = new Pen(Color.Black, 1);
+                pen.EndCap = LineCap.ArrowAnchor;
                 g.DrawLine(pen, point.Item1, point.Item2);
             }
             foreach (var polygon in polygons) // рисуем полигоны
@@ -165,9 +168,9 @@ namespace CompGraphicsLab04
         private Position PointPosition(Tuple<Point, Point> edge, Point b)
         {
             // edge — направленное ребро (Oa в лекции)
+            Point O = edge.Item1;
             Point a = edge.Item2;
-            // b слева от Оа, если y_b * x_a - x_b * y_a > 0
-            int sign = b.Y * a.X - b.X * a.Y;
+            int sign = (b.X - O.X) * (a.Y - O.Y) - (b.Y - O.Y) * (a.X - O.X);
 
             if (sign > 0)
                 return Position.Left;
@@ -182,11 +185,13 @@ namespace CompGraphicsLab04
             bool isFirst = true;
             var list = polygon.Value;
             var cur = list.First;
-
+            var first_val = cur.Value;
+            Tuple<Point, Point> edge;
+            Position pos;
             do  //while (cur != )
             {
-                Tuple<Point, Point> edge = Tuple.Create(cur.Value, cur.Next.Value);
-                Position pos = PointPosition(edge, point);
+                edge = Tuple.Create(cur.Value, cur.Next.Value);
+                pos = PointPosition(edge, point);
                 if (isFirst)
                 {
                     lastPosition = pos;
@@ -199,25 +204,30 @@ namespace CompGraphicsLab04
                 }
                 cur = cur.Next;
             } while (cur != list.Last);
+
+            edge = Tuple.Create(cur.Value, first_val);
+            pos = PointPosition(edge, point);
+            if (pos != lastPosition)
+                return false;
             return true;
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            
+
             if (checkBox1.Checked || checkBox2.Checked)
             {
                 MessageBox.Show("Выберите точку мышкой");
             }
-            
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             //isLocked = true;
-           /* radioButton1.Enabled = false;
-            radioButton2.Enabled = false;
-            radioButton3.Enabled = false;*/
+            /* radioButton1.Enabled = false;
+             radioButton2.Enabled = false;
+             radioButton3.Enabled = false;*/
 
         }
 
