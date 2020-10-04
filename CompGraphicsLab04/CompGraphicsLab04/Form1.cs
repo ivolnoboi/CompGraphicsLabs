@@ -60,7 +60,7 @@ namespace CompGraphicsLab04
                         MessageBox.Show("Точка находится справа от ребра");
                         break;
                     case Position.Undefined:
-                        MessageBox.Show("Точка находится хз где от ребра");
+                        MessageBox.Show("Точка находится на прямой, содержащей ребро");
                         break;
                     default:
                         break;
@@ -144,6 +144,11 @@ namespace CompGraphicsLab04
             index_point = 0;
             index_line = 0;
             index_polygon = 0;
+
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+
+            pictureBox1.Enabled = true;
         }
 
         //перемножение матриц
@@ -215,8 +220,16 @@ namespace CompGraphicsLab04
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
-            if (checkBox1.Checked || checkBox2.Checked)
+
+            if (checkBox1.Checked && treeView1.SelectedNode.Text.StartsWith("polygon"))
             {
+                pictureBox1.Enabled = true;
+                MessageBox.Show("Выберите точку мышкой");
+            }
+
+            if (checkBox2.Checked && treeView1.SelectedNode.Text.StartsWith("line"))
+            {
+                pictureBox1.Enabled = true;
                 MessageBox.Show("Выберите точку мышкой");
             }
 
@@ -231,14 +244,23 @@ namespace CompGraphicsLab04
 
         }
 
-        private void radioButton4_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
+            if (checkBox2.Checked)
+            {
+                checkBox1.Checked = false;
+                pictureBox1.Enabled = false;
+            }
+        }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                checkBox2.Checked = false;
+                pictureBox1.Enabled = false;
+            }
         }
     }
 }

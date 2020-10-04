@@ -115,17 +115,18 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(36, 289);
+            this.checkBox1.Location = new System.Drawing.Point(12, 290);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(365, 21);
             this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Принадлежит ли точка выпуклому многоугольнику ";
             this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(36, 317);
+            this.checkBox2.Location = new System.Drawing.Point(12, 317);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(331, 21);
             this.checkBox2.TabIndex = 8;
