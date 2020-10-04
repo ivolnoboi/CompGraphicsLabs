@@ -149,7 +149,7 @@ namespace CompGraphicsLab04
         }
 
         // Кнопка "Очистить"
-        private void button1_Click(object sender, EventArgs e)
+        private void Clear_Click(object sender, EventArgs e)
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
