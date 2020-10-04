@@ -23,24 +23,41 @@ namespace CompGraphicsLab04
         int index_line;
         int index_polygon;
         bool isLocked = false;
+        bool nextClickSetsPointForAffine = false;
+        Point PointForAffine;
         public Form1()
         {
             InitializeComponent();
+
             radioButton1.Checked = true;
+
             points = new LinkedList<Point>();
             lines = new LinkedList<Tuple<Point, Point>>();
             polygons = new LinkedList<LinkedList<Point>>();
+
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
+
             index_point = 0;
             index_line = 0;
             index_polygon = 0;
+
+            XBox.Minimum = -pictureBox1.Width;
+            XBox.Maximum = pictureBox1.Width;
+            YBox.Minimum = -pictureBox1.Height;
+            YBox.Maximum = pictureBox1.Height;
         }
 
         private bool first_point_line = true;
         private Point first;
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
+            if(nextClickSetsPointForAffine)
+            {
+                nextClickSetsPointForAffine = false;
+                PointForAffine = e.Location;
+                PointForAffineLabel.Text = $"X:{e.Location.X}; Y:{e.Location.Y}";
+            } else
             // Если выбрано задание Принадлежит ли точка выпуклому многоугольнику
             if (checkBox1.Checked)
             {
@@ -144,6 +161,8 @@ namespace CompGraphicsLab04
             index_point = 0;
             index_line = 0;
             index_polygon = 0;
+
+            MoveBtn.Enabled = false;
         }
 
         //перемножение матриц
@@ -214,7 +233,7 @@ namespace CompGraphicsLab04
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-
+            MoveBtn.Enabled = true;
             if (checkBox1.Checked || checkBox2.Checked)
             {
                 MessageBox.Show("Выберите точку мышкой");
@@ -239,6 +258,111 @@ namespace CompGraphicsLab04
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private Point ShiftPoint(Point point, Point d)
+        {
+            double[,] shift_matr = {
+                { 1, 0, 0 },
+                { 0, 1, 0 },
+                { d.X, d.Y, 1 }
+            };
+            double[,] point_matr = { { point.X, point.Y, 1 } };
+
+            var m = multMatrix(point_matr, shift_matr);
+            return new Point((int)m[0, 0], (int)m[0, 1]);
+        }
+
+        private Point RotatePoint(Point point, Point O, double phi)
+        {
+            double[,] rotate_matr = { 
+                { Math.Cos(phi), Math.Sin(phi), 0 },
+                { -Math.Sin(phi), Math.Cos(phi), 0},
+                { -O.X *Math.Cos(phi)+ O.Y*Math.Sin(phi)+ O.X, -O.X * Math.Sin(phi)- O.Y *Math.Cos(phi) + O.Y, 1 } };
+
+            double[,] point_matr = { { point.X, point.Y, 1 } };
+            var m = multMatrix(point_matr, rotate_matr);
+            return new Point((int)m[0, 0], (int)m[0, 1]);
+        }
+
+        private Point ScalePoint(Point point, double alpha, double beta, Point p)
+        {
+            double[,] Scale_matr = {
+                { alpha, 0, 0 },
+                { 0, beta, 0 },
+                { (1-alpha) * p.X, (1-beta) *  p.Y, 1 } };
+
+            double[,] point_matr = { { point.X, point.Y, 1 } };
+            var c = multMatrix(point_matr, Scale_matr);
+            return new Point((int)c[0, 0], (int)c[0, 1]);
+        }
+
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            angle_label.Text = (sender as TrackBar).Value.ToString();
+        }
+
+        private void ScaleVal_ValueChanged(object sender, EventArgs e)
+        {
+            scaleLabel.Text = (sender as TrackBar).Value.ToString();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            nextClickSetsPointForAffine = true;
+        }
+
+        private void MoveBtn_Click(object sender, EventArgs e)
+        {
+            var type = treeView1.SelectedNode.Tag.GetType();
+            //var type = string.Concat(treeView1.SelectedNode.Text.TakeWhile(ch => char.IsLetter(ch)));
+            //var index = int.Parse(string.Concat(treeView1.SelectedNode.Text.SkipWhile(ch => char.IsLetter(ch)))) - 1;
+
+            var d = new Point((int)XBox.Value, (int)YBox.Value);
+            if (type == typeof(LinkedListNode<Point>))//point
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Point>);
+                o.Value = ShiftPoint(o.Value, d);
+            }
+            else if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
+                o.Value = new Tuple<Point, Point>(ShiftPoint(o.Value.Item1, d), ShiftPoint(o.Value.Item2, d));
+            }
+            else if (type == typeof(LinkedListNode<LinkedList<Point>>))//polygon
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>);
+                o.Value = new LinkedList<Point>(o.Value.Select(p => ShiftPoint(p, d)));
+            }
+            else
+                throw new Exception();
+            DrawPrimitives();
+
+        }
+
+        private void RotateBtn_Click(object sender, EventArgs e)
+        {
+            var type = treeView1.SelectedNode.Tag.GetType();
+            double angle = Math.PI * RotateAngle.Value / 180.0;
+/*
+            if (type == typeof(LinkedListNode<Point>))//point
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Point>);
+                o.Value = RotatePoint(o.Value, PointForAffine, angle);
+            }
+            else if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
+                o.Value = new Tuple<Point, Point>(ShiftPoint(o.Value.Item1, d), ShiftPoint(o.Value.Item2, d));
+            }
+            else if (type == typeof(LinkedListNode<LinkedList<Point>>))//polygon
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>);
+                o.Value = new LinkedList<Point>(o.Value.Select(p => ShiftPoint(p, d)));
+            }
+            else
+                throw new Exception();
+            DrawPrimitives();*/
         }
     }
 }
