@@ -174,7 +174,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(9, 155);
+            this.label2.Location = new System.Drawing.Point(9, 159);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 34);
@@ -184,7 +184,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 189);
+            this.label3.Location = new System.Drawing.Point(9, 200);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(51, 13);
             this.label3.TabIndex = 10;
@@ -192,7 +192,7 @@
             // 
             // XBox
             // 
-            this.XBox.Location = new System.Drawing.Point(29, 205);
+            this.XBox.Location = new System.Drawing.Point(29, 216);
             this.XBox.Name = "XBox";
             this.XBox.Size = new System.Drawing.Size(48, 20);
             this.XBox.TabIndex = 11;
@@ -200,7 +200,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 207);
+            this.label4.Location = new System.Drawing.Point(12, 218);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(14, 13);
             this.label4.TabIndex = 12;
@@ -209,7 +209,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(85, 207);
+            this.label5.Location = new System.Drawing.Point(85, 218);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(14, 13);
             this.label5.TabIndex = 14;
@@ -217,7 +217,7 @@
             // 
             // YBox
             // 
-            this.YBox.Location = new System.Drawing.Point(102, 205);
+            this.YBox.Location = new System.Drawing.Point(102, 216);
             this.YBox.Name = "YBox";
             this.YBox.Size = new System.Drawing.Size(48, 20);
             this.YBox.TabIndex = 13;
@@ -225,7 +225,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(10, 263);
+            this.label6.Location = new System.Drawing.Point(10, 274);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(50, 13);
             this.label6.TabIndex = 15;
@@ -234,7 +234,7 @@
             // MoveBtn
             // 
             this.MoveBtn.Enabled = false;
-            this.MoveBtn.Location = new System.Drawing.Point(75, 231);
+            this.MoveBtn.Location = new System.Drawing.Point(75, 242);
             this.MoveBtn.Name = "MoveBtn";
             this.MoveBtn.Size = new System.Drawing.Size(75, 23);
             this.MoveBtn.TabIndex = 16;
@@ -244,7 +244,7 @@
             // 
             // RotateAngle
             // 
-            this.RotateAngle.Location = new System.Drawing.Point(9, 280);
+            this.RotateAngle.Location = new System.Drawing.Point(9, 291);
             this.RotateAngle.Maximum = 180;
             this.RotateAngle.Minimum = -180;
             this.RotateAngle.Name = "RotateAngle";
@@ -256,7 +256,7 @@
             // 
             this.angle_label.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.angle_label.AutoSize = true;
-            this.angle_label.Location = new System.Drawing.Point(122, 263);
+            this.angle_label.Location = new System.Drawing.Point(122, 274);
             this.angle_label.MinimumSize = new System.Drawing.Size(28, 13);
             this.angle_label.Name = "angle_label";
             this.angle_label.Size = new System.Drawing.Size(28, 13);
@@ -267,7 +267,7 @@
             // RotateBtn
             // 
             this.RotateBtn.Enabled = false;
-            this.RotateBtn.Location = new System.Drawing.Point(75, 311);
+            this.RotateBtn.Location = new System.Drawing.Point(75, 322);
             this.RotateBtn.Name = "RotateBtn";
             this.RotateBtn.Size = new System.Drawing.Size(75, 23);
             this.RotateBtn.TabIndex = 19;
@@ -278,7 +278,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 339);
+            this.label7.Location = new System.Drawing.Point(14, 350);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(101, 13);
             this.label7.TabIndex = 20;
@@ -286,7 +286,7 @@
             // 
             // ScaleAlpha
             // 
-            this.ScaleAlpha.Location = new System.Drawing.Point(9, 355);
+            this.ScaleAlpha.Location = new System.Drawing.Point(9, 366);
             this.ScaleAlpha.Maximum = 400;
             this.ScaleAlpha.Name = "ScaleAlpha";
             this.ScaleAlpha.Size = new System.Drawing.Size(141, 45);
@@ -298,7 +298,7 @@
             // 
             this.ScaleAlphaLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ScaleAlphaLabel.AutoSize = true;
-            this.ScaleAlphaLabel.Location = new System.Drawing.Point(122, 339);
+            this.ScaleAlphaLabel.Location = new System.Drawing.Point(122, 350);
             this.ScaleAlphaLabel.MinimumSize = new System.Drawing.Size(28, 13);
             this.ScaleAlphaLabel.Name = "ScaleAlphaLabel";
             this.ScaleAlphaLabel.Size = new System.Drawing.Size(28, 13);
@@ -309,7 +309,7 @@
             // ScaleBtn
             // 
             this.ScaleBtn.Enabled = false;
-            this.ScaleBtn.Location = new System.Drawing.Point(45, 440);
+            this.ScaleBtn.Location = new System.Drawing.Point(45, 451);
             this.ScaleBtn.Name = "ScaleBtn";
             this.ScaleBtn.Size = new System.Drawing.Size(105, 23);
             this.ScaleBtn.TabIndex = 23;
@@ -319,7 +319,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(4, 469);
+            this.button3.Location = new System.Drawing.Point(4, 480);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(59, 36);
             this.button3.TabIndex = 24;
@@ -330,7 +330,7 @@
             // PointForAffineLabel
             // 
             this.PointForAffineLabel.AutoSize = true;
-            this.PointForAffineLabel.Location = new System.Drawing.Point(72, 475);
+            this.PointForAffineLabel.Location = new System.Drawing.Point(72, 486);
             this.PointForAffineLabel.Name = "PointForAffineLabel";
             this.PointForAffineLabel.Size = new System.Drawing.Size(88, 13);
             this.PointForAffineLabel.TabIndex = 25;
@@ -338,7 +338,7 @@
             // 
             // ScaleBeta
             // 
-            this.ScaleBeta.Location = new System.Drawing.Point(9, 396);
+            this.ScaleBeta.Location = new System.Drawing.Point(9, 407);
             this.ScaleBeta.Maximum = 400;
             this.ScaleBeta.Name = "ScaleBeta";
             this.ScaleBeta.Size = new System.Drawing.Size(141, 45);
@@ -349,7 +349,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1, 356);
+            this.label8.Location = new System.Drawing.Point(1, 367);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(14, 13);
             this.label8.TabIndex = 27;
@@ -358,7 +358,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1, 396);
+            this.label9.Location = new System.Drawing.Point(1, 407);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(13, 13);
             this.label9.TabIndex = 28;
@@ -368,7 +368,7 @@
             // 
             this.ScaleBetaLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ScaleBetaLabel.AutoSize = true;
-            this.ScaleBetaLabel.Location = new System.Drawing.Point(122, 387);
+            this.ScaleBetaLabel.Location = new System.Drawing.Point(122, 398);
             this.ScaleBetaLabel.MinimumSize = new System.Drawing.Size(28, 13);
             this.ScaleBetaLabel.Name = "ScaleBetaLabel";
             this.ScaleBetaLabel.Size = new System.Drawing.Size(28, 13);
@@ -379,7 +379,7 @@
             // Rotate90
             // 
             this.Rotate90.Enabled = false;
-            this.Rotate90.Location = new System.Drawing.Point(4, 512);
+            this.Rotate90.Location = new System.Drawing.Point(4, 523);
             this.Rotate90.Name = "Rotate90";
             this.Rotate90.Size = new System.Drawing.Size(156, 37);
             this.Rotate90.TabIndex = 30;
