@@ -56,6 +56,8 @@ namespace CompGraphicsLab04
             {
                 nextClickSetsPointForAffine = false;
                 PointForAffine = e.Location;
+                DrawPrimitives();
+                
                 PointForAffineLabel.Text = $"X:{e.Location.X} \nY:{e.Location.Y}";
 
                 if(ReadyToRotateOrScale())
@@ -147,6 +149,11 @@ namespace CompGraphicsLab04
                     cur = cur.Next;
                 }
             }
+
+            //Рисуем выбранную для аффинных преобразований точку
+            if(!PointForAffine.IsEmpty)
+                bmp.SetPixel(PointForAffine.X, PointForAffine.Y, Color.Red);
+
             pictureBox1.Image = bmp;
         }
 
