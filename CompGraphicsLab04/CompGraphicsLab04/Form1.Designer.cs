@@ -51,7 +51,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.ScaleVal = new System.Windows.Forms.TrackBar();
             this.scaleLabel = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.ScaleBtn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.PointForAffineLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -299,15 +299,15 @@
             this.scaleLabel.Text = "100";
             this.scaleLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // button2
+            // ScaleBtn
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(45, 388);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 23);
-            this.button2.TabIndex = 23;
-            this.button2.Text = "Масштабировать";
-            this.button2.UseVisualStyleBackColor = true;
+            this.ScaleBtn.Enabled = false;
+            this.ScaleBtn.Location = new System.Drawing.Point(45, 388);
+            this.ScaleBtn.Name = "ScaleBtn";
+            this.ScaleBtn.Size = new System.Drawing.Size(105, 23);
+            this.ScaleBtn.TabIndex = 23;
+            this.ScaleBtn.Text = "Масштабировать";
+            this.ScaleBtn.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -335,7 +335,7 @@
             this.ClientSize = new System.Drawing.Size(1052, 554);
             this.Controls.Add(this.PointForAffineLabel);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.ScaleBtn);
             this.Controls.Add(this.scaleLabel);
             this.Controls.Add(this.ScaleVal);
             this.Controls.Add(this.label7);
@@ -397,7 +397,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TrackBar ScaleVal;
         private System.Windows.Forms.Label scaleLabel;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button ScaleBtn;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label PointForAffineLabel;
     }

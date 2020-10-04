@@ -57,6 +57,15 @@ namespace CompGraphicsLab04
                 nextClickSetsPointForAffine = false;
                 PointForAffine = e.Location;
                 PointForAffineLabel.Text = $"X:{e.Location.X}; Y:{e.Location.Y}";
+
+                if(ReadyToRotateOrScale())
+                {
+                    RotateBtn.Enabled = true;
+                    ScaleBtn.Enabled = true;
+                }
+                if (ReadyToMove())
+                    MoveBtn.Enabled = true;
+                
             } else
             // Если выбрано задание Принадлежит ли точка выпуклому многоугольнику
             if (checkBox1.Checked)
@@ -163,6 +172,8 @@ namespace CompGraphicsLab04
             index_polygon = 0;
 
             MoveBtn.Enabled = false;
+            RotateBtn.Enabled = false;
+            ScaleBtn.Enabled = false;
         }
 
         //перемножение матриц
@@ -233,7 +244,14 @@ namespace CompGraphicsLab04
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            MoveBtn.Enabled = true;
+            if (ReadyToRotateOrScale())
+            {
+                RotateBtn.Enabled = true;
+                ScaleBtn.Enabled = true;
+            }
+            if (ReadyToMove())
+                MoveBtn.Enabled = true;
+
             if (checkBox1.Checked || checkBox2.Checked)
             {
                 MessageBox.Show("Выберите точку мышкой");
@@ -312,6 +330,10 @@ namespace CompGraphicsLab04
             nextClickSetsPointForAffine = true;
         }
 
+        private bool ReadyToRotateOrScale() => treeView1.SelectedNode != null && !PointForAffine.IsEmpty;
+
+        private bool ReadyToMove() => treeView1.SelectedNode != null;
+
         private void MoveBtn_Click(object sender, EventArgs e)
         {
             var type = treeView1.SelectedNode.Tag.GetType();
@@ -344,7 +366,7 @@ namespace CompGraphicsLab04
         {
             var type = treeView1.SelectedNode.Tag.GetType();
             double angle = Math.PI * RotateAngle.Value / 180.0;
-/*
+
             if (type == typeof(LinkedListNode<Point>))//point
             {
                 var o = (treeView1.SelectedNode.Tag as LinkedListNode<Point>);
@@ -353,16 +375,16 @@ namespace CompGraphicsLab04
             else if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
             {
                 var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
-                o.Value = new Tuple<Point, Point>(ShiftPoint(o.Value.Item1, d), ShiftPoint(o.Value.Item2, d));
+                o.Value = new Tuple<Point, Point>(RotatePoint(o.Value.Item1, PointForAffine, angle), RotatePoint(o.Value.Item2, PointForAffine, angle));
             }
             else if (type == typeof(LinkedListNode<LinkedList<Point>>))//polygon
             {
                 var o = (treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>);
-                o.Value = new LinkedList<Point>(o.Value.Select(p => ShiftPoint(p, d)));
+                o.Value = new LinkedList<Point>(o.Value.Select(p => RotatePoint(p, PointForAffine, angle)));
             }
             else
                 throw new Exception();
-            DrawPrimitives();*/
+            DrawPrimitives();
         }
     }
 }
