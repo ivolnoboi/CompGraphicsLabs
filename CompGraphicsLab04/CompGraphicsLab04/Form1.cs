@@ -56,7 +56,7 @@ namespace CompGraphicsLab04
             {
                 nextClickSetsPointForAffine = false;
                 PointForAffine = e.Location;
-                PointForAffineLabel.Text = $"X:{e.Location.X}; Y:{e.Location.Y}";
+                PointForAffineLabel.Text = $"X:{e.Location.X} \nY:{e.Location.Y}";
 
                 if(ReadyToRotateOrScale())
                 {
@@ -174,7 +174,9 @@ namespace CompGraphicsLab04
             MoveBtn.Enabled = false;
             RotateBtn.Enabled = false;
             ScaleBtn.Enabled = false;
-            
+            Rotate90.Enabled = false;
+
+
             checkBox1.Checked = false;
             checkBox2.Checked = false;
 
@@ -256,7 +258,10 @@ namespace CompGraphicsLab04
             }
             if (ReadyToMove())
                 MoveBtn.Enabled = true;
-
+            if (treeView1.SelectedNode.Tag.GetType() == typeof(LinkedListNode<Tuple<Point, Point>>))//line is selected
+                Rotate90.Enabled = true;
+            else
+                Rotate90.Enabled = false;
 
             if (checkBox1.Checked && treeView1.SelectedNode.Text.StartsWith("polygon"))
             {
@@ -435,5 +440,21 @@ namespace CompGraphicsLab04
             DrawPrimitives();
         }
 
+        private void Rotate90_Click(object sender, EventArgs e)
+        {
+            var type = treeView1.SelectedNode.Tag.GetType();
+            double angle = Math.PI * 90 / 180.0;
+
+            if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
+                var point = new Point((int)((o.Value.Item1.X + o.Value.Item2.X) / 2.0), (int)((o.Value.Item1.Y + o.Value.Item2.Y) / 2.0));
+                o.Value = new Tuple<Point, Point>(RotatePoint(o.Value.Item1, point, angle), RotatePoint(o.Value.Item2, point, angle));
+            }
+            else
+                throw new Exception();
+
+            DrawPrimitives();
+        }
     }
 }
