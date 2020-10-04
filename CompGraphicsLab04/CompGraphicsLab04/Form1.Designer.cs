@@ -49,16 +49,21 @@
             this.angle_label = new System.Windows.Forms.Label();
             this.RotateBtn = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.ScaleVal = new System.Windows.Forms.TrackBar();
-            this.scaleLabel = new System.Windows.Forms.Label();
+            this.ScaleAlpha = new System.Windows.Forms.TrackBar();
+            this.ScaleAlphaLabel = new System.Windows.Forms.Label();
             this.ScaleBtn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.PointForAffineLabel = new System.Windows.Forms.Label();
+            this.ScaleBeta = new System.Windows.Forms.TrackBar();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ScaleBetaLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotateAngle)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ScaleVal)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleAlpha)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleBeta)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -66,7 +71,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(166, 10);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(698, 535);
+            this.pictureBox1.Size = new System.Drawing.Size(698, 548);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
@@ -90,9 +95,9 @@
             this.label1.Location = new System.Drawing.Point(9, 65);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 17);
+            this.label1.Size = new System.Drawing.Size(139, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Выбрать примитив";
+            this.label1.Text = "Добавить примитив";
             // 
             // radioButton1
             // 
@@ -136,14 +141,14 @@
             this.treeView1.Location = new System.Drawing.Point(869, 11);
             this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(174, 535);
+            this.treeView1.Size = new System.Drawing.Size(174, 547);
             this.treeView1.TabIndex = 6;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 495);
+            this.checkBox1.Location = new System.Drawing.Point(4, 517);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(288, 17);
@@ -154,7 +159,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(12, 518);
+            this.checkBox2.Location = new System.Drawing.Point(4, 540);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(258, 17);
@@ -277,43 +282,44 @@
             this.label7.TabIndex = 20;
             this.label7.Text = "Масштабирование";
             // 
-            // ScaleVal
+            // ScaleAlpha
             // 
-            this.ScaleVal.Location = new System.Drawing.Point(9, 355);
-            this.ScaleVal.Maximum = 400;
-            this.ScaleVal.Name = "ScaleVal";
-            this.ScaleVal.Size = new System.Drawing.Size(141, 45);
-            this.ScaleVal.TabIndex = 21;
-            this.ScaleVal.Value = 100;
-            this.ScaleVal.ValueChanged += new System.EventHandler(this.ScaleVal_ValueChanged);
+            this.ScaleAlpha.Location = new System.Drawing.Point(9, 355);
+            this.ScaleAlpha.Maximum = 400;
+            this.ScaleAlpha.Name = "ScaleAlpha";
+            this.ScaleAlpha.Size = new System.Drawing.Size(141, 45);
+            this.ScaleAlpha.TabIndex = 21;
+            this.ScaleAlpha.Value = 100;
+            this.ScaleAlpha.ValueChanged += new System.EventHandler(this.ScaleVal_ValueChanged);
             // 
-            // scaleLabel
+            // ScaleAlphaLabel
             // 
-            this.scaleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.scaleLabel.AutoSize = true;
-            this.scaleLabel.Location = new System.Drawing.Point(122, 339);
-            this.scaleLabel.MinimumSize = new System.Drawing.Size(28, 13);
-            this.scaleLabel.Name = "scaleLabel";
-            this.scaleLabel.Size = new System.Drawing.Size(28, 13);
-            this.scaleLabel.TabIndex = 22;
-            this.scaleLabel.Text = "100";
-            this.scaleLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.ScaleAlphaLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ScaleAlphaLabel.AutoSize = true;
+            this.ScaleAlphaLabel.Location = new System.Drawing.Point(122, 339);
+            this.ScaleAlphaLabel.MinimumSize = new System.Drawing.Size(28, 13);
+            this.ScaleAlphaLabel.Name = "ScaleAlphaLabel";
+            this.ScaleAlphaLabel.Size = new System.Drawing.Size(28, 13);
+            this.ScaleAlphaLabel.TabIndex = 22;
+            this.ScaleAlphaLabel.Text = "100";
+            this.ScaleAlphaLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ScaleBtn
             // 
             this.ScaleBtn.Enabled = false;
-            this.ScaleBtn.Location = new System.Drawing.Point(45, 388);
+            this.ScaleBtn.Location = new System.Drawing.Point(45, 440);
             this.ScaleBtn.Name = "ScaleBtn";
             this.ScaleBtn.Size = new System.Drawing.Size(105, 23);
             this.ScaleBtn.TabIndex = 23;
             this.ScaleBtn.Text = "Масштабировать";
             this.ScaleBtn.UseVisualStyleBackColor = true;
+            this.ScaleBtn.Click += new System.EventHandler(this.ScaleBtn_Click);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(9, 419);
+            this.button3.Location = new System.Drawing.Point(4, 469);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(98, 23);
+            this.button3.Size = new System.Drawing.Size(59, 36);
             this.button3.TabIndex = 24;
             this.button3.Text = "Выбор точки";
             this.button3.UseVisualStyleBackColor = true;
@@ -322,22 +328,66 @@
             // PointForAffineLabel
             // 
             this.PointForAffineLabel.AutoSize = true;
-            this.PointForAffineLabel.Location = new System.Drawing.Point(12, 445);
+            this.PointForAffineLabel.Location = new System.Drawing.Point(72, 481);
             this.PointForAffineLabel.Name = "PointForAffineLabel";
             this.PointForAffineLabel.Size = new System.Drawing.Size(88, 13);
             this.PointForAffineLabel.TabIndex = 25;
             this.PointForAffineLabel.Text = "Не установлена";
             // 
+            // ScaleBeta
+            // 
+            this.ScaleBeta.Location = new System.Drawing.Point(9, 396);
+            this.ScaleBeta.Maximum = 400;
+            this.ScaleBeta.Name = "ScaleBeta";
+            this.ScaleBeta.Size = new System.Drawing.Size(141, 45);
+            this.ScaleBeta.TabIndex = 26;
+            this.ScaleBeta.Value = 100;
+            this.ScaleBeta.ValueChanged += new System.EventHandler(this.ScaleVal_ValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1, 356);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(14, 13);
+            this.label8.TabIndex = 27;
+            this.label8.Text = "α";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1, 396);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(13, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "β";
+            // 
+            // ScaleBetaLabel
+            // 
+            this.ScaleBetaLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ScaleBetaLabel.AutoSize = true;
+            this.ScaleBetaLabel.Location = new System.Drawing.Point(122, 387);
+            this.ScaleBetaLabel.MinimumSize = new System.Drawing.Size(28, 13);
+            this.ScaleBetaLabel.Name = "ScaleBetaLabel";
+            this.ScaleBetaLabel.Size = new System.Drawing.Size(28, 13);
+            this.ScaleBetaLabel.TabIndex = 29;
+            this.ScaleBetaLabel.Text = "100";
+            this.ScaleBetaLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 554);
+            this.ClientSize = new System.Drawing.Size(1052, 569);
+            this.Controls.Add(this.ScaleBetaLabel);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.ScaleBeta);
             this.Controls.Add(this.PointForAffineLabel);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.ScaleBtn);
-            this.Controls.Add(this.scaleLabel);
-            this.Controls.Add(this.ScaleVal);
+            this.Controls.Add(this.ScaleAlphaLabel);
+            this.Controls.Add(this.ScaleAlpha);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.RotateBtn);
             this.Controls.Add(this.angle_label);
@@ -366,7 +416,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.XBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.YBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RotateAngle)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ScaleVal)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleAlpha)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ScaleBeta)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,11 +446,15 @@
         private System.Windows.Forms.Label angle_label;
         private System.Windows.Forms.Button RotateBtn;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TrackBar ScaleVal;
-        private System.Windows.Forms.Label scaleLabel;
+        private System.Windows.Forms.TrackBar ScaleAlpha;
+        private System.Windows.Forms.Label ScaleAlphaLabel;
         private System.Windows.Forms.Button ScaleBtn;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label PointForAffineLabel;
+        private System.Windows.Forms.TrackBar ScaleBeta;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label ScaleBetaLabel;
     }
 }
 

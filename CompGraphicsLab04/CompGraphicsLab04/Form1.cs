@@ -311,8 +311,8 @@ namespace CompGraphicsLab04
                 { (1-alpha) * p.X, (1-beta) *  p.Y, 1 } };
 
             double[,] point_matr = { { point.X, point.Y, 1 } };
-            var c = multMatrix(point_matr, Scale_matr);
-            return new Point((int)c[0, 0], (int)c[0, 1]);
+            var m = multMatrix(point_matr, Scale_matr);
+            return new Point((int)m[0, 0], (int)m[0, 1]);
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -322,7 +322,8 @@ namespace CompGraphicsLab04
 
         private void ScaleVal_ValueChanged(object sender, EventArgs e)
         {
-            scaleLabel.Text = (sender as TrackBar).Value.ToString();
+            ScaleAlphaLabel.Text = ScaleAlpha.Value.ToString();
+            ScaleBetaLabel.Text = ScaleBeta.Value.ToString(); 
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -337,8 +338,6 @@ namespace CompGraphicsLab04
         private void MoveBtn_Click(object sender, EventArgs e)
         {
             var type = treeView1.SelectedNode.Tag.GetType();
-            //var type = string.Concat(treeView1.SelectedNode.Text.TakeWhile(ch => char.IsLetter(ch)));
-            //var index = int.Parse(string.Concat(treeView1.SelectedNode.Text.SkipWhile(ch => char.IsLetter(ch)))) - 1;
 
             var d = new Point((int)XBox.Value, (int)YBox.Value);
             if (type == typeof(LinkedListNode<Point>))//point
@@ -386,5 +385,33 @@ namespace CompGraphicsLab04
                 throw new Exception();
             DrawPrimitives();
         }
+
+        private void ScaleBtn_Click(object sender, EventArgs e)
+        {
+            var type = treeView1.SelectedNode.Tag.GetType();
+            
+            if (type == typeof(LinkedListNode<Point>))//point
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Point>);
+                o.Value = ScalePoint(o.Value,ScaleAlpha.Value/100.0,ScaleBeta.Value/100.0,PointForAffine);
+            }
+            else if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
+                o.Value = new Tuple<Point, Point>(
+                    ScalePoint(o.Value.Item1, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine), 
+                    ScalePoint(o.Value.Item2, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine)
+                    );
+            }
+            else if (type == typeof(LinkedListNode<LinkedList<Point>>))//polygon
+            {
+                var o = (treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>);
+                o.Value = new LinkedList<Point>(o.Value.Select(p => ScalePoint(p, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine)));
+            }
+            else
+                throw new Exception();
+            DrawPrimitives();
+        }
+
     }
 }
