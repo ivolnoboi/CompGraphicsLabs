@@ -52,23 +52,52 @@ namespace CompGraphicsLab04
         private Point first;
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if(nextClickSetsPointForAffine)
+            if (nextClickSetsPointForAffine)
             {
                 nextClickSetsPointForAffine = false;
                 PointForAffine = e.Location;
                 DrawPrimitives();
-                
+
                 PointForAffineLabel.Text = $"X:{e.Location.X} \nY:{e.Location.Y}";
 
-                if(ReadyToRotateOrScale())
+                if (ReadyToRotateOrScale())
                 {
                     RotateBtn.Enabled = true;
                     ScaleBtn.Enabled = true;
                 }
                 if (ReadyToMove())
                     MoveBtn.Enabled = true;
-                
-            } else
+
+            }
+            else
+            if (checkBox3.Checked) // Если выбрано пересечение ребер
+            {
+                if (first_point_line)
+                {
+                    first_point_line = false; // говорим, что первая точка уже есть
+                    first = e.Location;
+                }
+                else
+                {
+                    Graphics g = Graphics.FromImage(bmp);
+                    Pen pen = new Pen(Color.Black, 1);
+                    pen.EndCap = LineCap.ArrowAnchor;
+                    g.DrawLine(pen, first, e.Location);
+                    first_point_line = true; // добавляем вторую точку и говорим, что отрезок завершён
+                    Tuple<Point, Point> edge1 = Tuple.Create(first, e.Location);
+                    var edge2 = treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>;
+                    Point point = EdgeAcross(edge1, edge2.Value);
+                    if (point.X == int.MaxValue && point.Y == int.MaxValue)
+                        MessageBox.Show("Ребра не пересекаются");
+                    else
+                    {
+                        g.DrawEllipse(new Pen(Color.Red, 2), point.X - 2, point.Y - 2, 4, 4);
+                        pictureBox1.Image = bmp;
+                    }
+
+                }
+            }
+            else
             // Если выбрано задание Принадлежит ли точка выпуклому многоугольнику
             if (checkBox1.Checked)
             {
@@ -151,7 +180,7 @@ namespace CompGraphicsLab04
             }
 
             //Рисуем выбранную для аффинных преобразований точку
-            if(!PointForAffine.IsEmpty)
+            if (!PointForAffine.IsEmpty)
                 bmp.SetPixel(PointForAffine.X, PointForAffine.Y, Color.Red);
 
             pictureBox1.Image = bmp;
@@ -203,6 +232,35 @@ namespace CompGraphicsLab04
                     }
 
             return res;
+        }
+
+        // Уравнение прямой, проходящей через две заданные точки
+        private (int A, int B, int C) GetLineEquation(Tuple<Point, Point> edge)
+        {
+            int A = edge.Item1.Y - edge.Item2.Y;
+            int B = edge.Item2.X - edge.Item1.X;
+            int C = edge.Item1.X * edge.Item2.Y - edge.Item2.X * edge.Item1.Y;
+            return (A, B, C);
+        }
+
+        private Point EdgeAcross(Tuple<Point, Point> edge1, Tuple<Point, Point> edge2)
+        {
+            (int A1, int B1, int C1) = GetLineEquation(edge1);
+            (int A2, int B2, int C2) = GetLineEquation(edge2);
+            var d = A1 * B2 - A2 * B1;
+            if (d == 0)
+                return new Point(int.MaxValue, int.MaxValue);
+
+            var x = -(C1 * B2 - C2 * B1) / d;
+            var y = -(A1 * C2 - A2 * C1) / d;
+
+            if (x >= Math.Min(edge1.Item1.X, edge1.Item2.X) && x <= Math.Max(edge1.Item1.X, edge1.Item2.X) &&
+                        x >= Math.Min(edge2.Item1.X, edge2.Item2.X) && x <= Math.Max(edge2.Item1.X, edge2.Item2.X) &&
+                        y >= Math.Min(edge1.Item1.Y, edge1.Item2.Y) && y <= Math.Max(edge1.Item1.Y, edge1.Item2.Y) &&
+                        y >= Math.Min(edge2.Item1.Y, edge2.Item2.Y) && y <= Math.Max(edge2.Item1.Y, edge2.Item2.Y))
+                return new Point(x, y);
+
+            return new Point(int.MaxValue, int.MaxValue);
         }
 
         enum Position { Left, Right, Undefined }
@@ -282,6 +340,12 @@ namespace CompGraphicsLab04
                 MessageBox.Show("Выберите точку мышкой");
             }
 
+            if (checkBox3.Checked && treeView1.SelectedNode.Text.StartsWith("line"))
+            {
+                pictureBox1.Enabled = true;
+                MessageBox.Show("Нарисуйте второе мышкой");
+            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -327,7 +391,7 @@ namespace CompGraphicsLab04
 
         private Point RotatePoint(Point point, Point O, double phi)
         {
-            double[,] rotate_matr = { 
+            double[,] rotate_matr = {
                 { Math.Cos(phi), Math.Sin(phi), 0 },
                 { -Math.Sin(phi), Math.Cos(phi), 0},
                 { -O.X *Math.Cos(phi)+ O.Y*Math.Sin(phi)+ O.X, -O.X * Math.Sin(phi)- O.Y *Math.Cos(phi) + O.Y, 1 } };
@@ -357,7 +421,7 @@ namespace CompGraphicsLab04
         private void ScaleVal_ValueChanged(object sender, EventArgs e)
         {
             ScaleAlphaLabel.Text = ScaleAlpha.Value.ToString();
-            ScaleBetaLabel.Text = ScaleBeta.Value.ToString(); 
+            ScaleBetaLabel.Text = ScaleBeta.Value.ToString();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -423,17 +487,17 @@ namespace CompGraphicsLab04
         private void ScaleBtn_Click(object sender, EventArgs e)
         {
             var type = treeView1.SelectedNode.Tag.GetType();
-            
+
             if (type == typeof(LinkedListNode<Point>))//point
             {
                 var o = (treeView1.SelectedNode.Tag as LinkedListNode<Point>);
-                o.Value = ScalePoint(o.Value,ScaleAlpha.Value/100.0,ScaleBeta.Value/100.0,PointForAffine);
+                o.Value = ScalePoint(o.Value, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine);
             }
             else if (type == typeof(LinkedListNode<Tuple<Point, Point>>))//line
             {
                 var o = (treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>);
                 o.Value = new Tuple<Point, Point>(
-                    ScalePoint(o.Value.Item1, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine), 
+                    ScalePoint(o.Value.Item1, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine),
                     ScalePoint(o.Value.Item2, ScaleAlpha.Value / 100.0, ScaleBeta.Value / 100.0, PointForAffine)
                     );
             }
@@ -462,6 +526,16 @@ namespace CompGraphicsLab04
                 throw new Exception();
 
             DrawPrimitives();
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = false;
+                pictureBox1.Enabled = false;
+            }
         }
     }
 }
