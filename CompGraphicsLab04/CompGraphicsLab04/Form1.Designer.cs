@@ -61,6 +61,7 @@
             this.Rotate90 = new System.Windows.Forms.Button();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.XBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YBox)).BeginInit();
@@ -150,7 +151,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(5, 736);
+            this.checkBox1.Location = new System.Drawing.Point(5, 762);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(365, 21);
@@ -162,12 +163,12 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(5, 764);
+            this.checkBox2.Location = new System.Drawing.Point(5, 790);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(331, 21);
+            this.checkBox2.Size = new System.Drawing.Size(339, 21);
             this.checkBox2.TabIndex = 8;
-            this.checkBox2.Text = "Классфицикация точки относительно прямой";
+            this.checkBox2.Text = "Классифицикация точки относительно прямой";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -194,7 +195,7 @@
             // XBox
             // 
             this.XBox.Location = new System.Drawing.Point(39, 266);
-            this.XBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.XBox.Margin = new System.Windows.Forms.Padding(4);
             this.XBox.Name = "XBox";
             this.XBox.Size = new System.Drawing.Size(64, 22);
             this.XBox.TabIndex = 11;
@@ -222,7 +223,7 @@
             // YBox
             // 
             this.YBox.Location = new System.Drawing.Point(136, 266);
-            this.YBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.YBox.Margin = new System.Windows.Forms.Padding(4);
             this.YBox.Name = "YBox";
             this.YBox.Size = new System.Drawing.Size(64, 22);
             this.YBox.TabIndex = 13;
@@ -241,7 +242,7 @@
             // 
             this.MoveBtn.Enabled = false;
             this.MoveBtn.Location = new System.Drawing.Point(100, 298);
-            this.MoveBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MoveBtn.Margin = new System.Windows.Forms.Padding(4);
             this.MoveBtn.Name = "MoveBtn";
             this.MoveBtn.Size = new System.Drawing.Size(100, 28);
             this.MoveBtn.TabIndex = 16;
@@ -252,7 +253,7 @@
             // RotateAngle
             // 
             this.RotateAngle.Location = new System.Drawing.Point(12, 358);
-            this.RotateAngle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RotateAngle.Margin = new System.Windows.Forms.Padding(4);
             this.RotateAngle.Maximum = 180;
             this.RotateAngle.Minimum = -180;
             this.RotateAngle.Name = "RotateAngle";
@@ -277,7 +278,7 @@
             // 
             this.RotateBtn.Enabled = false;
             this.RotateBtn.Location = new System.Drawing.Point(100, 396);
-            this.RotateBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RotateBtn.Margin = new System.Windows.Forms.Padding(4);
             this.RotateBtn.Name = "RotateBtn";
             this.RotateBtn.Size = new System.Drawing.Size(100, 28);
             this.RotateBtn.TabIndex = 19;
@@ -298,7 +299,7 @@
             // ScaleAlpha
             // 
             this.ScaleAlpha.Location = new System.Drawing.Point(12, 450);
-            this.ScaleAlpha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ScaleAlpha.Margin = new System.Windows.Forms.Padding(4);
             this.ScaleAlpha.Maximum = 400;
             this.ScaleAlpha.Name = "ScaleAlpha";
             this.ScaleAlpha.Size = new System.Drawing.Size(188, 53);
@@ -323,7 +324,7 @@
             // 
             this.ScaleBtn.Enabled = false;
             this.ScaleBtn.Location = new System.Drawing.Point(60, 555);
-            this.ScaleBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ScaleBtn.Margin = new System.Windows.Forms.Padding(4);
             this.ScaleBtn.Name = "ScaleBtn";
             this.ScaleBtn.Size = new System.Drawing.Size(140, 28);
             this.ScaleBtn.TabIndex = 23;
@@ -334,7 +335,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(5, 591);
-            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(79, 44);
             this.button3.TabIndex = 24;
@@ -355,7 +356,7 @@
             // ScaleBeta
             // 
             this.ScaleBeta.Location = new System.Drawing.Point(12, 501);
-            this.ScaleBeta.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ScaleBeta.Margin = new System.Windows.Forms.Padding(4);
             this.ScaleBeta.Maximum = 400;
             this.ScaleBeta.Name = "ScaleBeta";
             this.ScaleBeta.Size = new System.Drawing.Size(188, 53);
@@ -400,7 +401,7 @@
             // 
             this.Rotate90.Enabled = false;
             this.Rotate90.Location = new System.Drawing.Point(5, 644);
-            this.Rotate90.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Rotate90.Margin = new System.Windows.Forms.Padding(4);
             this.Rotate90.Name = "Rotate90";
             this.Rotate90.Size = new System.Drawing.Size(208, 46);
             this.Rotate90.TabIndex = 30;
@@ -411,7 +412,7 @@
             // checkBox3
             // 
             this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(5, 710);
+            this.checkBox3.Location = new System.Drawing.Point(5, 736);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(160, 21);
             this.checkBox3.TabIndex = 31;
@@ -422,7 +423,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(4, 683);
+            this.checkBox4.Location = new System.Drawing.Point(4, 709);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(377, 21);
             this.checkBox4.TabIndex = 32;
@@ -430,11 +431,21 @@
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(2, 694);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(371, 17);
+            this.label10.TabIndex = 33;
+            this.label10.Text = "Выберите задание и соотв.  примитив в списке справа";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1403, 800);
+            this.ClientSize = new System.Drawing.Size(1403, 817);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.Rotate90);
@@ -517,6 +528,7 @@
         private System.Windows.Forms.Button Rotate90;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.Label label10;
     }
 }
 

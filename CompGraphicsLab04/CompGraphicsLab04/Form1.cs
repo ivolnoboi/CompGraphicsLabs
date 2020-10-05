@@ -220,6 +220,8 @@ namespace CompGraphicsLab04
 
             checkBox1.Checked = false;
             checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
 
             pictureBox1.Enabled = true;
         }
@@ -256,8 +258,8 @@ namespace CompGraphicsLab04
             if (d == 0)
                 return new Point(int.MaxValue, int.MaxValue);
 
-            var x = -(C1 * B2 - C2 * B1) / d;
-            var y = -(A1 * C2 - A2 * C1) / d;
+            var x = (C2 * B1 - C1 * B2) / d;
+            var y = (A2 * C1 - A1 * C2) / d;
 
             if (x >= Math.Min(edge1.Item1.X, edge1.Item2.X) && x <= Math.Max(edge1.Item1.X, edge1.Item2.X) &&
                         x >= Math.Min(edge2.Item1.X, edge2.Item2.X) && x <= Math.Max(edge2.Item1.X, edge2.Item2.X) &&
@@ -274,7 +276,6 @@ namespace CompGraphicsLab04
         /// </summary>
         private Position PointPosition(Tuple<Point, Point> edge, Point b)
         {
-            // edge — направленное ребро (Oa в лекции)
             Point O = edge.Item1;
             Point a = edge.Item2;
             int sign = (b.X - O.X) * (a.Y - O.Y) - (b.Y - O.Y) * (a.X - O.X);
@@ -388,14 +389,7 @@ namespace CompGraphicsLab04
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //isLocked = true;
-            /* radioButton1.Enabled = false;
-             radioButton2.Enabled = false;
-             radioButton3.Enabled = false;*/
 
-        }
 
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
@@ -403,6 +397,8 @@ namespace CompGraphicsLab04
             if (checkBox2.Checked)
             {
                 checkBox1.Checked = false;
+                checkBox3.Checked = false;
+                checkBox4.Checked = false;
                 pictureBox1.Enabled = false;
             }
         }
@@ -412,6 +408,8 @@ namespace CompGraphicsLab04
             if (checkBox1.Checked)
             {
                 checkBox2.Checked = false;
+                checkBox3.Checked = false;
+                checkBox4.Checked = false;
                 pictureBox1.Enabled = false;
             }
         }
@@ -574,6 +572,7 @@ namespace CompGraphicsLab04
             {
                 checkBox1.Checked = false;
                 checkBox2.Checked = false;
+                checkBox4.Checked = false;
                 pictureBox1.Enabled = false;
             }
         }
