@@ -88,14 +88,15 @@ namespace CompGraphicsLab04
                     Tuple<Point, Point> edge1 = Tuple.Create(first, e.Location);
                     var edge2 = treeView1.SelectedNode.Tag as LinkedListNode<Tuple<Point, Point>>;
                     Point point = EdgeAcross(edge1, edge2.Value);
+                    pictureBox1.Image = bmp;
                     if (point.X == int.MaxValue && point.Y == int.MaxValue)
                         MessageBox.Show("Ребра не пересекаются");
                     else
                     {
                         g.DrawEllipse(new Pen(Color.Red, 2), point.X - 2, point.Y - 2, 4, 4);
-                        pictureBox1.Image = bmp;
+                        
                     }
-
+                    pictureBox1.Image = bmp;
                 }
             }
             else
