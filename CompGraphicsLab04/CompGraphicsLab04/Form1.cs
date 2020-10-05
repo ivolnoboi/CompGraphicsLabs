@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -102,6 +103,10 @@ namespace CompGraphicsLab04
             if (checkBox1.Checked)
             {
                 MessageBox.Show(IsPointInside(treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>, e.Location).ToString());
+            }
+            else if (checkBox4.Checked) // Если выбрано задание Принадлежит ли точка невыпуклому многоугольнику
+            {
+                MessageBox.Show(IsPointInside2(treeView1.SelectedNode.Tag as LinkedListNode<LinkedList<Point>>, e.Location).ToString());
             }
             else if (checkBox2.Checked) // Если выбрано задание Классифицировать положение точки относительно ребра
             {
@@ -314,6 +319,41 @@ namespace CompGraphicsLab04
             return true;
         }
 
+        /// <summary>
+        /// Проверка принадлежности точки невыпуклому многоугольнику методом лучей
+        /// </summary>
+        private bool IsPointInside2(LinkedListNode<LinkedList<Point>> polygon, Point point)
+        {
+            Position lastPosition = Position.Undefined;
+            var list = polygon.Value;
+            var cur = list.First;
+            var first_val = cur.Value;
+            Tuple<Point, Point> edge;
+            Point across;
+            Tuple<Point, Point> ray =
+                Tuple.Create(point, new Point(pictureBox1.Location.X + pictureBox1.Width - 1, point.Y));
+            int count = 0;
+            do  //while (cur != )
+            {
+                edge = Tuple.Create(cur.Value, cur.Next.Value);
+
+                 across = EdgeAcross(ray, edge);
+
+                if (across.X != int.MaxValue && across.Y != int.MaxValue
+                    && across.X != edge.Item2.X && across.Y != edge.Item2.Y) // Если пересекает в вершине ребра, то считаем только для конца
+                    count++;
+
+                cur = cur.Next;
+            } while (cur != list.Last);
+
+            edge = Tuple.Create(cur.Value, first_val);
+            across = EdgeAcross(ray, edge);
+            if (across.X != int.MaxValue && across.Y != int.MaxValue
+                && across.X != edge.Item2.X && across.Y != edge.Item2.Y)
+                count++;
+            return count % 2 == 1;
+        }
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (ReadyToRotateOrScale())
@@ -328,7 +368,7 @@ namespace CompGraphicsLab04
             else
                 Rotate90.Enabled = false;
 
-            if (checkBox1.Checked && treeView1.SelectedNode.Text.StartsWith("polygon"))
+            if ((checkBox1.Checked || checkBox4.Checked) && treeView1.SelectedNode.Text.StartsWith("polygon"))
             {
                 pictureBox1.Enabled = true;
                 MessageBox.Show("Выберите точку мышкой");
@@ -343,7 +383,7 @@ namespace CompGraphicsLab04
             if (checkBox3.Checked && treeView1.SelectedNode.Text.StartsWith("line"))
             {
                 pictureBox1.Enabled = true;
-                MessageBox.Show("Нарисуйте второе мышкой");
+                MessageBox.Show("Нарисуйте второе ребро мышкой");
             }
 
         }
@@ -534,6 +574,17 @@ namespace CompGraphicsLab04
             {
                 checkBox1.Checked = false;
                 checkBox2.Checked = false;
+                pictureBox1.Enabled = false;
+            }
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked)
+            {
+                checkBox1.Checked = false;
+                checkBox2.Checked = false;
+                checkBox3.Checked = false;
                 pictureBox1.Enabled = false;
             }
         }
