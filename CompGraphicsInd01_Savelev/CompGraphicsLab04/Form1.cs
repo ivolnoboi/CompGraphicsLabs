@@ -218,13 +218,18 @@ namespace CompGraphicsInd01_Savelev
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             Graphics g = Graphics.FromImage(bmp);
-            foreach (var point in points) // рисуем точки
+            foreach (var point in points) // рисуем точки (9 пикселей: от -1 до +1 от точки)
             {
-                bmp.SetPixel((int)point.X, (int)point.Y, Color.Black);
+                for (int i = -1; i < 2; i++)
+                    for (int j = -1; j < 2; j++)
+                    {
+                        var (x, y) = ((int)point.X + i, (int)point.Y + j);
+                        if(x>=0 && y>=0)
+                            bmp.SetPixel(x, y, Color.Black);
+                    }
             }
-            if(polygon != null)
+            if(polygon != null)// рисуем полигон
             {
-                // рисуем полигон
                 var cur = polygon.First;
                 if (cur != polygon.Last)
                     g.DrawLine(pen, polygon.First.Value, polygon.Last.Value);
@@ -233,6 +238,16 @@ namespace CompGraphicsInd01_Savelev
                     g.DrawLine(pen, cur.Value, cur.Next.Value);
                     cur = cur.Next;
                 }
+            }
+            foreach (var point in polygon) // рисуем точки, включённые в полигон, красным
+            {
+                for (int i = -1; i < 2; i++)
+                    for (int j = -1; j < 2; j++)
+                    {
+                        var (x, y) = ((int)point.X + i, (int)point.Y + j);
+                        if (x >= 0 && y >= 0)
+                            bmp.SetPixel(x, y, Color.Red);
+                    }
             }
 
             pictureBox1.Image = bmp;
