@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompGraphicsInd01_Savelev", "CompGraphicsLab04\CompGraphicsInd01_Savelev.csproj", "{07DB1331-8919-4E99-93C7-C55CD7C867A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07DB1331-8919-4E99-93C7-C55CD7C867A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07DB1331-8919-4E99-93C7-C55CD7C867A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07DB1331-8919-4E99-93C7-C55CD7C867A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07DB1331-8919-4E99-93C7-C55CD7C867A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0D5FDC7-1211-4172-B8BF-D09ECB614674}
+	EndGlobalSection
+EndGlobal
