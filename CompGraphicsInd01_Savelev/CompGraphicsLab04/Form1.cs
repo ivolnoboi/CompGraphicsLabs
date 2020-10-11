@@ -17,21 +17,19 @@ namespace CompGraphicsInd01_Savelev
         /// <summary>
         /// Список всех точек на pictureBox
         /// </summary>
-        private LinkedList<PointF> points;
+        private LinkedList<PointF> points = new LinkedList<PointF>();
 
         /// <summary>
-        /// Выпуклы полигон
+        /// Выпуклый полигон
         /// </summary>
-        private LinkedList<PointF> polygon;
+        private LinkedList<PointF> polygon = new LinkedList<PointF>();
 
         private Pen pen = new Pen(Color.Black);
         private Bitmap bmp;
+
         public Form1()
         {
             InitializeComponent();
-
-            points = new LinkedList<PointF>();
-
 
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = bmp;
@@ -43,6 +41,10 @@ namespace CompGraphicsInd01_Savelev
             DrawPrimitives();
         }
 
+        /// <summary>
+        /// Добвыляет точку <paramref name="point"/> на pictureBox и в полигон, если требуется
+        /// </summary>
+        /// <param name="point"></param>
         private void AddPoint(PointF point)
         {
             points.AddLast(point);
@@ -57,12 +59,16 @@ namespace CompGraphicsInd01_Savelev
             }
         }
 
+        /// <summary>
+        /// Добавляет точку <paramref name="pointToAdd"/> в полигон <c>polygon</c>.
+        /// </summary>
+        /// <param name="pointToAdd">Точка для добавления.</param>
         private void AlterPolygon(PointF pointToAdd)
         {
             var left = polygon.First(p => polygon.All(point => PointFPosition(new Tuple<PointF, PointF>(pointToAdd, p), point) != Position.Left));
             var right = polygon.First(p => polygon.All(point => PointFPosition(new Tuple<PointF, PointF>(pointToAdd, p), point) != Position.Right));
 
-            if (DistanceBetweenPoints(pointToAdd, polygon.Find(right).Value) > DistanceToSegment(pointToAdd, left, right, out PointF t))
+            if (DistanceBetweenPoints(pointToAdd, polygon.Find(right).Value) > DistanceToSegment(pointToAdd, (left, right).ToTuple(), out PointF t))
             {
                 var rNode = polygon.Find(right);
                 var lNode = (polygon.Find(left) == polygon.First) ? polygon.Last : polygon.Find(left).Previous;
@@ -105,21 +111,28 @@ namespace CompGraphicsInd01_Savelev
             return Position.Undefined;
         }
 
+        /// <summary>
+        /// Calculate the distance between points <paramref name="p1"/> and <paramref name="p2"/>.
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <returns>The distance.</returns>
         double DistanceBetweenPoints(PointF p1, PointF p2)
         {
             return Math.Sqrt(Math.Pow(p2.X - p1.X, 2) + Math.Pow(p2.Y - p1.Y, 2) * 1.0);
         }
 
         /// <summary>
-        /// Calculate the distance between point pt and the segment p1 --> p2.
+        /// Calculate the distance between point <paramref name="pt"/> and the <paramref name="segment"/>.
         /// </summary>
         /// <param name="pt">Point.</param>
-        /// <param name="p1"></param>
-        /// <param name="p2"></param>
-        /// <param name="closest"></param>
-        /// <returns></returns>
-        private double DistanceToSegment(PointF pt, PointF p1, PointF p2, out PointF closest)
+        /// <param name="segment">Segment</param>
+        /// <param name="closest">Closest to <paramref name="pt"/> point lying on <paramref name="segment"/>.</param>
+        /// <returns>The distance.</returns>
+        private double DistanceToSegment(PointF pt, Tuple<PointF,PointF> segment, out PointF closest)
         {
+            (var p1, var p2) = (segment.Item1, segment.Item2);
+
             float dx = p2.X - p1.X;
             float dy = p2.Y - p1.Y;
             if ((dx == 0) && (dy == 0))
@@ -159,6 +172,12 @@ namespace CompGraphicsInd01_Savelev
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+        /// <summary>
+        /// Определяет, находится ли точка <paramref name="point"/> внутри выпуклого полигона <paramref name="polygon"/>.
+        /// </summary>
+        /// <param name="polygon">Выпуклый полигон.</param>
+        /// <param name="point">Точка.</param>
+        /// <returns>Принадлежность.</returns>
         private bool IsPointInside(LinkedList<PointF> polygon, PointF point)
         {
             Position lastPosition = Position.Undefined;
@@ -192,6 +211,9 @@ namespace CompGraphicsInd01_Savelev
             return true;
         }
 
+        /// <summary>
+        /// Обновление pictureBox
+        /// </summary>
         private void DrawPrimitives()
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
