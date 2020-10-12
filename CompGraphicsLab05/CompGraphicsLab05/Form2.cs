@@ -192,12 +192,18 @@ namespace CompGraphicsLab05
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 fName = openFileDialog1.FileName;
+            checkBox1.Enabled = fName.Contains("tree") || fName.Contains("bush");
+            if (!checkBox1.Enabled)
+                checkBox1.Checked = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             if (fName != "")
+            {
+                
                 LoadAndPrintFile(fName);
+            }
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
