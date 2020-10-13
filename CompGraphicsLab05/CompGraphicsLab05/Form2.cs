@@ -15,7 +15,7 @@ namespace CompGraphicsLab05
 {
 
     using Point_t = Tuple<PointF, float>;
-    using Section = Tuple<PointF, PointF>;
+    using Section = Tuple<PointF, PointF, float, Color>;
     public partial class Form2 : Form
     {
         private Form1 _form1;
@@ -106,12 +106,17 @@ namespace CompGraphicsLab05
             g.Clear(Color.White);
             List<Section> points = new List<Section>();
 
-            float length = 10;
+            float length = 20;
             float current_angle = ConvertToRadians(direction);
 
             PointF current_point = new PointF(0, 0);
             PointF next_point = new PointF(0, 0);
-            points.Add(Tuple.Create(current_point, next_point));
+
+            Color color = Color.FromArgb(64, 0, 0);
+            float width = fName.Contains("tree") ? 10 : 2;
+
+
+            points.Add(Tuple.Create(current_point, next_point, width, color));
 
             Stack<Point_t> br_stack = new Stack<Point_t>();
 
@@ -121,6 +126,7 @@ namespace CompGraphicsLab05
 
             foreach (char symbol in state)
             {
+
                 // Если встретили открывающую скобку, то запоминаем координаты точки и направление
                 if (symbol == '[')
                 {
@@ -138,7 +144,7 @@ namespace CompGraphicsLab05
                     float x_new = (float)(current_point.X + length * Math.Cos(current_angle));
                     float y_new = (float)(current_point.Y + length * Math.Sin(current_angle));
                     next_point = new PointF(x_new, y_new);
-                    points.Add(Tuple.Create(current_point, next_point));
+                    points.Add(Tuple.Create(current_point, next_point, width, color));
                     current_point = next_point;
                 }
 
@@ -151,6 +157,18 @@ namespace CompGraphicsLab05
                 {
                     rnd = (float)(checkBox1.Checked ? r.NextDouble() : 0.5);
                     current_angle += (angle - d_angle) + 2 * d_angle * rnd;
+                }
+                else if (symbol == '{')
+                {
+                    width--;
+                    length--;
+                    color = Color.FromArgb(color.R - 3, color.G + 17, color.B);
+                }
+                else if (symbol == '}')
+                {
+                    width++;
+                    length++;
+                    color = Color.FromArgb(color.R + 3, color.G - 17, color.B);
                 }
             }
 
@@ -169,7 +187,7 @@ namespace CompGraphicsLab05
             Pen pen = new Pen(Color.DarkRed, 2);
             for (int i = 0; i < points.Count(); ++i)
             {
-                g.DrawLine(pen, points[i].Item1, points[i].Item2);
+                g.DrawLine(new Pen(points[i].Item4, points[i].Item3), points[i].Item1, points[i].Item2);
                 pictureBox1.Invalidate();
             }
 
@@ -184,7 +202,10 @@ namespace CompGraphicsLab05
 
                 new PointF(
                 centerPictureBox.X + (points.Item2.X - centerFractal.X) * scale_factor,
-                centerPictureBox.Y + (points.Item2.Y - centerFractal.Y) * scale_factor)
+                centerPictureBox.Y + (points.Item2.Y - centerFractal.Y) * scale_factor),
+
+                points.Item3,
+                points.Item4
                 );
         }
 
