@@ -24,6 +24,21 @@ namespace CompGraphicsLab05
         private PointF additionalPoint;
         private int index_of_moving_point; // индекс точки, которую будем передвигать
 
+        //перемножение матриц
+        private float[,] multMatrix(float[,] m1, float[,] m2)
+        {
+            float[,] res = new float[m1.GetLength(0), m2.GetLength(1)];
+
+            for (int i = 0; i < m1.GetLength(0); ++i)
+                for (int j = 0; j < m2.GetLength(1); ++j)
+                    for (int k = 0; k < m2.GetLength(0); k++)
+                    {
+                        res[i, j] += m1[i, k] * m2[k, j];
+                    }
+
+            return res;
+        }
+
         public Form4(Form1 form1)
         {
             _form1 = form1;
@@ -88,12 +103,26 @@ namespace CompGraphicsLab05
                 if (index_of_moving_point >= 0)
                 {
                     points[index_of_moving_point] = new PointF(e.X, e.Y);
+                    DeletePoint(additionalPoint.X, additionalPoint.Y);
                     DrawElements();
                     index_of_moving_point = -1;
                 }
             }
         }
 
+        // Удаление точки
+        private void DeletePoint(float x, float y)
+        {
+            int index_for_delete = points.FindIndex(el => (el.X > x - 3) && (el.X < x + 3) && (el.Y > y - 3) && (el.Y < y + 3));
+            if (index_for_delete >= 0)
+            {
+                points.RemoveAt(index_for_delete);
+                bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                DrawElements();
+            }
+        }
+
+        // Отрисовываем все элементы: кривую, опорные точки, опорные линии
         private void DrawElements()
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -101,9 +130,11 @@ namespace CompGraphicsLab05
                 DrawPoints();
             if (checkBox1.Checked)
                 DrawAdditionalLinesBetweenPoints();
-            DrawCurveBezie(points);
+            DrawCurveBezie();
             pictureBox1.Image = bmp;
         }
+
+        // Рисуем опорные точки
         private void DrawPoints()
         {
             SolidBrush solidBrush = new SolidBrush(Color.Red);
@@ -119,27 +150,8 @@ namespace CompGraphicsLab05
             }
             pictureBox1.Image = bmp;
         }
-        private void DrawCurveBezie(List<PointF> points_lst)
-        {
-            int points_size = points_lst.Count();
-            if (points_size == 4)
-            {
-                DrawCurveFor4Points(points_lst[0], points_lst[1], points_lst[2], points_lst[3]);
-            }
-            else if (points_size > 4)
-            {
-                if (points_size % 2 == 0)
-                {
-                    DrawCurve(points_lst);
-                }
-                else
-                {
-                    AddAdditionalPoint(ref points_lst);
-                    DrawCurve(points_lst);
-                }
-            }
-        }
 
+        // Рисование опорных линий
         private void DrawAdditionalLinesBetweenPoints()
         {
             Graphics g = Graphics.FromImage(bmp);
@@ -148,36 +160,35 @@ namespace CompGraphicsLab05
                 var first_point = points[0];
                 for (int i = 1; i < points.Count; i++)
                 {
-                    g.DrawLine(new Pen(Color.Gray), first_point, points[i]);
-                    first_point = points[i];
+                    if (points[i] != additionalPoint)
+                    {
+                        g.DrawLine(new Pen(Color.Gray), first_point, points[i]);
+                        first_point = points[i];
+                    }
                 }
             }
         }
 
-        private void DeletePoint(float x, float y)
+        // Основная функция отрисовки кривой Безье
+        private void DrawCurveBezie()
         {
-            int index_for_delete = points.FindIndex(el => (el.X > x - 3) && (el.X < x + 3) && (el.Y > y - 3) && (el.Y < y + 3));
-            if (index_for_delete >= 0)
+            int points_size = points.Count();
+            if (points_size == 4)
             {
-                points.RemoveAt(index_for_delete);
-                bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                DrawElements();
+                DrawCurveFor4Points(points[0], points[1], points[2], points[3]);
             }
-        }
-
-        //перемножение матриц
-        private float[,] multMatrix(float[,] m1, float[,] m2)
-        {
-            float[,] res = new float[m1.GetLength(0), m2.GetLength(1)];
-
-            for (int i = 0; i < m1.GetLength(0); ++i)
-                for (int j = 0; j < m2.GetLength(1); ++j)
-                    for (int k = 0; k < m2.GetLength(0); k++)
-                    {
-                        res[i, j] += m1[i, k] * m2[k, j];
-                    }
-
-            return res;
+            else if (points_size > 4)
+            {
+                if (points_size % 2 == 0)
+                {
+                    DrawCurve();
+                }
+                else
+                {
+                    AddAdditionalPoint();
+                    DrawCurve();
+                }
+            }
         }
 
         // Функция для отрисовки каждой точки кривой
@@ -207,19 +218,20 @@ namespace CompGraphicsLab05
             pictureBox1.Image = bmp;
         }
 
+        // Получение дополнительных точек
         private PointF GetExtraPoint(PointF point1, PointF point2)
         {
             return new PointF((point1.X + point2.X) / 2, (point1.Y + point2.Y) / 2);
         }
 
         // Добавление дополнительной точки между двумя последними точками
-        private void AddAdditionalPoint(ref List<PointF> lst)
+        private void AddAdditionalPoint()
         {
             if (additionalPoint.IsEmpty)
             {
-                additionalPoint = GetExtraPoint(lst[lst.Count - 2], lst[lst.Count - 1]); // Вычисляем середину отрезка между двумя последними точками
-                lst.Add(lst[lst.Count - 1]);
-                lst[lst.Count - 2] = additionalPoint;
+                additionalPoint = GetExtraPoint(points[points.Count - 2], points[points.Count - 1]); // Вычисляем середину отрезка между двумя последними точками
+                points.Add(points[points.Count - 1]);
+                points[points.Count - 2] = additionalPoint;
             }
             else
             {
@@ -228,30 +240,31 @@ namespace CompGraphicsLab05
             }
         }
 
-        private void DrawCurve(List<PointF> p_lst)
+        // Функция для отрисовки кривой по множеству точек
+        private void DrawCurve()
         {
-            int count = p_lst.Count();
-            PointF point0 = p_lst[0];
-            PointF point1 = p_lst[1];
-            PointF point2 = p_lst[2];
-            PointF point3 = GetExtraPoint(p_lst[2], p_lst[3]);
+            int count = points.Count();
+            PointF point0 = points[0];
+            PointF point1 = points[1];
+            PointF point2 = points[2];
+            PointF point3 = GetExtraPoint(points[2], points[3]);
             DrawCurveFor4Points(point0, point1, point2, point3);
 
             var index = 3;
             while (index < count - 4)
             {
                 point0 = point3;
-                point1 = p_lst[index];
-                point2 = p_lst[index + 1];
-                point3 = GetExtraPoint(p_lst[index + 1], p_lst[index + 2]);
+                point1 = points[index];
+                point2 = points[index + 1];
+                point3 = GetExtraPoint(points[index + 1], points[index + 2]);
                 DrawCurveFor4Points(point0, point1, point2, point3);
                 index += 2;
             }
 
             point0 = point3;
-            point1 = p_lst[count - 3];
-            point2 = p_lst[count - 2];
-            point3 = p_lst[count - 1];
+            point1 = points[count - 3];
+            point2 = points[count - 2];
+            point3 = points[count - 1];
             DrawCurveFor4Points(point0, point1, point2, point3);
         }
 
