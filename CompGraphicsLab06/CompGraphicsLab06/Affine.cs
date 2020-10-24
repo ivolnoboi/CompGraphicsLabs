@@ -41,7 +41,7 @@ namespace CompGraphicsLab06
         }
 
         /// <summary>
-        /// Масштабирование
+        /// Масштабирование относительно оси
         /// </summary>
         static public void scale(Polyhedron polyhedron, float mx, float my, float mz)
         {
@@ -123,6 +123,25 @@ namespace CompGraphicsLab06
                     break;
             }
             ChangePolyhedron(polyhedron, matrix);
+        }
+
+        // Масштабирование относительно центра
+        public static void scaleCenter(Polyhedron polyhedron, float a)
+        {
+            Point3D shiftPoint = polyhedron.Center();
+            float shiftX = shiftPoint.X,
+                  shiftY = shiftPoint.Y,
+                  shiftZ = shiftPoint.Z;
+
+            translate(polyhedron, -shiftX, -shiftY, -shiftZ);
+
+            float[,] scale = { { a, 0, 0, 0 },
+                               { 0, a, 0, 0 },
+                               { 0, 0, a, 0 },
+                               { 0, 0, 0, 1 }};
+
+            ChangePolyhedron(polyhedron, scale);
+            translate(polyhedron, shiftX, shiftY, shiftZ);
         }
     }
 }

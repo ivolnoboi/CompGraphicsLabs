@@ -190,6 +190,12 @@ namespace CompGraphicsLab06
                     Draw();
                 }
             }
+            if (radioButton5.Checked) // Масштабирование относительно центра
+            {
+                float a = float.Parse(textBox4.Text) / 100;
+                Affine.scaleCenter(curPolyhedron, a);
+                Draw();
+            }
         }
 
         private void radioButton1_MouseClick(object sender, MouseEventArgs e)
@@ -197,6 +203,8 @@ namespace CompGraphicsLab06
             textBox1.Text = "0";
             textBox2.Text = "0";
             textBox3.Text = "0";
+            comboBox1.Text = "";
+            textBox4.Text = "100";
         }
 
         private void radioButton2_MouseClick(object sender, MouseEventArgs e)
@@ -204,6 +212,8 @@ namespace CompGraphicsLab06
             textBox1.Text = "100";
             textBox2.Text = "100";
             textBox3.Text = "100";
+            comboBox1.Text = "";
+            textBox4.Text = "100";
         }
 
         private void radioButton3_MouseClick(object sender, MouseEventArgs e)
@@ -211,6 +221,25 @@ namespace CompGraphicsLab06
             textBox1.Text = "0";
             textBox2.Text = "0";
             textBox3.Text = "0";
+            comboBox1.Text = "";
+            textBox4.Text = "100";
+        }
+
+        private void radioButton5_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
+            textBox4.Text = "100";
+            comboBox1.Text = "";
+        }
+
+        private void radioButton4_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
+            textBox4.Text = "100";
         }
     }
 }
