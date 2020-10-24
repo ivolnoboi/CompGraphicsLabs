@@ -31,12 +31,13 @@ namespace CompGraphicsLab06
         }
         private void Draw()
         {
+            graphics.Clear(Color.White);
             // graphics.Clear(Color.White);
             Random r = new Random();
             pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
             List<Edge> edges = projection.Project(curPolyhedron);
             foreach (Edge line in edges)
-                graphics.DrawLine(pen, line.From.ConvertToPoint(), line.To.ConvertToPoint());
+                graphics.DrawLine(pen, (line.From).ConvertToPoint(), (line.To).ConvertToPoint());
             pictureBox1.Invalidate();
         }
 
@@ -45,7 +46,7 @@ namespace CompGraphicsLab06
         /// </summary>
         private void button1_Click(object sender, EventArgs e)
         {
-            Point3D start = new Point3D(250, 150, 200);
+            Point3D start = new Point3D(0, 0, 0); //new Point3D(250, 150, 200);
             float len = 150;
 
             List<Point3D> points = new List<Point3D>
@@ -62,14 +63,14 @@ namespace CompGraphicsLab06
             };
 
             curPolyhedron = new Polyhedron(points);
-            curPolyhedron.AddEdges(points[0], new List<Point3D> { points[1], points[4] });
-            curPolyhedron.AddEdges(points[1], new List<Point3D> { points[2], points[5] });
-            curPolyhedron.AddEdges(points[2], new List<Point3D> { points[6], points[3] });
-            curPolyhedron.AddEdges(points[3], new List<Point3D> { points[7], points[0] });
-            curPolyhedron.AddEdges(points[4], new List<Point3D> { points[5] });
-            curPolyhedron.AddEdges(points[5], new List<Point3D> { points[6] });
-            curPolyhedron.AddEdges(points[6], new List<Point3D> { points[7] });
-            curPolyhedron.AddEdges(points[7], new List<Point3D> { points[4] });
+            curPolyhedron.AddEdges(0, new List<int> { 1, 4 });
+            curPolyhedron.AddEdges(1, new List<int> { 2, 5 });
+            curPolyhedron.AddEdges(2, new List<int> { 6, 3 });
+            curPolyhedron.AddEdges(3, new List<int> { 7, 0 });
+            curPolyhedron.AddEdges(4, new List<int> { 5 });
+            curPolyhedron.AddEdges(5, new List<int> { 6 });
+            curPolyhedron.AddEdges(6, new List<int> { 7 });
+            curPolyhedron.AddEdges(7, new List<int> { 4 });
 
             Draw();
         }
@@ -79,7 +80,7 @@ namespace CompGraphicsLab06
         /// </summary>
         private void button2_Click(object sender, EventArgs e)
         {
-            Point3D start = new Point3D(250, 150, 200);
+            Point3D start = new Point3D(0, 0, 0);  //= new Point3D(250, 150, 200);
             float len = 150;
 
             List<Point3D> points = new List<Point3D>
@@ -91,9 +92,9 @@ namespace CompGraphicsLab06
             };
 
             curPolyhedron = new Polyhedron(points);
-            curPolyhedron.AddEdges(points[0], new List<Point3D> { points[1], points[3], points[2] });
-            curPolyhedron.AddEdges(points[1], new List<Point3D> { points[3] });
-            curPolyhedron.AddEdges(points[2], new List<Point3D> { points[1], points[3] });
+            curPolyhedron.AddEdges(0, new List<int> { 1, 3, 2 });
+            curPolyhedron.AddEdges(1, new List<int> { 3 });
+            curPolyhedron.AddEdges(2, new List<int> { 1, 3 });
 
             Draw();
         }
@@ -112,49 +113,51 @@ namespace CompGraphicsLab06
         /// </summary>
         private void button4_Click(object sender, EventArgs e)
         {
-            Point3D start = new Point3D(250 + 75, 150, 200 + 75);
+            Point3D start = new Point3D(0, 0, 0); //= new Point3D(250 + 75, 150, 200 + 75);
             float len = 150;
 
             List<Point3D> points = new List<Point3D>
             {
                 start,
-                start + new Point3D(len / 2, len / 2, 0),
-                start + new Point3D(-len / 2, len / 2, 0),
-                start + new Point3D(0, len / 2, -len / 2),
-                start + new Point3D(0, len / 2, len / 2),
-                start + new Point3D(0, len, 0),
+                start + new Point3D(len , len , 0),
+                start + new Point3D(-len, len , 0),
+                start + new Point3D(0, len , -len ),
+                start + new Point3D(0, len , len ),
+                start + new Point3D(0,  2 *len, 0),
             };
 
             curPolyhedron = new Polyhedron(points);
-            curPolyhedron.AddEdges(points[0], new List<Point3D> { points[1], points[3], points[2], points[4] });
-            curPolyhedron.AddEdges(points[5], new List<Point3D> { points[1], points[3], points[2], points[4] });
-            curPolyhedron.AddEdges(points[1], new List<Point3D> { points[3] });
-            curPolyhedron.AddEdges(points[3], new List<Point3D> { points[2] });
-            curPolyhedron.AddEdges(points[2], new List<Point3D> { points[4] });
-            curPolyhedron.AddEdges(points[4], new List<Point3D> { points[1] });
+            curPolyhedron.AddEdges(0, new List<int> { 1, 3, 2, 4 });
+            curPolyhedron.AddEdges(5, new List<int> { 1, 3, 2, 4 });
+            curPolyhedron.AddEdges(1, new List<int> { 3 });
+            curPolyhedron.AddEdges(3, new List<int> { 2 });
+            curPolyhedron.AddEdges(2, new List<int> { 4 });
+            curPolyhedron.AddEdges(4, new List<int> { 1 });
             Draw();
         }
 
         // Применить преобразования
         private void button5_Click(object sender, EventArgs e)
         {
-            if(radioButton1.Checked) // смещение по оси
+            if (radioButton1.Checked) // смещение по оси
             {
                 float x = float.Parse(textBox1.Text);
                 float y = float.Parse(textBox2.Text);
                 float z = float.Parse(textBox3.Text);
 
-                curPolyhedron = Affine.translate(curPolyhedron, x, y, z);
+                /* curPolyhedron =*/
+                Affine.translate(curPolyhedron, x, y, z);
                 Draw();
             }
-            if(radioButton2.Checked)
+            if (radioButton2.Checked)
             {
-                float x = float.Parse(textBox1.Text)/100;
-                float y = float.Parse(textBox2.Text)/100;
-                float z = float.Parse(textBox3.Text)/100;
+                float x = float.Parse(textBox1.Text) / 100;
+                float y = float.Parse(textBox2.Text) / 100;
+                float z = float.Parse(textBox3.Text) / 100;
                 if (x > 0 && y > 0 && z > 0)
                 {
-                    curPolyhedron = Affine.scale(curPolyhedron, x, y, z);
+                    /* curPolyhedron =*/
+                    Affine.scale(curPolyhedron, x, y, z);
                     Draw();
                 }
             }

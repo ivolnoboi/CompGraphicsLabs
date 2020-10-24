@@ -43,19 +43,25 @@ namespace CompGraphicsLab06
             float[,] matr = perspective;
             List<Edge> edges = new List<Edge>();
 
+            int i = 0;
             // Для каждой вершины обрабатываем её и запускаем обработку смежных с ней
             foreach (Point3D p in polyhedron.Vertexes)
             {
-                float[,] tmp = MultMatrix(new float[,] { { p.X, p.Y, p.Z, 1 } }, matr);
+                Point3D p1 = p + new Point3D(250 , 150, 200 );
+                float[,] tmp = MultMatrix(new float[,] { { p1.X, p1.Y, p1.Z, 1 } }, matr);
                 Point3D from = new Point3D(tmp[0, 0] / tmp[0, 3], tmp[0, 1] / tmp[0, 3]);
 
+
                 // Обработка смежных с вершиной
-                foreach (Point3D t in polyhedron.Adjacency[p])
+                foreach (int index in polyhedron.Adjacency[i])
                 {
+                    Point3D t = polyhedron.Vertexes[index] + new Point3D(250 , 150, 200 ); 
+
                     float[,] tmp1 = MultMatrix(new float[,] { { t.X, t.Y, t.Z, 1 } }, matr);
                     Point3D to = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3]);
                     edges.Add(new Edge(from, to));
                 }
+                i++;
             }
 
             return edges;

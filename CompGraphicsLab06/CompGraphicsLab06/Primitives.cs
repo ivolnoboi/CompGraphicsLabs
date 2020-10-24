@@ -110,7 +110,7 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Матрица смежности - для каждой точки хранит список смежных с ней
         /// </summary>
-        public Dictionary<Point3D, List<Point3D>> Adjacency { get; } = new Dictionary<Point3D, List<Point3D>>();
+        public Dictionary<int, List<int>> Adjacency { get; } = new Dictionary<int, List<int>>();
 
         /// <summary>
         /// Находит центр многогранника
@@ -130,8 +130,12 @@ namespace CompGraphicsLab06
         public Polyhedron(List<Point3D> points)
         {
             Vertexes = points;
+            int i = 0;
             foreach (Point3D point in points)
-                Adjacency.Add(point, new List<Point3D>());
+            {
+                i++;
+                Adjacency.Add(i, new List<int>());
+            }
         }
 
         /// <summary>
@@ -139,32 +143,32 @@ namespace CompGraphicsLab06
         /// </summary>
         /// <param name="from">Начало ребра</param>
         /// <param name="to">Конец ребра</param>
-        public void AddEdge(Point3D from, Point3D to)
+        public void AddEdge(int from, int to)
         {
-            Edges.Add(new Edge(from, to));
+            //Edges.Add(new Edge(from, to));
 
-            Point3D point1 = Vertexes.Find(p => p == from);
-            Point3D point2 = Vertexes.Find(p => p == to);
+            int index1 = from;//Vertexes.FindIndex(p => p == from);
+            int index2 = to;//Vertexes.FindIndex(p => p == to);
 
-            if (!Adjacency.ContainsKey(point1))
-                Adjacency.Add(point1, new List<Point3D> { to });
+            if (!Adjacency.ContainsKey(index1))
+                Adjacency.Add(index1, new List<int> { index2 });
             else
-                Adjacency[point1].Add(to);
+                Adjacency[index1].Add(index2);
 
-            if (!Adjacency.ContainsKey(point2))
-                Adjacency.Add(point2, new List<Point3D> { from });
+           /* if (!Adjacency.ContainsKey(index2))
+                Adjacency.Add(index2, new List<int> { index1 });
             else
-                Adjacency[point2].Add(from);
+                Adjacency[index2].Add(index1);*/
         }
 
         /// <summary>
-        /// Добавить семейство ребер из точки FROM в каждую точку списка LST
+        /// Добавить множетсво ребер из точки FROM в каждую точку списка LST
         /// </summary>
-        /// <param name="from">Начальная точка</param>
-        /// <param name="lst">Конечные точки, в которые идут ребра из начальной</param>
-        public void AddEdges(Point3D from, List<Point3D> lst)
+        /// <param name="from">Индекс начальной точки</param>
+        /// <param name="lst">Индексы конечных точек, в которые идут ребра из начальной</param>
+        public void AddEdges(int from, List<int> lst)
         {
-            foreach (Point3D to in lst)
+            foreach (int to in lst)
                 AddEdge(from, to);
         }
     }
