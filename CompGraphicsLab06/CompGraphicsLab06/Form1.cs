@@ -27,6 +27,7 @@ namespace CompGraphicsLab06
             graphics.Clear(Color.White);
             pen = new Pen(Color.DarkRed, 2);
             projection = new Projection();
+            radioButton1.Checked = true;
         }
         private void Draw()
         {
@@ -132,6 +133,20 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(points[2], new List<Point3D> { points[4] });
             curPolyhedron.AddEdges(points[4], new List<Point3D> { points[1] });
             Draw();
+        }
+
+        // Применить преобразования
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if(radioButton1.Checked) // смещение по оси
+            {
+                float x = float.Parse(textBox1.Text);
+                float y = float.Parse(textBox2.Text);
+                float z = float.Parse(textBox3.Text);
+
+                curPolyhedron = Affine.translate(curPolyhedron, x, y, z);
+                Draw();
+            }
         }
     }
 }
