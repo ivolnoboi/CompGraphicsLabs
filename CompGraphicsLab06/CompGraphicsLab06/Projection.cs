@@ -42,21 +42,19 @@ namespace CompGraphicsLab06
             // TODO: Добавить сюда выбор проекции, сейчас только перспективная одноточечная
             float[,] matr = perspective;
             List<Edge> edges = new List<Edge>();
-            List<Point3D> vertices = new List<Point3D>();
 
             // Для каждой вершины обрабатываем её и запускаем обработку смежных с ней
-            foreach (var p in polyhedron.Vertexes)
+            foreach (Point3D p in polyhedron.Vertexes)
             {
-                float[,] temp = MultMatrix(new float[,] { { p.X, p.Y, p.Z, 1 } }, matr);
-                Point3D temp2d = new Point3D(temp[0, 0] / temp[0, 3], temp[0, 1] / temp[0, 3]);
-                vertices.Add(new Point3D(temp[0, 0] / temp[0, 3], temp[0, 1] / temp[0, 3]));
+                float[,] tmp = MultMatrix(new float[,] { { p.X, p.Y, p.Z, 1 } }, matr);
+                Point3D from = new Point3D(tmp[0, 0] / tmp[0, 3], tmp[0, 1] / tmp[0, 3]);
 
                 // Обработка смежных с вершиной
-                foreach (var t in polyhedron.Adjacency[p])
+                foreach (Point3D t in polyhedron.Adjacency[p])
                 {
-                    float[,] t1 = MultMatrix(new float[,] { { t.X, t.Y, t.Z, 1 } }, matr);
-                    vertices.Add(new Point3D(t1[0, 0] / t1[0, 3], t1[0, 1] / t1[0, 3]));
-                    edges.Add(new Edge(temp2d, vertices.Last()));
+                    float[,] tmp1 = MultMatrix(new float[,] { { t.X, t.Y, t.Z, 1 } }, matr);
+                    Point3D to = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3]);
+                    edges.Add(new Edge(from, to));
                 }
             }
 
