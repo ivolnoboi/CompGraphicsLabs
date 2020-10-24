@@ -164,6 +164,7 @@ namespace CompGraphicsLab06
                 float y = float.Parse(textBox2.Text);
                 float z = float.Parse(textBox3.Text);
                 curPolyhedron = Affine.rotation(curPolyhedron, x, y, z);
+                Draw();
             }
         }
     }
