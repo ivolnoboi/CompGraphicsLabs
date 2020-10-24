@@ -161,6 +161,14 @@ namespace CompGraphicsLab06
                     Draw();
                 }
             }
+            if (radioButton3.Checked)
+            {
+                float x = float.Parse(textBox1.Text);
+                float y = float.Parse(textBox2.Text);
+                float z = float.Parse(textBox3.Text);
+                curPolyhedron = Affine.rotation(curPolyhedron, x, y, z);
+                Draw();
+            }
         }
     }
 }
