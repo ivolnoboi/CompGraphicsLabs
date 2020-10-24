@@ -47,6 +47,7 @@ namespace CompGraphicsLab06
             // Для каждой вершины обрабатываем её и запускаем обработку смежных с ней
             foreach (Point3D p in polyhedron.Vertexes)
             {
+                // Все многогранники начинаются в (0, 0, 0). Добавляем смещение, чтобы фигуры были примерно по центру
                 Point3D p1 = p + new Point3D(250 , 150, 200 );
                 float[,] tmp = MultMatrix(new float[,] { { p1.X, p1.Y, p1.Z, 1 } }, matr);
                 Point3D from = new Point3D(tmp[0, 0] / tmp[0, 3], tmp[0, 1] / tmp[0, 3]);
@@ -55,6 +56,7 @@ namespace CompGraphicsLab06
                 // Обработка смежных с вершиной
                 foreach (int index in polyhedron.Adjacency[i])
                 {
+                    // Все многогранники начинаются в (0, 0, 0). Добавляем смещение, чтобы фигуры были примерно по центру
                     Point3D t = polyhedron.Vertexes[index] + new Point3D(250 , 150, 200 ); 
 
                     float[,] tmp1 = MultMatrix(new float[,] { { t.X, t.Y, t.Z, 1 } }, matr);
