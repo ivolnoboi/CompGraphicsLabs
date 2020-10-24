@@ -139,7 +139,7 @@ namespace CompGraphicsLab06
         // Применить преобразования
         private void button5_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked) // смещение по оси
+            if (radioButton1.Checked) // Смещение по оси
             {
                 float x = float.Parse(textBox1.Text);
                 float y = float.Parse(textBox2.Text);
@@ -166,6 +166,29 @@ namespace CompGraphicsLab06
                 float z = float.Parse(textBox3.Text);
                 Affine.rotation(curPolyhedron, x, y, z);
                 Draw();
+            }
+            if (radioButton4.Checked) // Отражение
+            {
+                string plane = "";
+                switch (comboBox1.Text)
+                {
+                    case "Плоскость Oxy":
+                        plane = "xy";
+                        break;
+                    case "Плоскость Oxz":
+                        plane = "xz";
+                        break;
+                    case "Плоскость Oyz":
+                        plane = "yz";
+                        break;
+                    default:
+                        break;
+                }
+                if (plane!="")
+                {
+                    Affine.reflection(curPolyhedron, plane);
+                    Draw();
+                }
             }
         }
 

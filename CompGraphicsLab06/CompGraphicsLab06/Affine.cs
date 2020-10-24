@@ -90,5 +90,39 @@ namespace CompGraphicsLab06
 
             translate(polyhedron, shiftX, shiftY, shiftZ);
         }
+
+        // Отражение относительно выбранной координатной плоскости
+        public static void reflection(Polyhedron polyhedron, string plane)
+        {
+            float[,] matrix;
+            switch (plane)
+            {
+                case "xy":
+                    matrix = new float[,] {{ 1, 0,  0, 0 },
+                                           { 0, 1,  0, 0 },
+                                           { 0, 0, -1, 0 },
+                                           { 0, 0,  0, 1 }};
+                    break;
+                case "xz":
+                    matrix = new float[,] {{ 1,  0, 0, 0 },
+                                           { 0, -1, 0, 0 },
+                                           { 0,  0, 1, 0 },
+                                           { 0,  0, 0, 1 }};
+                    break;
+                case "yz":
+                    matrix = new float[,] {{ -1, 0, 0, 0 },
+                                           {  0, 1, 0, 0 },
+                                           {  0, 0, 1, 0 },
+                                           {  0, 0, 0, 1 }};
+                    break;
+                default:
+                    matrix = new float[,] {{ 1, 0, 0, 0 },
+                                           { 0, 1, 0, 0 },
+                                           { 0, 0, 1, 0 },
+                                           { 0, 0, 0, 1 }};
+                    break;
+            }
+            ChangePolyhedron(polyhedron, matrix);
+        }
     }
 }
