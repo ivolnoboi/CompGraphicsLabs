@@ -145,30 +145,49 @@ namespace CompGraphicsLab06
                 float y = float.Parse(textBox2.Text);
                 float z = float.Parse(textBox3.Text);
 
-                /* curPolyhedron =*/
                 Affine.translate(curPolyhedron, x, y, z);
                 Draw();
             }
-            if (radioButton2.Checked)
+            if (radioButton2.Checked) // Масштаб
             {
                 float x = float.Parse(textBox1.Text) / 100;
                 float y = float.Parse(textBox2.Text) / 100;
                 float z = float.Parse(textBox3.Text) / 100;
                 if (x > 0 && y > 0 && z > 0)
                 {
-                    /* curPolyhedron =*/
                     Affine.scale(curPolyhedron, x, y, z);
                     Draw();
                 }
             }
-            if (radioButton3.Checked)
+            if (radioButton3.Checked) // Поворот
             {
                 float x = float.Parse(textBox1.Text);
                 float y = float.Parse(textBox2.Text);
                 float z = float.Parse(textBox3.Text);
-                curPolyhedron = Affine.rotation(curPolyhedron, x, y, z);
+                Affine.rotation(curPolyhedron, x, y, z);
                 Draw();
             }
+        }
+
+        private void radioButton1_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
+        }
+
+        private void radioButton2_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox1.Text = "100";
+            textBox2.Text = "100";
+            textBox3.Text = "100";
+        }
+
+        private void radioButton3_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox1.Text = "0";
+            textBox2.Text = "0";
+            textBox3.Text = "0";
         }
     }
 }

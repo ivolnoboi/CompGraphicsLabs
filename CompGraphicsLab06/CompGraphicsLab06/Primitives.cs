@@ -145,15 +145,10 @@ namespace CompGraphicsLab06
         /// <param name="to">Конец ребра</param>
         public void AddEdge(int from, int to)
         {
-            //Edges.Add(new Edge(from, to));
-
-            int index1 = from;//Vertexes.FindIndex(p => p == from);
-            int index2 = to;//Vertexes.FindIndex(p => p == to);
-
-            if (!Adjacency.ContainsKey(index1))
-                Adjacency.Add(index1, new List<int> { index2 });
+            if (!Adjacency.ContainsKey(from))
+                Adjacency.Add(from, new List<int> { to });
             else
-                Adjacency[index1].Add(index2);
+                Adjacency[from].Add(to);
 
            /* if (!Adjacency.ContainsKey(index2))
                 Adjacency.Add(index2, new List<int> { index1 });
@@ -162,7 +157,7 @@ namespace CompGraphicsLab06
         }
 
         /// <summary>
-        /// Добавить множетсво ребер из точки FROM в каждую точку списка LST
+        /// Добавить множество ребер из точки FROM в каждую точку списка LST
         /// </summary>
         /// <param name="from">Индекс начальной точки</param>
         /// <param name="lst">Индексы конечных точек, в которые идут ребра из начальной</param>

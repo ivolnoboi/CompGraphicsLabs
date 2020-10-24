@@ -169,6 +169,7 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Смещение по оси";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.radioButton1_MouseClick);
             // 
             // radioButton2
             // 
@@ -181,6 +182,7 @@
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Масштаб (в %)";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.radioButton2_MouseClick);
             // 
             // radioButton3
             // 
@@ -193,6 +195,7 @@
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Поворот (в градусах)";
             this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.radioButton3_MouseClick);
             // 
             // Form1
             // 
