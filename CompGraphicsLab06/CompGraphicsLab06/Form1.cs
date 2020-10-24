@@ -147,6 +147,17 @@ namespace CompGraphicsLab06
                 curPolyhedron = Affine.translate(curPolyhedron, x, y, z);
                 Draw();
             }
+            if(radioButton2.Checked)
+            {
+                float x = float.Parse(textBox1.Text)/100;
+                float y = float.Parse(textBox2.Text)/100;
+                float z = float.Parse(textBox3.Text)/100;
+                if (x > 0 && y > 0 && z > 0)
+                {
+                    curPolyhedron = Affine.scale(curPolyhedron, x, y, z);
+                    Draw();
+                }
+            }
         }
     }
 }
