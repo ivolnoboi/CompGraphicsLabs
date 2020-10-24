@@ -18,7 +18,7 @@ namespace CompGraphicsLab06
         };
 
         //перемножение матриц
-        private float[,] MultMatrix(float[,] m1, float[,] m2)
+        static public float[,] MultMatrix(float[,] m1, float[,] m2)
         {
             float[,] res = new float[m1.GetLength(0), m2.GetLength(1)];
 
