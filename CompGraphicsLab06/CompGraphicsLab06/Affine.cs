@@ -59,5 +59,10 @@ namespace CompGraphicsLab06
 
             return ChangePolyhedron(polyhedron, scale);
         }
+
+        static public Polyhedron rotation(Polyhedron polyhedron, float angleX, float angleY, float angleZ)
+        {
+            return polyhedron;
+        }
     }
 }
