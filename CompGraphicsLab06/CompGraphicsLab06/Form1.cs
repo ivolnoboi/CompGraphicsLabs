@@ -157,6 +157,107 @@ namespace CompGraphicsLab06
             Draw();
         }
 
+        /// <summary>
+        /// Создание икосаэдра
+        /// </summary>
+        private void createIcosahedron_Click(object sender, EventArgs e)
+        {
+            float r = 100 * (1 + (float)Math.Sqrt(5)) / 4; // радиус полувписанной окружности 
+
+            List<Point3D> points = new List<Point3D>
+            {
+                new Point3D(0, -50, -r),
+                new Point3D(0, 50, -r),
+                new Point3D(50, r, 0),
+                new Point3D(r, 0, -50),
+                new Point3D(50, -r, 0),
+                new Point3D(-50, -r, 0),
+                new Point3D(-r, 0, -50),
+                new Point3D(-50, r, 0),
+                new Point3D(r, 0, 50),
+                new Point3D(-r, 0, 50),
+                new Point3D(0, -50, r),
+                new Point3D(0, 50, r)
+            };
+
+            Polyhedron iko = new Polyhedron(points);
+
+            iko.AddEdges(0, new List<int> { 1, 3, 4, 5, 6 });
+            iko.AddEdges(1, new List<int> { 2, 3, 6, 7 });
+            iko.AddEdges(2, new List<int> { 3, 7, 8, 11 });
+            iko.AddEdges(3, new List<int> { 4, 8 });
+            iko.AddEdges(4, new List<int> { 5, 8, 10 });
+            iko.AddEdges(5, new List<int> { 6, 9, 10 });
+            iko.AddEdges(6, new List<int> { 7, 9 });
+            iko.AddEdges(7, new List<int> { 9, 11 });
+            iko.AddEdges(8, new List<int> { 10, 11 });
+            iko.AddEdges(9, new List<int> { 10, 11 });
+            iko.AddEdges(10, new List<int> { 11 });
+
+            curPolyhedron = iko;
+            Draw();
+        }
+
+        /// <summary>
+        /// Создание додекаэдра
+        /// </summary>
+        private void createDodecahedron_Click(object sender, EventArgs e)
+        {
+            float r = 100 * (3 + (float)Math.Sqrt(5)) / 4; // радиус полувписанной окружности 
+            float x = 100 * (1 + (float)Math.Sqrt(5)) / 4; // половина стороны пятиугольника в сечении 
+
+            List<Point3D> points = new List<Point3D>
+            {
+                new Point3D(0, -50, -r),
+                new Point3D(0, 50, -r),
+                new Point3D(x, x, -x),
+                new Point3D(r, 0, -50),
+                new Point3D(x, -x, -x),
+                new Point3D(50, -r, 0),
+                new Point3D(-50, -r, 0),
+                new Point3D(-x, -x, -x),
+                new Point3D(-r, 0, -50),
+                new Point3D(-x, x, -x),
+                new Point3D(-50, r, 0),
+                new Point3D(50, r, 0),
+                new Point3D(-x, -x, x),
+                new Point3D(0, -50, r),
+                new Point3D(x, -x, x),
+                new Point3D(0, 50, r),
+                new Point3D(-x, x, x),
+                new Point3D(x, x, x),
+                new Point3D(-r, 0, 50),
+                new Point3D(r, 0, 50)
+            };
+
+            Polyhedron dode = new Polyhedron(points);
+
+            dode.AddEdges(0, new List<int> { 1, 4, 7 });
+            dode.AddEdges(1, new List<int> { 2, 9 });
+            dode.AddEdges(2, new List<int> { 3, 11 });
+            dode.AddEdges(3, new List<int> { 4, 19 });
+            dode.AddEdges(4, new List<int> { 5 });
+            dode.AddEdges(5, new List<int> { 6, 14 });
+            dode.AddEdges(6, new List<int> { 7, 12 });
+            dode.AddEdges(7, new List<int> { 8 });
+            dode.AddEdges(8, new List<int> { 9, 18 });
+            dode.AddEdges(9, new List<int> { 10 });
+            dode.AddEdges(10, new List<int> { 11, 16 });
+            dode.AddEdges(11, new List<int> { 17 });
+            dode.AddEdges(12, new List<int> { 13, 18 });
+            dode.AddEdges(13, new List<int> { 14, 15 });
+            dode.AddEdges(14, new List<int> { 19 });
+            dode.AddEdges(15, new List<int> { 16, 17 });
+            dode.AddEdges(16, new List<int> { 18 });
+            dode.AddEdges(17, new List<int> { 19 });
+
+            //Affine.translate(dode, 200, 200, 0);
+            curPolyhedron = dode;
+
+            Draw();
+        }
+
+
         // Применить преобразования
         private void button5_Click(object sender, EventArgs e)
         {
