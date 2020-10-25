@@ -15,8 +15,7 @@ namespace CompGraphicsLab06
         private Graphics graphics;
         private Pen pen;
         private Projection projection;
-        private int NextClicksAreLine = 0;
-        private (Point, Point) line;
+
         /// <summary>
         /// Текущий многогранник
         /// </summary>
