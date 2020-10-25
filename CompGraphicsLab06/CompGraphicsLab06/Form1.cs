@@ -404,21 +404,7 @@ namespace CompGraphicsLab06
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (NextClicksAreLine-- == 2)
-            {
-                line.Item1 = e.Location;
-                for (int i = e.Location.X - 1; i <= e.Location.X + 1; i++)
-                    graphics.DrawLine(Pens.Red, i, e.Y - 1, i, e.Y + 1);
-                pictureBox1.Invalidate();
-            }
-            else if (NextClicksAreLine-- == 1)
-            {
-                line.Item2 = e.Location;
-                for (int i = e.Location.X - 1; i <= e.Location.X + 1; i++)
-                    graphics.DrawLine(Pens.Red, i, e.Y - 1, i, e.Y + 1);
-                graphics.DrawLine(Pens.Red, line.Item1, line.Item2);
-                pictureBox1.Invalidate();
-            }
+
         }
 
         private void rotateOwn_Click(object sender, EventArgs e)
