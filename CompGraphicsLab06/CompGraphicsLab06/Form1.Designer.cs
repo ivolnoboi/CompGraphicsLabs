@@ -377,6 +377,11 @@
             0,
             0,
             0});
+            this.rotateAngle.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.rotateAngle.Name = "rotateAngle";
             this.rotateAngle.Size = new System.Drawing.Size(92, 20);
             this.rotateAngle.TabIndex = 28;

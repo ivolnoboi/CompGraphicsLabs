@@ -52,12 +52,14 @@ namespace CompGraphicsLab06
             var figureRightY = edges.Max(e => e.From.Y > e.To.Y ? e.From.Y : e.To.Y);
             var figureCenterX = (figureRightX - figureLeftX) / 2;
             var figureCenterY = (figureRightY - figureLeftY) / 2;
+            var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
+            var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
 
             foreach (Edge line in edges)
             {
                 var p1 = (line.From).ConvertToPoint();
                 var p2 = (line.To).ConvertToPoint();
-                graphics.DrawLine(pen,p1.X+centerX-figureCenterX,p1.Y+centerY-figureCenterY,p2.X+centerX-figureCenterX,p2.Y+centerY-figureCenterY);
+                graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
             pictureBox1.Invalidate();
         }
