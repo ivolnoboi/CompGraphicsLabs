@@ -56,6 +56,10 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Поворот
         /// </summary>
+        /// <param name="polyhedron"></param>
+        /// <param name="angleX">угол поворота по OX в градусах</param>
+        /// <param name="angleY">угол поворота по OY в градусах</param>
+        /// <param name="angleZ">угол поворота по OZ в градусах</param>
         static public void rotation(Polyhedron polyhedron, float angleX, float angleY, float angleZ)
         {
             Point3D shiftPoint = polyhedron.Center();
@@ -142,6 +146,39 @@ namespace CompGraphicsLab06
 
             ChangePolyhedron(polyhedron, scale);
             translate(polyhedron, shiftX, shiftY, shiftZ);
+        }
+
+        /// <summary>
+        /// Вращение многогранника вокруг прямой, проходящей через центр, параллельно выбранно координатной оси
+        /// </summary>
+        /// <param name="polyhedron"></param>
+        /// <param name="angleX"></param>
+        /// <param name="angleY"></param>
+        /// <param name="angleZ"></param>
+        public static void rotateCenter(Polyhedron polyhedron, float angleX, float angleY, float angleZ)
+        {
+            var center = polyhedron.Center();
+            translate(polyhedron, -center.X, -center.Y, -center.Z);
+            rotation(polyhedron, angleX, angleY, angleZ);
+            translate(polyhedron, center.X, center.Y, center.Z);
+        }
+        
+        public static void rotateAboutLine(Polyhedron polyhedron, float angle, Edge line)
+        {
+            var vect = line.To - line.From;
+            var len = Math.Sqrt(Math.Pow(vect.X, 2) + Math.Pow(vect.Y, 2) + Math.Pow(vect.Z, 2));
+            var (l,m,n) = ((float)(vect.X / len), (float)(vect.Y / len), (float)(vect.Z / len) );
+
+            float sin = (float)Math.Sin(angle * Math.PI / 180);
+            float cos = (float)Math.Cos(angle * Math.PI / 180);
+
+            float[,] matr = {
+                { l*l+cos*(1-l*l), l*(1-cos)*m+n*sin, l*(1-cos)*n-m*sin, 0 },
+                { l*(1-cos)*m-n*sin, m*m+cos*(1-m*m), m*(1-cos)*n+l*sin, 0 },
+                { l*(1-cos)*n-m*sin, m*(1-cos)*n-l*sin, n*n+cos*(1-n*n), 0 },
+                { 0, 0, 0, 1 }
+            };
+            ChangePolyhedron(polyhedron, matr);
         }
     }
 }
