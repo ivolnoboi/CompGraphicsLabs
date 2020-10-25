@@ -24,7 +24,7 @@ namespace CompGraphicsLab06
             {
                 var matrixPoint = Projection.MultMatrix(matrix, matrixColumnFromPoint3D(polyhedron.Vertexes[i]));
                 Point3D newPoint = new Point3D(matrixPoint[0, 0] / matrixPoint[3, 0], matrixPoint[1, 0] / matrixPoint[3, 0], matrixPoint[2, 0] / matrixPoint[3, 0]);
-                polyhedron.Vertexes[i] = newPoint; 
+                polyhedron.Vertexes[i] = newPoint;
             }
         }
         /// <summary>
@@ -37,7 +37,7 @@ namespace CompGraphicsLab06
                                      { 0, 0, 1, tz },
                                      { 0, 0, 0,  1 }};
 
-             ChangePolyhedron(polyhedron, translation);
+            ChangePolyhedron(polyhedron, translation);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace CompGraphicsLab06
                                {  0,  0, mz,  0 },
                                {  0,  0,  0,  1 }};
 
-             ChangePolyhedron(polyhedron, scale);
+            ChangePolyhedron(polyhedron, scale);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace CompGraphicsLab06
         static public void rotation(Polyhedron polyhedron, float angleX, float angleY, float angleZ)
         {
             Point3D shiftPoint = polyhedron.Center();
-            float shiftX = shiftPoint.X, 
-                  shiftY = shiftPoint.Y, 
+            float shiftX = shiftPoint.X,
+                  shiftY = shiftPoint.Y,
                   shiftZ = shiftPoint.Z;
 
             translate(polyhedron, -shiftX, -shiftY, -shiftZ);
@@ -162,22 +162,28 @@ namespace CompGraphicsLab06
             rotation(polyhedron, angleX, angleY, angleZ);
             translate(polyhedron, center.X, center.Y, center.Z);
         }
-        
+
         public static void rotateAboutLine(Polyhedron polyhedron, float angle, Edge line)
         {
             var vect = line.To - line.From;
             var len = Math.Sqrt(Math.Pow(vect.X, 2) + Math.Pow(vect.Y, 2) + Math.Pow(vect.Z, 2));
-            var (l,m,n) = ((float)(vect.X / len), (float)(vect.Y / len), (float)(vect.Z / len) );
+            var (l, m, n) = ((float)(vect.X / len), (float)(vect.Y / len), (float)(vect.Z / len));
 
             float sin = (float)Math.Sin(angle * Math.PI / 180);
             float cos = (float)Math.Cos(angle * Math.PI / 180);
 
-            float[,] matr = {
-                { l*l+cos*(1-l*l), l*(1-cos)*m+n*sin, l*(1-cos)*n-m*sin, 0 },
-                { l*(1-cos)*m-n*sin, m*m+cos*(1-m*m), m*(1-cos)*n+l*sin, 0 },
-                { l*(1-cos)*n-m*sin, m*(1-cos)*n-l*sin, n*n+cos*(1-n*n), 0 },
-                { 0, 0, 0, 1 }
-            };
+            /* float[,] matr = {
+                 { l*l+cos*(1-l*l), l*(1-cos)*m+n*sin, l*(1-cos)*n-m*sin, 0 },
+                 { l*(1-cos)*m-n*sin, m*m+cos*(1-m*m), m*(1-cos)*n+l*sin, 0 },
+                 { l*(1-cos)*n+m*sin, m*(1-cos)*n-l*sin, n*n+cos*(1-n*n), 0 },
+                 { 0,                    0,              0,               1 }
+             };*/
+
+            float[,] matr = { { l*l+cos*(1-l*l),   l*(1-cos)*m-n*sin, l*(1-cos)*n+m*sin, 0 },
+                              { l*(1-cos)*m+n*sin, m*m+cos*(1-m*m),   m*(1-cos)*n-l*sin, 0 },
+                              { l*(1-cos)*n-m*sin, m*(1-cos)*n+l*sin, n*n+cos*(1-n*n),   0 },
+                              { 0,                 0,                 0,                 1 }};
+
             ChangePolyhedron(polyhedron, matr);
         }
     }
