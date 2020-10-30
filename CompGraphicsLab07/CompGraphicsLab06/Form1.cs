@@ -15,6 +15,7 @@ namespace CompGraphicsLab06
         private Graphics graphics;
         private Pen pen;
         private Projection projection;
+        private List<Point3D> pointsRotate;
 
         /// <summary>
         /// Текущий многогранник
@@ -30,6 +31,7 @@ namespace CompGraphicsLab06
             projection = new Projection();
             radioButton1.Checked = true;
             projBox.SelectedIndex = 0;
+            pointsRotate = new List<Point3D>();
         }
         private void Draw()
         {
@@ -129,6 +131,7 @@ namespace CompGraphicsLab06
         {
             graphics.Clear(Color.White);
             pictureBox1.Invalidate();
+            pointsRotate.Clear();
         }
 
         /// <summary>
@@ -410,6 +413,53 @@ namespace CompGraphicsLab06
         private void rotateOwn_Click(object sender, EventArgs e)
         {
             rotateOY.Checked = rotateOZ.Checked = rotateOX.Checked = false;
+        }
+
+        // добавить точку для фигуры вращения
+        private void addPointButton_Click(object sender, EventArgs e)
+        {
+            float x = float.Parse(textBox6.Text);
+            float y = float.Parse(textBox7.Text);
+            float z = float.Parse(textBox8.Text);
+
+            pointsRotate.Add(new Point3D(x, y, z));
+            DrawCurve();
+        }
+
+        // рисует кривую по точкам для фигуры вращения
+        private void DrawCurve()
+        {
+            graphics.Clear(Color.White);
+            int startX = pictureBox1.Width / 2;
+            int startY = pictureBox1.Height / 2;
+            if (pointsRotate.Count > 1)
+            {
+                for (int i = 1; i < pointsRotate.Count; i++)
+                {
+
+                    graphics.DrawLine(new Pen(Color.Black), startX + pointsRotate[i - 1].ConvertToPoint().X,
+                                                            startY + pointsRotate[i - 1].ConvertToPoint().Y,
+                                                            startX + pointsRotate[i].ConvertToPoint().X,
+                                                            startY + pointsRotate[i].ConvertToPoint().Y);
+                }
+            }
+            pictureBox1.Invalidate();
+        }
+
+        // Нарисовать фигуру вращения
+        private void drawFigureRotationButton_Click(object sender, EventArgs e)
+        {
+            int count = int.Parse(textBox5.Text); // количество разбиений
+            string axis = comboBox2.Text;
+            char axisF;
+            if (axis == "Ось Oz")
+                axisF = 'z';
+            else if (axis == "Ось Oy")
+                axisF = 'y';
+            else axisF = 'x';
+
+            curPolyhedron = RotateFigure.createPolyhedronForRotateFigure(pointsRotate, count, axisF);
+            Draw();
         }
     }
 }
