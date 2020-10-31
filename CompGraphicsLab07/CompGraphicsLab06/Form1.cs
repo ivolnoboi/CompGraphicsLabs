@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Math;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace CompGraphicsLab06
 {
@@ -575,6 +577,28 @@ namespace CompGraphicsLab06
             }
 
             Graphic(X0, X1, Y0, Y1, cnt, f);
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fName = openFileDialog1.FileName;
+                if (File.Exists(fName))
+                {
+                    curPolyhedron = JsonConvert.DeserializeObject<Polyhedron>(File.ReadAllText(fName, Encoding.UTF8));
+                    Draw();
+                }
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string fName = saveFileDialog1.FileName;
+                File.WriteAllText(fName, JsonConvert.SerializeObject(curPolyhedron, Formatting.Indented), Encoding.UTF8);                
+            }
         }
     }
 }
