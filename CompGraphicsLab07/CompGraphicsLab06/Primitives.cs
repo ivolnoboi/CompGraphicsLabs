@@ -137,6 +137,7 @@ namespace CompGraphicsLab06
                 Adjacency.Add(i, new List<int>());
             }
         }
+        public Polyhedron() { }
 
         /// <summary>
         /// Добавить ребро
