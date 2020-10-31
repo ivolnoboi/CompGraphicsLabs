@@ -502,7 +502,6 @@ namespace CompGraphicsLab06
             float currentX, currentY = Y0;
 
             List<Point3D> points = new List<Point3D>();
-            float d = 20;
 
             // Добавляем точки
             for (int i = 0; i <= countSplit; ++i)
@@ -510,7 +509,7 @@ namespace CompGraphicsLab06
                 currentX = X0;
                 for (int j = 0; j <= countSplit; ++j)
                 {
-                    points.Add(new Point3D(currentX * d, currentY * d, f(currentX, currentY) * d));
+                    points.Add(new Point3D(currentX, currentY, f(currentX, currentY)));
                     currentX += dx;
                 }
                 currentY += dy;
@@ -549,7 +548,7 @@ namespace CompGraphicsLab06
                 Y0 = -5;
             if (!float.TryParse(textBox9.Text, out float Y1))
                 Y0 = 5;
-            if (!int.TryParse(textBox5.Text, out int cnt))
+            if (!int.TryParse(textBox13.Text, out int cnt))
                 cnt = 10;
 
             func f;
@@ -560,6 +559,15 @@ namespace CompGraphicsLab06
                     break;
                 case 1:
                     f = (x, y) => (float)(Sin(x + y));
+                    break;
+                case 2:
+                    f = (x, y) => (float)(1 / (1 + x * x) + 1 / (1 + y * y));
+                    break;
+                case 3:
+                    f = (x, y) => (float)(Sin(x * x + y * y));
+                    break;
+                case 4:
+                    f = (x, y) => (float)(Sqrt(50 - x * x - y * y));
                     break;
                 default:
                     f = (x, y) => 0;

@@ -97,6 +97,8 @@
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
+            this.textBox13 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
             this.SuspendLayout();
@@ -170,7 +172,7 @@
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label3.Location = new System.Drawing.Point(99, 357);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 20);
+            this.label3.Size = new System.Drawing.Size(19, 20);
             this.label3.TabIndex = 7;
             this.label3.Text = "Y";
             // 
@@ -180,7 +182,7 @@
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label4.Location = new System.Drawing.Point(172, 357);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(19, 20);
+            this.label4.Size = new System.Drawing.Size(18, 20);
             this.label4.TabIndex = 8;
             this.label4.Text = "Z";
             // 
@@ -229,7 +231,7 @@
             this.radioButton1.Location = new System.Drawing.Point(13, 270);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(159, 24);
+            this.radioButton1.Size = new System.Drawing.Size(177, 24);
             this.radioButton1.TabIndex = 13;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Смещение по оси";
@@ -243,7 +245,7 @@
             this.radioButton2.Location = new System.Drawing.Point(13, 300);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(138, 24);
+            this.radioButton2.Size = new System.Drawing.Size(154, 24);
             this.radioButton2.TabIndex = 14;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Масштаб (в %)";
@@ -257,7 +259,7 @@
             this.radioButton3.Location = new System.Drawing.Point(13, 330);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(187, 24);
+            this.radioButton3.Size = new System.Drawing.Size(210, 24);
             this.radioButton3.TabIndex = 15;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Поворот (в градусах)";
@@ -271,7 +273,7 @@
             this.radioButton4.Location = new System.Drawing.Point(12, 409);
             this.radioButton4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(113, 24);
+            this.radioButton4.Size = new System.Drawing.Size(125, 24);
             this.radioButton4.TabIndex = 16;
             this.radioButton4.TabStop = true;
             this.radioButton4.Text = "Отражение";
@@ -298,7 +300,7 @@
             this.radioButton5.Location = new System.Drawing.Point(12, 470);
             this.radioButton5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(169, 24);
+            this.radioButton5.Size = new System.Drawing.Size(187, 24);
             this.radioButton5.TabIndex = 18;
             this.radioButton5.TabStop = true;
             this.radioButton5.Text = "Масштабирование";
@@ -352,7 +354,7 @@
             this.rotateOX.Location = new System.Drawing.Point(17, 702);
             this.rotateOX.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOX.Name = "rotateOX";
-            this.rotateOX.Size = new System.Drawing.Size(46, 21);
+            this.rotateOX.Size = new System.Drawing.Size(49, 21);
             this.rotateOX.TabIndex = 23;
             this.rotateOX.TabStop = true;
             this.rotateOX.Text = "OX";
@@ -375,7 +377,7 @@
             this.rotateOY.Location = new System.Drawing.Point(16, 730);
             this.rotateOY.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOY.Name = "rotateOY";
-            this.rotateOY.Size = new System.Drawing.Size(46, 21);
+            this.rotateOY.Size = new System.Drawing.Size(49, 21);
             this.rotateOY.TabIndex = 25;
             this.rotateOY.TabStop = true;
             this.rotateOY.Text = "OY";
@@ -388,7 +390,7 @@
             this.rotateOZ.Location = new System.Drawing.Point(17, 758);
             this.rotateOZ.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOZ.Name = "rotateOZ";
-            this.rotateOZ.Size = new System.Drawing.Size(46, 21);
+            this.rotateOZ.Size = new System.Drawing.Size(49, 21);
             this.rotateOZ.TabIndex = 26;
             this.rotateOZ.TabStop = true;
             this.rotateOZ.Text = "OZ";
@@ -467,7 +469,7 @@
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label8.Location = new System.Drawing.Point(176, 814);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(28, 20);
+            this.label8.Size = new System.Drawing.Size(27, 20);
             this.label8.TabIndex = 33;
             this.label8.Text = "Z1";
             // 
@@ -477,7 +479,7 @@
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label9.Location = new System.Drawing.Point(103, 814);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(29, 20);
+            this.label9.Size = new System.Drawing.Size(28, 20);
             this.label9.TabIndex = 32;
             this.label9.Text = "Y1";
             // 
@@ -524,7 +526,7 @@
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label11.Location = new System.Drawing.Point(176, 871);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(28, 20);
+            this.label11.Size = new System.Drawing.Size(27, 20);
             this.label11.TabIndex = 39;
             this.label11.Text = "Z2";
             // 
@@ -534,7 +536,7 @@
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label12.Location = new System.Drawing.Point(103, 871);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(29, 20);
+            this.label12.Size = new System.Drawing.Size(28, 20);
             this.label12.TabIndex = 38;
             this.label12.Text = "Y2";
             // 
@@ -554,7 +556,7 @@
             this.rotateOwn.Location = new System.Drawing.Point(17, 786);
             this.rotateOwn.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOwn.Name = "rotateOwn";
-            this.rotateOwn.Size = new System.Drawing.Size(58, 21);
+            this.rotateOwn.Size = new System.Drawing.Size(61, 21);
             this.rotateOwn.TabIndex = 43;
             this.rotateOwn.TabStop = true;
             this.rotateOwn.Text = "Своя";
@@ -607,9 +609,9 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(1316, 65);
+            this.label14.Location = new System.Drawing.Point(1338, 65);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(195, 20);
+            this.label14.Size = new System.Drawing.Size(216, 20);
             this.label14.TabIndex = 48;
             this.label14.Text = "Выберите ось вращения";
             // 
@@ -629,9 +631,9 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.Location = new System.Drawing.Point(1316, 120);
+            this.label15.Location = new System.Drawing.Point(1338, 120);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(184, 20);
+            this.label15.Size = new System.Drawing.Size(203, 20);
             this.label15.TabIndex = 50;
             this.label15.Text = "Количество разбиений";
             // 
@@ -686,7 +688,7 @@
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label17.Location = new System.Drawing.Point(1430, 175);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(20, 20);
+            this.label17.Size = new System.Drawing.Size(19, 20);
             this.label17.TabIndex = 56;
             this.label17.Text = "Y";
             // 
@@ -696,7 +698,7 @@
             this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label18.Location = new System.Drawing.Point(1499, 175);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(19, 20);
+            this.label18.Size = new System.Drawing.Size(18, 20);
             this.label18.TabIndex = 57;
             this.label18.Text = "Z";
             // 
@@ -746,7 +748,7 @@
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label19.Location = new System.Drawing.Point(1398, 445);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(29, 20);
+            this.label19.Size = new System.Drawing.Size(28, 20);
             this.label19.TabIndex = 65;
             this.label19.Text = "Y1";
             // 
@@ -756,7 +758,7 @@
             this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label20.Location = new System.Drawing.Point(1328, 445);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(29, 20);
+            this.label20.Size = new System.Drawing.Size(28, 20);
             this.label20.TabIndex = 64;
             this.label20.Text = "Y0";
             // 
@@ -803,8 +805,11 @@
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
             "z = Cos(x^2 + y^2) / (x^2 + y^2 + 1)",
-            "z = Sin(x + y)"});
-            this.comboBox3.Location = new System.Drawing.Point(1309, 357);
+            "z = Sin(x + y)",
+            "z = 1 / (1 + x^2) + 1 / (1 + y^2)",
+            "z = Sin(x^2 + y^2)",
+            "z = Srqt(50 - x^2 - y^2) "});
+            this.comboBox3.Location = new System.Drawing.Point(1311, 307);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(264, 24);
             this.comboBox3.TabIndex = 69;
@@ -813,9 +818,9 @@
             // 
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label23.Location = new System.Drawing.Point(1316, 334);
+            this.label23.Location = new System.Drawing.Point(1307, 284);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(262, 20);
+            this.label23.Size = new System.Drawing.Size(289, 20);
             this.label23.TabIndex = 68;
             this.label23.Text = "Выберите функцию для графика";
             // 
@@ -830,11 +835,31 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label24.Location = new System.Drawing.Point(1338, 334);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(203, 20);
+            this.label24.TabIndex = 71;
+            this.label24.Text = "Количество разбиений";
+            // 
+            // textBox13
+            // 
+            this.textBox13.Location = new System.Drawing.Point(1412, 357);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(60, 22);
+            this.textBox13.TabIndex = 72;
+            this.textBox13.Text = "50";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1579, 970);
+            this.ClientSize = new System.Drawing.Size(1607, 970);
+            this.Controls.Add(this.textBox13);
+            this.Controls.Add(this.label24);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.label23);
@@ -985,6 +1010,8 @@
         private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TextBox textBox13;
     }
 }
 
