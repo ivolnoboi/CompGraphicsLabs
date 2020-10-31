@@ -98,7 +98,12 @@ namespace CompGraphicsLab06
                     if ((current + 1) % lstCount == 0)
                         figure.AddEdges(current, new List<int> { (current + lstCount) % res.Count });
                     else
+                    {
                         figure.AddEdges(current, new List<int> { current + 1, (current + lstCount) % res.Count });
+                        // добавляем точки грани в порядке: текущая, ниже текущей, правее предыдущей, выше предыдущей (правее текущей)
+                        figure.AddFace(new List<int> { current, current+1, (current + 1 + lstCount) % res.Count, (current + lstCount) % res.Count });
+                    }
+
                 }
             }
             return figure;
