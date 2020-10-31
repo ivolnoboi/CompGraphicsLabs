@@ -65,7 +65,24 @@ namespace CompGraphicsLab06
                 // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
 
-            //foreach(List<int> fase in )
+            //--------Рисование по граням (тест, что грани выделены правильно)---------
+            /*List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
+
+            foreach (List<int> face in curPolyhedron.Faces)
+            {
+                pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
+                foreach (var point1 in face)
+                {
+                    foreach (var point2 in face)
+                    {
+                        var p1 = points[point1].ConvertToPoint();
+                        var p2 = points[point2].ConvertToPoint();
+                        graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                    }
+                }
+            }*/
+            //--------------------------------------------------------------------
+
             pictureBox1.Invalidate();
         }
 
@@ -101,11 +118,11 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(7, new List<int> { 4 });
 
             curPolyhedron.AddFace(new List<int> { 0, 1, 2, 3 });
-            curPolyhedron.AddFace(new List<int> { 1, 2, 5, 6});
-            curPolyhedron.AddFace(new List<int> { 0, 3, 4, 7 });
+            curPolyhedron.AddFace(new List<int> { 1, 2, 6, 5 });
+            curPolyhedron.AddFace(new List<int> { 0, 3, 7, 4 });
             curPolyhedron.AddFace(new List<int> { 4, 5, 6, 7 });
-            curPolyhedron.AddFace(new List<int> { 2, 3, 6, 7 });
-            curPolyhedron.AddFace(new List<int> { 0, 1, 4, 5 });
+            curPolyhedron.AddFace(new List<int> { 2, 3, 7, 6 });
+            curPolyhedron.AddFace(new List<int> { 0, 1, 5, 4 });
 
             Draw();
         }
@@ -511,6 +528,11 @@ namespace CompGraphicsLab06
                         polyhedron.AddEdge(i * N + j, i * N + j + 1); // вправо
                     if (i != N - 1)
                         polyhedron.AddEdge(i * N + j, (i + 1) * N + j); // вниз
+                    if (j != N - 1 && i != N - 1)
+                    {
+                        // текущая точка, вправо от тек., вниз от тек., вправо и вниз от тек. образуют грань 
+                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + j, (i + 1) * N + (j + 1) });
+                    }
                 }
 
             curPolyhedron = polyhedron;
