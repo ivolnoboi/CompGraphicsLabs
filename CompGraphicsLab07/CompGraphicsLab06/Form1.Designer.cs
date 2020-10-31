@@ -94,13 +94,14 @@
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.graphicsList = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.label24 = new System.Windows.Forms.Label();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.NeedCentering = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +109,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Location = new System.Drawing.Point(182, 10);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(795, 765);
             this.pictureBox1.TabIndex = 0;
@@ -117,7 +118,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(10, 11);
-            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(156, 37);
             this.button1.TabIndex = 1;
@@ -128,7 +129,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(9, 53);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(157, 32);
             this.button2.TabIndex = 2;
@@ -139,18 +140,18 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(10, 179);
-            this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(156, 32);
             this.button3.TabIndex = 3;
             this.button3.Text = "Очистить";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.Clear_Click);
             // 
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(10, 91);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(156, 32);
             this.button4.TabIndex = 4;
@@ -194,7 +195,7 @@
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(9, 309);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(47, 20);
             this.textBox1.TabIndex = 9;
@@ -203,7 +204,7 @@
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(59, 309);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(47, 20);
             this.textBox2.TabIndex = 10;
@@ -212,7 +213,7 @@
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(110, 309);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(47, 20);
             this.textBox3.TabIndex = 11;
@@ -221,7 +222,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(10, 460);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(154, 41);
             this.button5.TabIndex = 12;
@@ -234,7 +235,7 @@
             this.radioButton1.AutoSize = true;
             this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton1.Location = new System.Drawing.Point(10, 219);
-            this.radioButton1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton1.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(142, 21);
             this.radioButton1.TabIndex = 13;
@@ -248,7 +249,7 @@
             this.radioButton2.AutoSize = true;
             this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton2.Location = new System.Drawing.Point(10, 244);
-            this.radioButton2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton2.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(123, 21);
             this.radioButton2.TabIndex = 14;
@@ -262,7 +263,7 @@
             this.radioButton3.AutoSize = true;
             this.radioButton3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton3.Location = new System.Drawing.Point(10, 268);
-            this.radioButton3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton3.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(164, 21);
             this.radioButton3.TabIndex = 15;
@@ -276,7 +277,7 @@
             this.radioButton4.AutoSize = true;
             this.radioButton4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton4.Location = new System.Drawing.Point(9, 332);
-            this.radioButton4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton4.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton4.Name = "radioButton4";
             this.radioButton4.Size = new System.Drawing.Size(101, 21);
             this.radioButton4.TabIndex = 16;
@@ -293,7 +294,7 @@
             "Плоскость Oxz",
             "Плоскость Oyz"});
             this.comboBox1.Location = new System.Drawing.Point(9, 357);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(147, 21);
             this.comboBox1.TabIndex = 17;
@@ -303,7 +304,7 @@
             this.radioButton5.AutoSize = true;
             this.radioButton5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.radioButton5.Location = new System.Drawing.Point(9, 382);
-            this.radioButton5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.radioButton5.Margin = new System.Windows.Forms.Padding(2);
             this.radioButton5.Name = "radioButton5";
             this.radioButton5.Size = new System.Drawing.Size(149, 21);
             this.radioButton5.TabIndex = 18;
@@ -325,7 +326,7 @@
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(9, 420);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(47, 20);
             this.textBox4.TabIndex = 20;
@@ -436,7 +437,7 @@
             // rZ1
             // 
             this.rZ1.Location = new System.Drawing.Point(113, 680);
-            this.rZ1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rZ1.Margin = new System.Windows.Forms.Padding(2);
             this.rZ1.Name = "rZ1";
             this.rZ1.Size = new System.Drawing.Size(47, 20);
             this.rZ1.TabIndex = 36;
@@ -445,7 +446,7 @@
             // rY1
             // 
             this.rY1.Location = new System.Drawing.Point(62, 680);
-            this.rY1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rY1.Margin = new System.Windows.Forms.Padding(2);
             this.rY1.Name = "rY1";
             this.rY1.Size = new System.Drawing.Size(47, 20);
             this.rY1.TabIndex = 35;
@@ -454,7 +455,7 @@
             // rX1
             // 
             this.rX1.Location = new System.Drawing.Point(12, 680);
-            this.rX1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rX1.Margin = new System.Windows.Forms.Padding(2);
             this.rX1.Name = "rX1";
             this.rX1.Size = new System.Drawing.Size(47, 20);
             this.rX1.TabIndex = 34;
@@ -496,7 +497,7 @@
             // rZ2
             // 
             this.rZ2.Location = new System.Drawing.Point(113, 727);
-            this.rZ2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rZ2.Margin = new System.Windows.Forms.Padding(2);
             this.rZ2.Name = "rZ2";
             this.rZ2.Size = new System.Drawing.Size(47, 20);
             this.rZ2.TabIndex = 42;
@@ -505,7 +506,7 @@
             // rY2
             // 
             this.rY2.Location = new System.Drawing.Point(62, 727);
-            this.rY2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rY2.Margin = new System.Windows.Forms.Padding(2);
             this.rY2.Name = "rY2";
             this.rY2.Size = new System.Drawing.Size(47, 20);
             this.rY2.TabIndex = 41;
@@ -514,7 +515,7 @@
             // rX2
             // 
             this.rX2.Location = new System.Drawing.Point(12, 727);
-            this.rX2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.rX2.Margin = new System.Windows.Forms.Padding(2);
             this.rX2.Name = "rX2";
             this.rX2.Size = new System.Drawing.Size(47, 20);
             this.rX2.TabIndex = 40;
@@ -568,7 +569,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(10, 127);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(156, 20);
             this.button6.TabIndex = 44;
@@ -579,7 +580,7 @@
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(10, 151);
-            this.button7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(156, 20);
             this.button7.TabIndex = 45;
@@ -591,7 +592,7 @@
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.saveButton.Location = new System.Drawing.Point(982, 10);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.saveButton.Margin = new System.Windows.Forms.Padding(2);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(98, 39);
             this.saveButton.TabIndex = 46;
@@ -603,7 +604,7 @@
             // 
             this.loadButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.loadButton.Location = new System.Drawing.Point(1084, 10);
-            this.loadButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.loadButton.Margin = new System.Windows.Forms.Padding(2);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(96, 39);
             this.loadButton.TabIndex = 47;
@@ -630,7 +631,7 @@
             "Ось Oy",
             "Ось Oz"});
             this.comboBox2.Location = new System.Drawing.Point(982, 72);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(199, 21);
             this.comboBox2.TabIndex = 49;
@@ -649,7 +650,7 @@
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(1058, 116);
-            this.textBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(46, 20);
             this.textBox5.TabIndex = 51;
@@ -669,7 +670,7 @@
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(1006, 160);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(2);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(47, 20);
             this.textBox6.TabIndex = 53;
@@ -678,7 +679,7 @@
             // textBox7
             // 
             this.textBox7.Location = new System.Drawing.Point(1058, 160);
-            this.textBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(2);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(47, 20);
             this.textBox7.TabIndex = 54;
@@ -687,7 +688,7 @@
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(1108, 160);
-            this.textBox8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(47, 20);
             this.textBox8.TabIndex = 55;
@@ -719,7 +720,7 @@
             // 
             this.addPointButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.addPointButton.Location = new System.Drawing.Point(982, 182);
-            this.addPointButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addPointButton.Margin = new System.Windows.Forms.Padding(2);
             this.addPointButton.Name = "addPointButton";
             this.addPointButton.Size = new System.Drawing.Size(98, 39);
             this.addPointButton.TabIndex = 58;
@@ -731,7 +732,7 @@
             // 
             this.drawFigureRotationButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.drawFigureRotationButton.Location = new System.Drawing.Point(1084, 182);
-            this.drawFigureRotationButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.drawFigureRotationButton.Margin = new System.Windows.Forms.Padding(2);
             this.drawFigureRotationButton.Name = "drawFigureRotationButton";
             this.drawFigureRotationButton.Size = new System.Drawing.Size(98, 39);
             this.drawFigureRotationButton.TabIndex = 59;
@@ -742,7 +743,7 @@
             // textBox9
             // 
             this.textBox9.Location = new System.Drawing.Point(1034, 381);
-            this.textBox9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox9.Margin = new System.Windows.Forms.Padding(2);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(47, 20);
             this.textBox9.TabIndex = 67;
@@ -751,7 +752,7 @@
             // textBox10
             // 
             this.textBox10.Location = new System.Drawing.Point(983, 381);
-            this.textBox10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox10.Margin = new System.Windows.Forms.Padding(2);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(47, 20);
             this.textBox10.TabIndex = 66;
@@ -782,7 +783,7 @@
             // textBox11
             // 
             this.textBox11.Location = new System.Drawing.Point(1034, 334);
-            this.textBox11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox11.Margin = new System.Windows.Forms.Padding(2);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(47, 20);
             this.textBox11.TabIndex = 63;
@@ -791,7 +792,7 @@
             // textBox12
             // 
             this.textBox12.Location = new System.Drawing.Point(983, 334);
-            this.textBox12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox12.Margin = new System.Windows.Forms.Padding(2);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(47, 20);
             this.textBox12.TabIndex = 62;
@@ -821,18 +822,18 @@
             // 
             // comboBox3
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.graphicsList.FormattingEnabled = true;
+            this.graphicsList.Items.AddRange(new object[] {
             "z = Cos(x^2 + y^2) / (x^2 + y^2 + 1)",
             "z = Sin(x + y)",
             "z = 1 / (1 + x^2) + 1 / (1 + y^2)",
             "z = Sin(x^2 + y^2)",
             "z = Srqt(50 - x^2 - y^2) "});
-            this.comboBox3.Location = new System.Drawing.Point(983, 249);
-            this.comboBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(199, 21);
-            this.comboBox3.TabIndex = 69;
+            this.graphicsList.Location = new System.Drawing.Point(983, 249);
+            this.graphicsList.Margin = new System.Windows.Forms.Padding(2);
+            this.graphicsList.Name = "comboBox3";
+            this.graphicsList.Size = new System.Drawing.Size(199, 21);
+            this.graphicsList.TabIndex = 69;
             // 
             // label23
             // 
@@ -849,13 +850,13 @@
             // 
             this.button8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button8.Location = new System.Drawing.Point(1084, 345);
-            this.button8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button8.Margin = new System.Windows.Forms.Padding(2);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(98, 39);
             this.button8.TabIndex = 70;
             this.button8.Text = "Построить график";
             this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.DrawGraphic_Click);
             // 
             // label24
             // 
@@ -871,7 +872,7 @@
             // textBox13
             // 
             this.textBox13.Location = new System.Drawing.Point(1059, 290);
-            this.textBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox13.Margin = new System.Windows.Forms.Padding(2);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(46, 20);
             this.textBox13.TabIndex = 72;
@@ -889,15 +890,27 @@
             this.saveFileDialog1.FileName = "Polyhedron";
             this.saveFileDialog1.Filter = "JSON files|*.json|All files|*.*";
             // 
+            // checkBox1
+            // 
+            this.NeedCentering.AutoSize = true;
+            this.NeedCentering.Location = new System.Drawing.Point(983, 404);
+            this.NeedCentering.Name = "checkBox1";
+            this.NeedCentering.Size = new System.Drawing.Size(105, 17);
+            this.NeedCentering.TabIndex = 73;
+            this.NeedCentering.Text = "Центрирование";
+            this.NeedCentering.UseVisualStyleBackColor = true;
+            this.NeedCentering.CheckedChanged += new System.EventHandler(this.NeedCentering_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1205, 788);
+            this.Controls.Add(this.NeedCentering);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.button8);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.graphicsList);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.textBox9);
             this.Controls.Add(this.textBox10);
@@ -965,7 +978,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Лабораторная работа №6. Аффинные преобразования в пространстве. Проецирование";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1043,13 +1056,14 @@
         private System.Windows.Forms.TextBox textBox12;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox graphicsList;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.CheckBox NeedCentering;
     }
 }
 

@@ -38,6 +38,8 @@ namespace CompGraphicsLab06
         }
         private void Draw()
         {
+            if (curPolyhedron.IsEmpty())
+                return;
             graphics.Clear(Color.White);
             // graphics.Clear(Color.White);
             Random r = new Random();
@@ -56,14 +58,19 @@ namespace CompGraphicsLab06
             var figureRightY = edges.Max(e => e.From.Y > e.To.Y ? e.From.Y : e.To.Y);
             var figureCenterX = (figureRightX - figureLeftX) / 2;
             var figureCenterY = (figureRightY - figureLeftY) / 2;
-            //var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
-            // var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
+
+            var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
+            var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
 
             foreach (Edge line in edges)
             {
                 var p1 = (line.From).ConvertToPoint();
                 var p2 = (line.To).ConvertToPoint();
-                graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                if (!NeedCentering.Checked)//Центрирование?
+                    graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                else
+                    graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
+
                 // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
 
@@ -161,11 +168,13 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Очистить экран
         /// </summary>
-        private void button3_Click(object sender, EventArgs e)
+        private void Clear_Click(object sender, EventArgs e)
         {
+            curPolyhedron.Clear();
             graphics.Clear(Color.White);
             pictureBox1.Invalidate();
             pointsRotate.Clear();
+            NeedCentering.Checked = false;
         }
 
         /// <summary>
@@ -550,12 +559,14 @@ namespace CompGraphicsLab06
                         polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + j, (i + 1) * N + (j + 1) });
                     }
                 }
+            Affine.scaleCenter(polyhedron, 40);
+            Affine.rotateCenter(polyhedron, 60, 0, 0);
 
             curPolyhedron = polyhedron;
             pen.Width = 1;
             Draw();
         }
-        private void button8_Click(object sender, EventArgs e)
+        private void DrawGraphic_Click(object sender, EventArgs e)
         {
             if (!float.TryParse(textBox12.Text, out float X0))
                 X0 = -5;
@@ -569,7 +580,7 @@ namespace CompGraphicsLab06
                 cnt = 10;
 
             func f;
-            switch (comboBox3.SelectedIndex)
+            switch (graphicsList.SelectedIndex)
             {
                 case 0:
                     f = (x, y) => (float)(Cos(x * x + y * y) / (x * x + y * y + 1));
@@ -614,6 +625,11 @@ namespace CompGraphicsLab06
                 string fName = saveFileDialog1.FileName;
                 File.WriteAllText(fName, JsonConvert.SerializeObject(curPolyhedron, Formatting.Indented), Encoding.UTF8);                
             }
+        }
+
+        private void NeedCentering_CheckedChanged(object sender, EventArgs e)
+        {
+            Draw();
         }
     }
 }
