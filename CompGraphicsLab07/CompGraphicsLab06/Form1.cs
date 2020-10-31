@@ -64,6 +64,8 @@ namespace CompGraphicsLab06
                 graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
                 // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
+
+            //foreach(List<int> fase in )
             pictureBox1.Invalidate();
         }
 
@@ -97,6 +99,13 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(5, new List<int> { 6 });
             curPolyhedron.AddEdges(6, new List<int> { 7 });
             curPolyhedron.AddEdges(7, new List<int> { 4 });
+
+            curPolyhedron.AddFace(new List<int> { 0, 1, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 1, 2, 5, 6});
+            curPolyhedron.AddFace(new List<int> { 0, 3, 4, 7 });
+            curPolyhedron.AddFace(new List<int> { 4, 5, 6, 7 });
+            curPolyhedron.AddFace(new List<int> { 2, 3, 6, 7 });
+            curPolyhedron.AddFace(new List<int> { 0, 1, 4, 5 });
 
             Draw();
         }
