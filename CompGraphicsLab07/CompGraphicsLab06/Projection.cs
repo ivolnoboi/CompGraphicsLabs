@@ -42,7 +42,7 @@ namespace CompGraphicsLab06
         /// Выполняет проекцию
         /// </summary>
         /// <param name="polyhedron">входной многогранник</param>
-        /// <returns>Список точек на плоскости (для рисования на экране)</returns>
+        /// <returns>Список ребер на плоскости (для рисования на экране)</returns>
         public List<Edge> Project(Polyhedron polyhedron, int mode)
         {
             // TODO: Добавить сюда выбор проекции, сейчас только перспективная одноточечная
@@ -85,6 +85,36 @@ namespace CompGraphicsLab06
             }
 
             return edges;
+        }
+
+        /// <summary>
+        /// Выполняет проекцию (возвращает список точек на плоскости)
+        /// </summary>
+        /// <param name="polyhedron"></param>
+        /// <param name="mode"></param>
+        public List<Point3D> Project2(Polyhedron polyhedron, int mode)
+        {
+            // TODO: Добавить сюда выбор проекции, сейчас только перспективная одноточечная
+            float[,] matr;
+            switch (mode)
+            {
+                case 0:
+                    matr = perspective;
+                    break;
+                case 1:
+                    matr = isometric;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+            List<Point3D> points = new List<Point3D>(polyhedron.Vertexes);
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                float[,] tmp1 = MultMatrix(new float[,] { { points[i].X, points[i].Y, points[i].Z, 1 } }, matr);
+                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3]);
+            }
+            return points;
         }
     }
 }
