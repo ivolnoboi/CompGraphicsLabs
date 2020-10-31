@@ -802,9 +802,8 @@
             // 
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
-            "Ось Ox",
-            "Ось Oy",
-            "Ось Oz"});
+            "z = Cos(x^2 + y^2) / (x^2 + y^2 + 1)",
+            "z = Sin(x + y)"});
             this.comboBox3.Location = new System.Drawing.Point(1309, 357);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(264, 24);

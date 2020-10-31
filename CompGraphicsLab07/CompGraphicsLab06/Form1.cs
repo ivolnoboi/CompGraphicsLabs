@@ -521,10 +521,21 @@ namespace CompGraphicsLab06
             if (!int.TryParse(textBox5.Text, out int cnt))
                 cnt = 10;
 
+            func f;
+            switch (comboBox3.SelectedIndex)
+            {
+                case 0:
+                    f = (x, y) => (float)(Cos(x * x + y * y) / (x * x + y * y + 1));
+                    break;
+                case 1:
+                    f = (x, y) => (float)(Sin(x + y));
+                    break;
+                default:
+                    f = (x, y) => 0;
+                    break;
+            }
 
-            Graphic(X0, X1, Y0, Y1, cnt, (x, y)
-              //  => (float)(Sin(x + y)));
-              => (float)(Cos(x * x + y * y) / (x * x + y * y + 1)));
+            Graphic(X0, X1, Y0, Y1, cnt, f);
         }
     }
 }
