@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Math;
 
 namespace CompGraphicsLab06
 {
@@ -39,7 +40,7 @@ namespace CompGraphicsLab06
             // graphics.Clear(Color.White);
             Random r = new Random();
             pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
-            List<Edge> edges = projection.Project(curPolyhedron,projBox.SelectedIndex);
+            List<Edge> edges = projection.Project(curPolyhedron, projBox.SelectedIndex);
 
             //Смещение по центру pictureBox
             var centerX = pictureBox1.Width / 2;
@@ -54,15 +55,34 @@ namespace CompGraphicsLab06
             var figureCenterX = (figureRightX - figureLeftX) / 2;
             var figureCenterY = (figureRightY - figureLeftY) / 2;
             //var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
-           // var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
+            // var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
 
             foreach (Edge line in edges)
             {
                 var p1 = (line.From).ConvertToPoint();
                 var p2 = (line.To).ConvertToPoint();
                 graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
-               // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
+                // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
+
+            //--------Рисование по граням (тест, что грани выделены правильно)---------
+            /*List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
+
+            foreach (List<int> face in curPolyhedron.Faces)
+            {
+                pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
+                foreach (var point1 in face)
+                {
+                    foreach (var point2 in face)
+                    {
+                        var p1 = points[point1].ConvertToPoint();
+                        var p2 = points[point2].ConvertToPoint();
+                        graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                    }
+                }
+            }*/
+            //--------------------------------------------------------------------
+
             pictureBox1.Invalidate();
         }
 
@@ -96,6 +116,13 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(5, new List<int> { 6 });
             curPolyhedron.AddEdges(6, new List<int> { 7 });
             curPolyhedron.AddEdges(7, new List<int> { 4 });
+
+            curPolyhedron.AddFace(new List<int> { 0, 1, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 1, 2, 6, 5 });
+            curPolyhedron.AddFace(new List<int> { 0, 3, 7, 4 });
+            curPolyhedron.AddFace(new List<int> { 4, 5, 6, 7 });
+            curPolyhedron.AddFace(new List<int> { 2, 3, 7, 6 });
+            curPolyhedron.AddFace(new List<int> { 0, 1, 5, 4 });
 
             Draw();
         }
@@ -311,7 +338,7 @@ namespace CompGraphicsLab06
                     default:
                         break;
                 }
-                if (plane!="")
+                if (plane != "")
                 {
                     Affine.reflection(curPolyhedron, plane);
                     Draw();
@@ -371,7 +398,7 @@ namespace CompGraphicsLab06
 
         private void projBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (curPolyhedron!=null)
+            if (curPolyhedron != null)
                 Draw();
         }
 
@@ -460,6 +487,86 @@ namespace CompGraphicsLab06
 
             curPolyhedron = RotateFigure.createPolyhedronForRotateFigure(pointsRotate, count, axisF);
             Draw();
+        }
+
+        delegate float func(float x, float y);
+        /// <summary>
+        /// Построить график
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Graphic(float X0, float X1, float Y0, float Y1, int countSplit, func f)
+        {
+            float dx = (X1 - X0) / countSplit;
+            float dy = (Y1 - Y0) / countSplit;
+            float currentX, currentY = Y0;
+
+            List<Point3D> points = new List<Point3D>();
+            float d = 20;
+
+            // Добавляем точки
+            for (int i = 0; i <= countSplit; ++i)
+            {
+                currentX = X0;
+                for (int j = 0; j <= countSplit; ++j)
+                {
+                    points.Add(new Point3D(currentX * d, currentY * d, f(currentX, currentY) * d));
+                    currentX += dx;
+                }
+                currentY += dy;
+            }
+            Polyhedron polyhedron = new Polyhedron(points);
+
+
+            int N = countSplit + 1;
+
+            // Добавляем ребра. Из каждой точки идет ребро вправо и вниз (таким образом делается сетка)
+            for (int i = 0; i < N; ++i)
+                for (int j = 0; j < N; ++j)
+                {
+                    if (j != N - 1)
+                        polyhedron.AddEdge(i * N + j, i * N + j + 1); // вправо
+                    if (i != N - 1)
+                        polyhedron.AddEdge(i * N + j, (i + 1) * N + j); // вниз
+                    if (j != N - 1 && i != N - 1)
+                    {
+                        // текущая точка, вправо от тек., вниз от тек., вправо и вниз от тек. образуют грань 
+                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + j, (i + 1) * N + (j + 1) });
+                    }
+                }
+
+            curPolyhedron = polyhedron;
+            pen.Width = 1;
+            Draw();
+        }
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (!float.TryParse(textBox12.Text, out float X0))
+                X0 = -5;
+            if (!float.TryParse(textBox11.Text, out float X1))
+                X1 = 5;
+            if (!float.TryParse(textBox10.Text, out float Y0))
+                Y0 = -5;
+            if (!float.TryParse(textBox9.Text, out float Y1))
+                Y0 = 5;
+            if (!int.TryParse(textBox5.Text, out int cnt))
+                cnt = 10;
+
+            func f;
+            switch (comboBox3.SelectedIndex)
+            {
+                case 0:
+                    f = (x, y) => (float)(Cos(x * x + y * y) / (x * x + y * y + 1));
+                    break;
+                case 1:
+                    f = (x, y) => (float)(Sin(x + y));
+                    break;
+                default:
+                    f = (x, y) => 0;
+                    break;
+            }
+
+            Graphic(X0, X1, Y0, Y1, cnt, f);
         }
     }
 }

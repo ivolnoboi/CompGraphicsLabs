@@ -71,7 +71,7 @@ namespace CompGraphicsLab06
     /// <summary>
     /// Класс грани, заданной полигоном
     /// </summary>
-    public class Polygon
+   /* public class Polygon
     {
         public List<Point3D> Points { get; set; } = new List<Point3D>();
 
@@ -89,7 +89,7 @@ namespace CompGraphicsLab06
         {
             Points.Add(new Point3D(x, y, z));
         }
-    }
+    }*/
 
 
     /// <summary>
@@ -106,6 +106,11 @@ namespace CompGraphicsLab06
         /// Список ребер
         /// </summary>
         public List<Edge> Edges { get; } = new List<Edge>();
+
+        /// <summary>
+        /// Список граней. Грани заданы списком вершин (вершины заданы индексами в списке вершин)
+        /// </summary>
+        public List<List<int>> Faces { get; } = new List<List<int>>();
 
         /// <summary>
         /// Матрица смежности - для каждой точки хранит список смежных с ней
@@ -137,6 +142,7 @@ namespace CompGraphicsLab06
                 Adjacency.Add(i, new List<int>());
             }
         }
+        public Polyhedron() { }
 
         /// <summary>
         /// Добавить ребро
@@ -165,6 +171,15 @@ namespace CompGraphicsLab06
         {
             foreach (int to in lst)
                 AddEdge(from, to);
+        }
+
+        /// <summary>
+        /// Добавляет грань
+        /// </summary>
+        /// <param name="lst"></param>
+        public void AddFace(List<int> lst)
+        {
+            Faces.Add(lst);
         }
     }
 }
