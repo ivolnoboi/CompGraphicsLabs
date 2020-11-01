@@ -128,6 +128,16 @@ namespace CompGraphicsLab06
             return new Point3D(x, y, z);
         }
 
+        public bool IsEmpty() => Vertexes.Count < 1;
+
+        public void Clear()
+        {
+            Vertexes.Clear();
+            Edges.Clear();
+            Faces.Clear();
+            Adjacency.Clear();
+        }
+
         /// <summary>
         /// Конструктор многогранника от списка вершин
         /// </summary>
