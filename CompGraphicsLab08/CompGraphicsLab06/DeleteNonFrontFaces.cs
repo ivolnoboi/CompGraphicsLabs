@@ -20,10 +20,10 @@ namespace CompGraphicsLab06
             return CrossProduct(firstVec, secondVec);
         }
 
-        public static List<List<int>> DeleteFaces(Polyhedron pl)
+        public static List<List<int>> DeleteFaces(Polyhedron pl, Point3D viewDirection)
         {
             List<List<int>> res = new List<List<int>>();
-            Point3D proec = pl.Center() - new Point3D(0, 0, 1500); // вектор проекции
+            Point3D proec = pl.Center() - viewDirection; // вектор проекции
             foreach (var face in pl.Faces) // для каждой грани ищем вектор нормали
             {
                 Point3D norm = GetNormalVector(face, pl.Vertexes);
@@ -32,8 +32,7 @@ namespace CompGraphicsLab06
                 var cos = 0.0;
                 if (prodLength!=0)
                 cos = scalar / prodLength;
-                var angle = Math.Acos(cos);
-                if (cos > 0)// (angle > 90 * Math.PI / 180 && angle < 270 * Math.PI / 180)
+                if (cos > 0)
                     res.Add(face);
             }
             return res;
