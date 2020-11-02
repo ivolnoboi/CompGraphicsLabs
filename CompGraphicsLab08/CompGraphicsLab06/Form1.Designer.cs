@@ -102,6 +102,14 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.NeedCentering = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
             this.SuspendLayout();
@@ -335,7 +343,7 @@
             "Перспективная",
             "Изометрическая"});
             this.projBox.Location = new System.Drawing.Point(13, 644);
-            this.projBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.projBox.Margin = new System.Windows.Forms.Padding(4);
             this.projBox.Name = "projBox";
             this.projBox.Size = new System.Drawing.Size(204, 24);
             this.projBox.TabIndex = 21;
@@ -355,7 +363,7 @@
             // 
             this.rotateOX.AutoSize = true;
             this.rotateOX.Location = new System.Drawing.Point(17, 702);
-            this.rotateOX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOX.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOX.Name = "rotateOX";
             this.rotateOX.Size = new System.Drawing.Size(49, 21);
             this.rotateOX.TabIndex = 23;
@@ -378,7 +386,7 @@
             // 
             this.rotateOY.AutoSize = true;
             this.rotateOY.Location = new System.Drawing.Point(16, 730);
-            this.rotateOY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOY.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOY.Name = "rotateOY";
             this.rotateOY.Size = new System.Drawing.Size(49, 21);
             this.rotateOY.TabIndex = 25;
@@ -391,7 +399,7 @@
             // 
             this.rotateOZ.AutoSize = true;
             this.rotateOZ.Location = new System.Drawing.Point(17, 758);
-            this.rotateOZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOZ.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOZ.Name = "rotateOZ";
             this.rotateOZ.Size = new System.Drawing.Size(49, 21);
             this.rotateOZ.TabIndex = 26;
@@ -403,7 +411,7 @@
             // rotateAngle
             // 
             this.rotateAngle.Location = new System.Drawing.Point(96, 730);
-            this.rotateAngle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateAngle.Margin = new System.Windows.Forms.Padding(4);
             this.rotateAngle.Maximum = new decimal(new int[] {
             360,
             0,
@@ -431,7 +439,7 @@
             // rotateBtn
             // 
             this.rotateBtn.Location = new System.Drawing.Point(8, 926);
-            this.rotateBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rotateBtn.Name = "rotateBtn";
             this.rotateBtn.Size = new System.Drawing.Size(205, 28);
             this.rotateBtn.TabIndex = 30;
@@ -557,7 +565,7 @@
             // 
             this.rotateOwn.AutoSize = true;
             this.rotateOwn.Location = new System.Drawing.Point(17, 786);
-            this.rotateOwn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOwn.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOwn.Name = "rotateOwn";
             this.rotateOwn.Size = new System.Drawing.Size(61, 21);
             this.rotateOwn.TabIndex = 43;
@@ -883,7 +891,7 @@
             // 
             this.NeedCentering.AutoSize = true;
             this.NeedCentering.Location = new System.Drawing.Point(1311, 497);
-            this.NeedCentering.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NeedCentering.Margin = new System.Windows.Forms.Padding(4);
             this.NeedCentering.Name = "NeedCentering";
             this.NeedCentering.Size = new System.Drawing.Size(135, 21);
             this.NeedCentering.TabIndex = 73;
@@ -891,11 +899,98 @@
             this.NeedCentering.UseVisualStyleBackColor = true;
             this.NeedCentering.CheckedChanged += new System.EventHandler(this.NeedCentering_CheckedChanged);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox1.Location = new System.Drawing.Point(1311, 595);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(247, 21);
+            this.checkBox1.TabIndex = 74;
+            this.checkBox1.Text = "Не показывать нелицевые грани";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label25.Location = new System.Drawing.Point(1499, 542);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(18, 20);
+            this.label25.TabIndex = 80;
+            this.label25.Text = "Z";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label26.Location = new System.Drawing.Point(1429, 542);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(19, 20);
+            this.label26.TabIndex = 79;
+            this.label26.Text = "Y";
+            // 
+            // textBox14
+            // 
+            this.textBox14.Location = new System.Drawing.Point(1477, 564);
+            this.textBox14.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(61, 22);
+            this.textBox14.TabIndex = 78;
+            this.textBox14.Text = "0";
+            // 
+            // textBox15
+            // 
+            this.textBox15.Location = new System.Drawing.Point(1411, 564);
+            this.textBox15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(61, 22);
+            this.textBox15.TabIndex = 77;
+            this.textBox15.Text = "0";
+            // 
+            // textBox16
+            // 
+            this.textBox16.Location = new System.Drawing.Point(1341, 564);
+            this.textBox16.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(61, 22);
+            this.textBox16.TabIndex = 76;
+            this.textBox16.Text = "0";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label27.Location = new System.Drawing.Point(1359, 542);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(20, 20);
+            this.label27.TabIndex = 75;
+            this.label27.Text = "X";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label28.Location = new System.Drawing.Point(1337, 522);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(209, 20);
+            this.label28.TabIndex = 81;
+            this.label28.Text = "Выберите точку обзора";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1607, 970);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.textBox14);
+            this.Controls.Add(this.textBox15);
+            this.Controls.Add(this.textBox16);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.NeedCentering);
             this.Controls.Add(this.textBox13);
             this.Controls.Add(this.label24);
@@ -970,7 +1065,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.Text = "Лабораторная работа №7. Построение трёхмерных моделей";
+            this.Text = "Лабораторная работа №8. Удаление невидимых граней";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).EndInit();
             this.ResumeLayout(false);
@@ -1054,6 +1149,14 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.CheckBox NeedCentering;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label28;
     }
 }
 
