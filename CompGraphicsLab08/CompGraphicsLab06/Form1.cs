@@ -61,7 +61,7 @@ namespace CompGraphicsLab06
 
             var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
             var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
-
+            
             foreach (Edge line in edges)
             {
                 var p1 = (line.From).ConvertToPoint();
@@ -73,9 +73,9 @@ namespace CompGraphicsLab06
 
                 // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
             }
-
+            /*
             //--------Рисование по граням (тест, что грани выделены правильно)---------
-            /*List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
+            List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
 
             foreach (List<int> face in curPolyhedron.Faces)
             {
@@ -92,6 +92,51 @@ namespace CompGraphicsLab06
             }*/
             //--------------------------------------------------------------------
 
+            pictureBox1.Invalidate();
+        }
+
+        private void DrawByFaces(List<List<int>> visibleFaces)
+        {
+            if (curPolyhedron.IsEmpty())
+                return;
+            graphics.Clear(Color.White);
+            // graphics.Clear(Color.White);
+            Random r = new Random();
+            pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
+            List<Edge> edges = projection.Project(curPolyhedron, projBox.SelectedIndex);
+
+            //Смещение по центру pictureBox
+            var centerX = pictureBox1.Width / 2;
+            var centerY = pictureBox1.Height / 2;
+
+            //Смещение по центру фигуры
+            //Тоже, конечно, так себе решение, но лучше, чем было
+            var figureLeftX = edges.Min(e => e.From.X < e.To.X ? e.From.X : e.To.X);
+            var figureLeftY = edges.Min(e => e.From.Y < e.To.Y ? e.From.Y : e.To.Y);
+            var figureRightX = edges.Max(e => e.From.X > e.To.X ? e.From.X : e.To.X);
+            var figureRightY = edges.Max(e => e.From.Y > e.To.Y ? e.From.Y : e.To.Y);
+            var figureCenterX = (figureRightX - figureLeftX) / 2;
+            var figureCenterY = (figureRightY - figureLeftY) / 2;
+
+            var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
+            var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
+
+            //--------Рисование по граням 
+            List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
+            pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
+
+            foreach (List<int> face in visibleFaces)
+            {
+                var p1 = points[face[0]].ConvertToPoint();
+                var p2 = points[face[face.Count - 1]].ConvertToPoint();
+                graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                for (var i = 1; i < face.Count; i++)
+                {
+                    p1 = points[face[i-1]].ConvertToPoint();
+                    p2 = points[face[i]].ConvertToPoint();
+                    graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                }
+            }
             pictureBox1.Invalidate();
         }
 
@@ -126,10 +171,10 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(6, new List<int> { 7 });
             curPolyhedron.AddEdges(7, new List<int> { 4 });
 
-            curPolyhedron.AddFace(new List<int> { 0, 1, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 3, 2, 1, 0 });
             curPolyhedron.AddFace(new List<int> { 1, 2, 6, 5 });
-            curPolyhedron.AddFace(new List<int> { 0, 3, 7, 4 });
-            curPolyhedron.AddFace(new List<int> { 4, 5, 6, 7 });
+            curPolyhedron.AddFace(new List<int> { 0, 4, 7, 3 });
+            curPolyhedron.AddFace(new List<int> { 7, 4, 5, 6 });
             curPolyhedron.AddFace(new List<int> { 2, 3, 7, 6 });
             curPolyhedron.AddFace(new List<int> { 0, 1, 5, 4 });
 
@@ -157,9 +202,9 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(1, new List<int> { 3 });
             curPolyhedron.AddEdges(2, new List<int> { 1, 3 });
 
-            curPolyhedron.AddFace(new List<int> { 0, 1, 2 });
+            curPolyhedron.AddFace(new List<int> { 0, 2, 1 });
             curPolyhedron.AddFace(new List<int> { 0, 1, 3 });
-            curPolyhedron.AddFace(new List<int> { 0, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 0, 3, 2 });
             curPolyhedron.AddFace(new List<int> { 1, 2, 3 });
 
             Draw();
@@ -630,6 +675,18 @@ namespace CompGraphicsLab06
         private void NeedCentering_CheckedChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron));
+            }
+            else
+            {
+                Draw();
+            }
         }
     }
 }

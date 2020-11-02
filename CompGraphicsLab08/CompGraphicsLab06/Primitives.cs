@@ -105,7 +105,7 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Список ребер
         /// </summary>
-        public List<Edge> Edges { get; } = new List<Edge>();
+        public List<Edge> Edges { get; set; } = new List<Edge>();
 
         /// <summary>
         /// Список граней. Грани заданы списком вершин (вершины заданы индексами в списке вершин)
@@ -115,7 +115,7 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Матрица смежности - для каждой точки хранит список смежных с ней
         /// </summary>
-        public Dictionary<int, List<int>> Adjacency { get; } = new Dictionary<int, List<int>>();
+        public Dictionary<int, List<int>> Adjacency { get; set; } = new Dictionary<int, List<int>>();
 
         /// <summary>
         /// Находит центр многогранника
