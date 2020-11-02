@@ -681,7 +681,10 @@ namespace CompGraphicsLab06
         {
             if (checkBox1.Checked)
             {
-                DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron));
+                float x = float.Parse(textBox16.Text);
+                float y = float.Parse(textBox15.Text);
+                float z = float.Parse(textBox14.Text);
+                DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron, new Point3D(x*100, y*100, z*100)));
             }
             else
             {
