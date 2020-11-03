@@ -36,7 +36,22 @@ namespace CompGraphicsLab06
             projBox.SelectedIndex = 0;
             pointsRotate = new List<Point3D>();
         }
+
         private void Draw()
+        {
+            if (checkBox1.Checked)
+            {
+                float x = float.Parse(textBox16.Text);
+                float y = float.Parse(textBox15.Text);
+                float z = float.Parse(textBox14.Text);
+                DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron, new Point3D(x * 100, y * 100, z * 100)));
+            }
+            else
+            {
+                DrawByEdges();
+            }
+        }
+        private void DrawByEdges()
         {
             if (curPolyhedron.IsEmpty())
                 return;
@@ -129,12 +144,19 @@ namespace CompGraphicsLab06
             {
                 var p1 = points[face[0]].ConvertToPoint();
                 var p2 = points[face[face.Count - 1]].ConvertToPoint();
-                graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                if (!NeedCentering.Checked)//Центрирование?
+                    graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                else
+                    graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
                 for (var i = 1; i < face.Count; i++)
                 {
                     p1 = points[face[i-1]].ConvertToPoint();
                     p2 = points[face[i]].ConvertToPoint();
-                    graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                    if (!NeedCentering.Checked)//Центрирование?
+                        graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                    else
+                        graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
+
                 }
             }
             pictureBox1.Invalidate();
@@ -679,17 +701,8 @@ namespace CompGraphicsLab06
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
-            {
-                float x = float.Parse(textBox16.Text);
-                float y = float.Parse(textBox15.Text);
-                float z = float.Parse(textBox14.Text);
-                DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron, new Point3D(x*100, y*100, z*100)));
-            }
-            else
-            {
-                Draw();
-            }
+            Draw();
         }
+
     }
 }
