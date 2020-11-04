@@ -116,5 +116,30 @@ namespace CompGraphicsLab06
             }
             return points;
         }
+
+        public List<Point3D> Project3(List<Point3D> fase, int mode = 0)
+        {
+            // TODO: Добавить сюда выбор проекции, сейчас только перспективная одноточечная
+            float[,] matr;
+            switch (mode)
+            {
+                case 0:
+                    matr = perspective;
+                    break;
+                case 1:
+                    matr = isometric;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+            List<Point3D> points = new List<Point3D>(fase);
+
+            for (int i = 0; i < points.Count; ++i)
+            {
+                float[,] tmp1 = MultMatrix(new float[,] { { points[i].X, points[i].Y, points[i].Z, 1 } }, matr);
+                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3], points[i].Z);
+            }
+            return points;
+        }
     }
 }

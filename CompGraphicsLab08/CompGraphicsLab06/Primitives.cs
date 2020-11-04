@@ -191,5 +191,15 @@ namespace CompGraphicsLab06
         {
             Faces.Add(lst);
         }
+
+        public Point3D[] GetPoints(List<int> face)
+        {
+            Point3D[] point3Ds = new Point3D[face.Count];
+
+            for (int i = 0; i < face.Count; ++i)
+                point3Ds[i] = (Vertexes[i]);
+
+            return point3Ds;
+        }
     }
 }
