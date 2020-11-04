@@ -110,7 +110,6 @@
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.button9 = new System.Windows.Forms.Button();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
@@ -980,24 +979,14 @@
             this.label28.TabIndex = 81;
             this.label28.Text = "Выберите точку обзора";
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(1310, 644);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 82;
-            this.button9.Text = "button9";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(1322, 678);
+            this.checkBox2.Location = new System.Drawing.Point(1309, 677);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(95, 21);
+            this.checkBox2.Size = new System.Drawing.Size(83, 21);
             this.checkBox2.TabIndex = 83;
-            this.checkBox2.Text = "checkBox2";
+            this.checkBox2.Text = "Z-буфер";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -1007,7 +996,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1607, 970);
             this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.button9);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.label26);
@@ -1182,7 +1170,6 @@
         private System.Windows.Forms.TextBox textBox16;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Button button9;
         private System.Windows.Forms.CheckBox checkBox2;
     }
 }

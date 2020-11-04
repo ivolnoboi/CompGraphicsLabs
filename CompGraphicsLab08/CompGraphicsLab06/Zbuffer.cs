@@ -181,7 +181,7 @@ namespace CompGraphicsLab06
 
             float step = (d1 - d0) * 1.0f / (i1 - i0);
             float value = d0;
-            for (int i = i0; i < i1; i++)
+            for (int i = i0; i <= i1; i++)
             {
                 res.Add((int)value);
                 value += step;
