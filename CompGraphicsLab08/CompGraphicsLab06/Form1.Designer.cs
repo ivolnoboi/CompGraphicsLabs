@@ -940,7 +940,7 @@
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(61, 22);
             this.textBox14.TabIndex = 78;
-            this.textBox14.Text = "0";
+            this.textBox14.Text = "15";
             // 
             // textBox15
             // 
