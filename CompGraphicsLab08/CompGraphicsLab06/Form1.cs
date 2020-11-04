@@ -24,6 +24,7 @@ namespace CompGraphicsLab06
         /// Текущий многогранник
         /// </summary>
         private Polyhedron curPolyhedron;
+        private List<Polyhedron> scene = new List<Polyhedron>();
         public Form1()
         {
             InitializeComponent();
@@ -38,61 +39,65 @@ namespace CompGraphicsLab06
         }
         private void Draw()
         {
-            if (curPolyhedron.IsEmpty())
-                return;
             graphics.Clear(Color.White);
-            // graphics.Clear(Color.White);
-            Random r = new Random();
-            pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
-            List<Edge> edges = projection.Project(curPolyhedron, projBox.SelectedIndex);
-
-            //Смещение по центру pictureBox
-            var centerX = pictureBox1.Width / 2;
-            var centerY = pictureBox1.Height / 2;
-
-            //Смещение по центру фигуры
-            //Тоже, конечно, так себе решение, но лучше, чем было
-            var figureLeftX = edges.Min(e => e.From.X < e.To.X ? e.From.X : e.To.X);
-            var figureLeftY = edges.Min(e => e.From.Y < e.To.Y ? e.From.Y : e.To.Y);
-            var figureRightX = edges.Max(e => e.From.X > e.To.X ? e.From.X : e.To.X);
-            var figureRightY = edges.Max(e => e.From.Y > e.To.Y ? e.From.Y : e.To.Y);
-            var figureCenterX = (figureRightX - figureLeftX) / 2;
-            var figureCenterY = (figureRightY - figureLeftY) / 2;
-
-            var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
-            var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
-            
-            foreach (Edge line in edges)
+            foreach (var curPolyhedron in scene)
             {
-                var p1 = (line.From).ConvertToPoint();
-                var p2 = (line.To).ConvertToPoint();
-                if (!NeedCentering.Checked)//Центрирование?
-                    graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
-                else
-                    graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
+                if (curPolyhedron.IsEmpty())
+                    return;
 
-                // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
-            }
-            /*
-            //--------Рисование по граням (тест, что грани выделены правильно)---------
-            List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
-
-            foreach (List<int> face in curPolyhedron.Faces)
-            {
+                // graphics.Clear(Color.White);
+                Random r = new Random();
                 pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
-                foreach (var point1 in face)
-                {
-                    foreach (var point2 in face)
-                    {
-                        var p1 = points[point1].ConvertToPoint();
-                        var p2 = points[point2].ConvertToPoint();
-                        graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
-                    }
-                }
-            }*/
-            //--------------------------------------------------------------------
+                List<Edge> edges = projection.Project(curPolyhedron, projBox.SelectedIndex);
 
-            pictureBox1.Invalidate();
+                //Смещение по центру pictureBox
+                var centerX = pictureBox1.Width / 2;
+                var centerY = pictureBox1.Height / 2;
+
+                //Смещение по центру фигуры
+                //Тоже, конечно, так себе решение, но лучше, чем было
+                var figureLeftX = edges.Min(e => e.From.X < e.To.X ? e.From.X : e.To.X);
+                var figureLeftY = edges.Min(e => e.From.Y < e.To.Y ? e.From.Y : e.To.Y);
+                var figureRightX = edges.Max(e => e.From.X > e.To.X ? e.From.X : e.To.X);
+                var figureRightY = edges.Max(e => e.From.Y > e.To.Y ? e.From.Y : e.To.Y);
+                var figureCenterX = (figureRightX - figureLeftX) / 2;
+                var figureCenterY = (figureRightY - figureLeftY) / 2;
+
+                var fixX = centerX - figureCenterX + (figureLeftX < 0 ? Math.Abs(figureLeftX) : -Math.Abs(figureLeftX));
+                var fixY = centerY - figureCenterY + (figureLeftY < 0 ? Math.Abs(figureLeftY) : -Math.Abs(figureLeftY));
+
+                foreach (Edge line in edges)
+                {
+                    var p1 = (line.From).ConvertToPoint();
+                    var p2 = (line.To).ConvertToPoint();
+                    if (!NeedCentering.Checked)//Центрирование?
+                        graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                    else
+                        graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
+
+                    // graphics.DrawLine(pen,p1.X+ fixX, p1.Y+ fixY, p2.X+ fixX, p2.Y+ fixY);
+                }
+                /*
+                //--------Рисование по граням (тест, что грани выделены правильно)---------
+                List<Point3D> points = projection.Project2(curPolyhedron, projBox.SelectedIndex);
+
+                foreach (List<int> face in curPolyhedron.Faces)
+                {
+                    pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
+                    foreach (var point1 in face)
+                    {
+                        foreach (var point2 in face)
+                        {
+                            var p1 = points[point1].ConvertToPoint();
+                            var p2 = points[point2].ConvertToPoint();
+                            graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
+                        }
+                    }
+                }*/
+                //--------------------------------------------------------------------
+
+                pictureBox1.Invalidate();
+            }
         }
 
         private void DrawByFaces(List<List<int>> visibleFaces)
@@ -178,6 +183,7 @@ namespace CompGraphicsLab06
             curPolyhedron.AddFace(new List<int> { 2, 3, 7, 6 });
             curPolyhedron.AddFace(new List<int> { 0, 1, 5, 4 });
 
+            scene.Add(curPolyhedron);
             Draw();
         }
 
@@ -207,6 +213,7 @@ namespace CompGraphicsLab06
             curPolyhedron.AddFace(new List<int> { 0, 3, 2 });
             curPolyhedron.AddFace(new List<int> { 1, 2, 3 });
 
+            scene.Add(curPolyhedron);
             Draw();
         }
 
@@ -216,8 +223,12 @@ namespace CompGraphicsLab06
         private void Clear_Click(object sender, EventArgs e)
         {
             curPolyhedron.Clear();
+            scene.Clear();
+
+            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(pictureBox1.Image);
             graphics.Clear(Color.White);
-            pictureBox1.Invalidate();
+
             pointsRotate.Clear();
             NeedCentering.Checked = false;
         }
@@ -687,6 +698,25 @@ namespace CompGraphicsLab06
             {
                 Draw();
             }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            List<System.Drawing.Color> colors = new List<System.Drawing.Color>();
+            Random random = new Random();
+            for (int i = 0; i < curPolyhedron.Faces.Count; i++)
+            {
+                colors.Add(System.Drawing.Color.FromArgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255)));
+            }
+            Bitmap bmp = ZBuffer.z_buffer(pictureBox1.Width, pictureBox1.Height, scene, colors);
+
+            pictureBox1.Image = bmp;
+            pictureBox1.Invalidate();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
