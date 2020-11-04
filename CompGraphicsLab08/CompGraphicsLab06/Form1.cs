@@ -721,13 +721,7 @@ namespace CompGraphicsLab06
 
         private void button9_Click(object sender, EventArgs e)
         {
-            List<System.Drawing.Color> colors = new List<System.Drawing.Color>();
-            Random random = new Random();
-            for (int i = 0; i < curPolyhedron.Faces.Count; i++)
-            {
-                colors.Add(System.Drawing.Color.FromArgb((byte)random.Next(0, 255), (byte)random.Next(0, 255), (byte)random.Next(0, 255)));
-            }
-            Bitmap bmp = ZBuffer.z_buffer(pictureBox1.Width, pictureBox1.Height, scene, colors);
+            Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene);
 
             pictureBox1.Image = bmp;
             pictureBox1.Invalidate();
