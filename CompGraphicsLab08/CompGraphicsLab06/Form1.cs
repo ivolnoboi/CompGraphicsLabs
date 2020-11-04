@@ -50,7 +50,15 @@ namespace CompGraphicsLab06
             }
             else
             {
-                DrawByEdges();
+                if (checkBox2.Checked)
+                {
+                    DrawByEdges();
+                    ZBufferOn();
+                }
+                else
+                {
+                    DrawByEdges();
+                }
             }
         }
         private void DrawByEdges()
@@ -158,7 +166,7 @@ namespace CompGraphicsLab06
                     graphics.DrawLine(pen, p1.X + fixX, p1.Y + fixY, p2.X + fixX, p2.Y + fixY);
                 for (var i = 1; i < face.Count; i++)
                 {
-                    p1 = points[face[i-1]].ConvertToPoint();
+                    p1 = points[face[i - 1]].ConvertToPoint();
                     p2 = points[face[i]].ConvertToPoint();
                     if (!NeedCentering.Checked)//Центрирование?
                         graphics.DrawLine(pen, p1.X + centerX - figureCenterX, p1.Y + centerY - figureCenterY, p2.X + centerX - figureCenterX, p2.Y + centerY - figureCenterY);
@@ -644,6 +652,7 @@ namespace CompGraphicsLab06
             Affine.rotateCenter(polyhedron, 60, 0, 0);
 
             curPolyhedron = polyhedron;
+            scene.Add(curPolyhedron);
             pen.Width = 1;
             Draw();
         }
@@ -694,6 +703,7 @@ namespace CompGraphicsLab06
                 if (File.Exists(fName))
                 {
                     curPolyhedron = JsonConvert.DeserializeObject<Polyhedron>(File.ReadAllText(fName, Encoding.UTF8));
+                    scene.Add(curPolyhedron);
                     Draw();
                 }
             }
@@ -704,7 +714,7 @@ namespace CompGraphicsLab06
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fName = saveFileDialog1.FileName;
-                File.WriteAllText(fName, JsonConvert.SerializeObject(curPolyhedron, Formatting.Indented), Encoding.UTF8);                
+                File.WriteAllText(fName, JsonConvert.SerializeObject(curPolyhedron, Formatting.Indented), Encoding.UTF8);
             }
         }
 
@@ -719,17 +729,17 @@ namespace CompGraphicsLab06
         }
 
 
-        private void button9_Click(object sender, EventArgs e)
+        private void ZBufferOn()
         {
             Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene);
-
             pictureBox1.Image = bmp;
             pictureBox1.Invalidate();
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox2.Checked)
+                ZBufferOn();
         }
 
     }
