@@ -58,7 +58,7 @@ namespace CompGraphicsLab06
                             if (point.Z > zbuff[x, y])
                             {
                                 zbuff[x, y] = point.Z;
-                                newImg.SetPixel(x, y, colors[ind]);
+                                newImg.SetPixel(x, y, colors[ind % colors.Count]);
                             }
                         }
                     }
