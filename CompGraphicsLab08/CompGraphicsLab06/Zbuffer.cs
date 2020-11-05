@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CompGraphicsLab06
 {
@@ -121,38 +122,32 @@ namespace CompGraphicsLab06
             if (x02[middle] < x012[middle])
             {
                 leftX = x02;
-                rightX = x012;
-
                 leftZ = z02;
+                rightX = x012;
                 rightZ = z012;
             }
             else
             {
                 leftX = x012;
-                rightX = x02;
-
                 leftZ = z012;
+                rightX = x02;
                 rightZ = z02;
             }
 
             int y0 = rpoints[0].Y;
-            int y2 = rpoints[2].Y + 1;
+            int y2 = rpoints[2].Y;
 
-            for (int y = y0; y < y2; y++)
+            for (int ind = 0; ind <= y2 - y0; ind++)
             {
-                if (y - y0 >= leftX.Count || y - y0 >= rightX.Count)
-                {
-                    continue;
-                }
 
-                int XL = leftX[y - y0];
-                int XR = rightX[y - y0];
+                int XL = leftX[ind];
+                int XR = rightX[ind];
 
-                List<int> intCurrZ = Interpolate(XL, leftZ[y - y0], XR, rightZ[y - y0]);
+                List<int> intCurrZ = Interpolate(XL, leftZ[ind], XR, rightZ[ind]);
 
                 for (int x = XL; x < XR; x++)
                 {
-                    res.Add(new Point3D(x, y, intCurrZ[x - XL]));
+                    res.Add(new Point3D(x, y0 + ind, intCurrZ[x - XL]));
                 }
             }
 
