@@ -4,17 +4,19 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CompGraphicsLab06
 {
     class ZBuffer
     {
-        public static Bitmap Z_buffer(int width, int heigh, List<Polyhedron> scene)
+
+        public static Bitmap Z_buffer(int width, int heigh, List<Polyhedron> scene, List<Color> colors)
         {
             Bitmap newImg = new Bitmap(width, heigh);
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < heigh; j++)
-                    newImg.SetPixel(i, j, Color.Lavender);
+                    newImg.SetPixel(i, j, Color.White);
 
             float[,] zbuff = new float[width, heigh];
             for (int i = 0; i < width; i++)
@@ -30,6 +32,7 @@ namespace CompGraphicsLab06
             var centerX = width / 2;
             var centerY = heigh / 2;
 
+            int ind = 0;
             for (int i = 0; i < rasterizedScene.Count; i++)
             {
                 //Смещение по центру фигуры
@@ -46,10 +49,8 @@ namespace CompGraphicsLab06
                 for (int j = 0; j < rasterizedScene[i].Count; j++)
                 {
                     List<Point3D> curr = rasterizedScene[i][j];
-                    Color currColor = Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255));
                     foreach (Point3D point in curr)
                     {
-
                         int x = (int)(point.X + centerX - figureCenterX);
                         int y = (int)(point.Y + centerY - figureCenterY);
                         if (x < width && y < heigh && x > 0 && y > 0)
@@ -57,10 +58,11 @@ namespace CompGraphicsLab06
                             if (point.Z > zbuff[x, y])
                             {
                                 zbuff[x, y] = point.Z;
-                                newImg.SetPixel(x, y, currColor);
+                                newImg.SetPixel(x, y, colors[ind % colors.Count]);
                             }
                         }
                     }
+                    ind++;
                 }
             }
             return newImg;
@@ -99,14 +101,15 @@ namespace CompGraphicsLab06
             List<Point3D> res = new List<Point3D>();
 
             points.Sort((point1, point2) => point1.Y.CompareTo(point2.Y));
+            var rpoints = points.Select(point => (X: (int)Math.Round(point.X), Y: (int)Math.Round(point.Y), Z: (int)Math.Round(point.Z))).ToList();
 
-            var x01 = Interpolate((int)Math.Round(points[0].Y), (int)Math.Round(points[0].X), (int)Math.Round(points[1].Y), (int)Math.Round(points[1].X));
-            var x12 = Interpolate((int)Math.Round(points[1].Y), (int)Math.Round(points[1].X), (int)Math.Round(points[2].Y), (int)Math.Round(points[2].X));
-            var x02 = Interpolate((int)Math.Round(points[0].Y), (int)Math.Round(points[0].X), (int)Math.Round(points[2].Y), (int)Math.Round(points[2].X));
+            var x01 = Interpolate(rpoints[0].Y, rpoints[0].X, rpoints[1].Y, rpoints[1].X);
+            var x12 = Interpolate(rpoints[1].Y, rpoints[1].X, rpoints[2].Y, rpoints[2].X);
+            var x02 = Interpolate(rpoints[0].Y, rpoints[0].X, rpoints[2].Y, rpoints[2].X);
 
-            var z01 = Interpolate((int)Math.Round(points[0].Y), (int)Math.Round(points[0].Z), (int)Math.Round(points[1].Y), (int)Math.Round(points[1].Z));
-            var z12 = Interpolate((int)Math.Round(points[1].Y), (int)Math.Round(points[1].Z), (int)Math.Round(points[2].Y), (int)Math.Round(points[2].Z));
-            var z02 = Interpolate((int)Math.Round(points[0].Y), (int)Math.Round(points[0].Z), (int)Math.Round(points[2].Y), (int)Math.Round(points[2].Z));
+            var z01 = Interpolate(rpoints[0].Y, rpoints[0].Z, rpoints[1].Y, rpoints[1].Z);
+            var z12 = Interpolate(rpoints[1].Y, rpoints[1].Z, rpoints[2].Y, rpoints[2].Z);
+            var z02 = Interpolate(rpoints[0].Y, rpoints[0].Z, rpoints[2].Y, rpoints[2].Z);
 
             x01.RemoveAt(x01.Count - 1);
             List<int> x012 = x01.Concat(x12).ToList();
@@ -119,38 +122,32 @@ namespace CompGraphicsLab06
             if (x02[middle] < x012[middle])
             {
                 leftX = x02;
-                rightX = x012;
-
                 leftZ = z02;
+                rightX = x012;
                 rightZ = z012;
             }
             else
             {
                 leftX = x012;
-                rightX = x02;
-
                 leftZ = z012;
+                rightX = x02;
                 rightZ = z02;
             }
 
-            int y0 = (int)Math.Round(points[0].Y);
-            int y2 = (int)Math.Round(points[2].Y) + 1;
+            int y0 = rpoints[0].Y;
+            int y2 = rpoints[2].Y;
 
-            for (int y = y0; y < y2; y++)
+            for (int ind = 0; ind <= y2 - y0; ind++)
             {
-                if (y - y0 >= leftX.Count || y - y0 >= rightX.Count)
-                {
-                    continue;
-                }
 
-                int XL = leftX[y - y0];
-                int XR = rightX[y - y0];
+                int XL = leftX[ind];
+                int XR = rightX[ind];
 
-                List<int> intCurrZ = Interpolate(XL, leftZ[y - y0], XR, rightZ[y - y0]);
+                List<int> intCurrZ = Interpolate(XL, leftZ[ind], XR, rightZ[ind]);
 
                 for (int x = XL; x < XR; x++)
                 {
-                    res.Add(new Point3D(x, y, intCurrZ[x - XL]));
+                    res.Add(new Point3D(x, y0 + ind, intCurrZ[x - XL]));
                 }
             }
 

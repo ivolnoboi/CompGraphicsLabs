@@ -19,6 +19,7 @@ namespace CompGraphicsLab06
         private Pen pen;
         private Projection projection;
         private List<Point3D> pointsRotate;
+        private static List<Color> Colors;
 
         /// <summary>
         /// Текущий многогранник
@@ -36,6 +37,18 @@ namespace CompGraphicsLab06
             radioButton1.Checked = true;
             projBox.SelectedIndex = 0;
             pointsRotate = new List<Point3D>();
+
+            Colors = new List<Color>();
+            Random r = new Random(Environment.TickCount);
+            for (int i = 0; i < 1000; ++i)
+                Colors.Add(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)));
+        }
+
+        private void ClearPictureBox()
+        {
+            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(pictureBox1.Image);
+            graphics.Clear(Color.White);
         }
 
         private void Draw()
@@ -53,7 +66,7 @@ namespace CompGraphicsLab06
                 if (checkBox2.Checked)
                 {
                     DrawByEdges();
-                    ZBufferOn();
+                    ZBufferOn(Colors);
                 }
                 else
                 {
@@ -65,14 +78,16 @@ namespace CompGraphicsLab06
         {
             if (curPolyhedron.IsEmpty())
                 return;
-            graphics.Clear(Color.White);
+            Random r = new Random(Environment.TickCount);
+            // graphics.Clear(Color.White);
+            ClearPictureBox();
             foreach (var curPolyhedron in scene)
             {
                 if (curPolyhedron.IsEmpty())
                     return;
 
                 // graphics.Clear(Color.White);
-                Random r = new Random();
+
                 pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
                 List<Edge> edges = projection.Project(curPolyhedron, projBox.SelectedIndex);
 
@@ -130,7 +145,7 @@ namespace CompGraphicsLab06
         {
             if (curPolyhedron.IsEmpty())
                 return;
-            graphics.Clear(Color.White);
+            ClearPictureBox();
             // graphics.Clear(Color.White);
             Random r = new Random();
             pen = new Pen(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)), 2);
@@ -301,6 +316,7 @@ namespace CompGraphicsLab06
             curPolyhedron.AddFace(new List<int> { 3, 5, 2 });
             curPolyhedron.AddFace(new List<int> { 5, 4, 2 });
 
+            scene.Add(curPolyhedron);
             Draw();
         }
 
@@ -645,7 +661,7 @@ namespace CompGraphicsLab06
                     if (j != N - 1 && i != N - 1)
                     {
                         // текущая точка, вправо от тек., вниз от тек., вправо и вниз от тек. образуют грань 
-                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + j, (i + 1) * N + (j + 1) });
+                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + (j + 1), (i + 1) * N + j});
                     }
                 }
             Affine.scaleCenter(polyhedron, 40);
@@ -729,18 +745,21 @@ namespace CompGraphicsLab06
         }
 
 
-        private void ZBufferOn()
+        private void ZBufferOn(List<Color> colors)
         {
-            Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene);
+            Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene, colors);
             pictureBox1.Image = bmp;
             pictureBox1.Invalidate();
         }
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox2.Checked)
-                ZBufferOn();
+            Draw();
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -982,7 +982,7 @@
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(1309, 677);
+            this.checkBox2.Location = new System.Drawing.Point(1311, 624);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(83, 21);
             this.checkBox2.TabIndex = 83;
@@ -1079,6 +1079,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Лабораторная работа №8. Удаление невидимых граней";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).EndInit();
             this.ResumeLayout(false);
