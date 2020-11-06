@@ -617,6 +617,7 @@ namespace CompGraphicsLab06
             else axisF = 'x';
 
             curPolyhedron = RotateFigure.createPolyhedronForRotateFigure(pointsRotate, count, axisF);
+            scene.Add(curPolyhedron);
             Draw();
         }
 
