@@ -747,7 +747,7 @@ namespace CompGraphicsLab06
 
         private void ZBufferOn(List<Color> colors)
         {
-            Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene, colors);
+            Bitmap bmp = ZBuffer.Z_buffer(pictureBox1.Width, pictureBox1.Height, scene, colors, projBox.SelectedIndex);
             pictureBox1.Image = bmp;
             pictureBox1.Invalidate();
         }

@@ -10,9 +10,11 @@ namespace CompGraphicsLab06
 {
     class ZBuffer
     {
-
-        public static Bitmap Z_buffer(int width, int heigh, List<Polyhedron> scene, List<Color> colors)
+        private static int ProjMode = 0;
+        public static Bitmap Z_buffer(int width, int heigh, List<Polyhedron> scene, List<Color> colors, int projMode = 0)
         {
+            ProjMode = projMode;
+
             Bitmap newImg = new Bitmap(width, heigh);
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < heigh; j++)
@@ -36,7 +38,6 @@ namespace CompGraphicsLab06
             for (int i = 0; i < rasterizedScene.Count; i++)
             {
                 //Смещение по центру фигуры
-                //Тоже, конечно, так себе решение, но лучше, чем было
                 var figureLeftX = rasterizedScene[i].Where(face => face.Count != 0).Min(face => face.Min(vertex => vertex.X));
                 var figureLeftY = rasterizedScene[i].Where(face => face.Count != 0).Min(face => face.Min(vertex => vertex.Y));
                 var figureRightX = rasterizedScene[i].Where(face => face.Count != 0).Max(face => face.Max(vertex => vertex.X));
@@ -154,6 +155,7 @@ namespace CompGraphicsLab06
             return res;
         }
 
+
         private static List<List<Point3D>> Triangulate(List<Point3D> points)
         {
             List<List<Point3D>> res = new List<List<Point3D>>();
@@ -190,7 +192,7 @@ namespace CompGraphicsLab06
         public static List<Point3D> PrepareCoords(List<Point3D> init)
         {
             var projection = new Projection();
-            return projection.Project3(init, 0);
+            return projection.Project3(init, ProjMode);
         }
 
     }
