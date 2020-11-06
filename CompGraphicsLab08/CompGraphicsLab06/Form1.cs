@@ -661,7 +661,7 @@ namespace CompGraphicsLab06
                     if (j != N - 1 && i != N - 1)
                     {
                         // текущая точка, вправо от тек., вниз от тек., вправо и вниз от тек. образуют грань 
-                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + j, (i + 1) * N + (j + 1) });
+                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + (j + 1), (i + 1) * N + j});
                     }
                 }
             Affine.scaleCenter(polyhedron, 40);
