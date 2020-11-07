@@ -13,7 +13,7 @@ namespace CompGraphicsLab06
         {
             Point3D firstVec = vertexes[facet[1]] - vertexes[facet[0]];
             Point3D secondVec = vertexes[facet[2]] - vertexes[facet[1]];
-            if (secondVec.X==0&&secondVec.Y==0&&secondVec.Z==0)
+            if (secondVec.X == 0 && secondVec.Y == 0 && secondVec.Z == 0)
             {
                 secondVec = vertexes[facet[3]] - vertexes[facet[2]];
             }
@@ -30,8 +30,8 @@ namespace CompGraphicsLab06
                 var scalar = norm.X * proec.X + norm.Y * proec.Y + norm.Z * proec.Z;
                 var prodLength = Math.Sqrt(norm.X * norm.X + norm.Y * norm.Y + norm.Z * norm.Z) * Math.Sqrt(proec.X * proec.X + proec.Y * proec.Y + proec.Z * proec.Z);
                 var cos = 0.0;
-                if (prodLength!=0)
-                cos = scalar / prodLength;
+                if (prodLength != 0)
+                    cos = scalar / prodLength;
                 if (cos > 0)
                     res.Add(face);
             }
