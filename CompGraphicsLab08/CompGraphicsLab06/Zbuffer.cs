@@ -80,22 +80,17 @@ namespace CompGraphicsLab06
                 {
                     facetPoint3Ds.Add(polyhedron.Vertexes[facet[i]]);
                 }
-                currentFac.AddRange(RasterizeShape(facetPoint3Ds));
+
+                List<List<Point3D>> triangles = Triangulate(facetPoint3Ds);
+                foreach (List<Point3D> triangle in triangles)
+                {
+                    currentFac.AddRange(RasterizeTriangle(MakeProj(triangle)));
+                }
                 rasterized.Add(currentFac);
             }
             return rasterized;
         }
 
-        private static List<Point3D> RasterizeShape(List<Point3D> points)
-        {
-            List<Point3D> res = new List<Point3D>();
-            List<List<Point3D>> triangles = Triangulate(points);
-            foreach (var triangle in triangles)
-            {
-                res.AddRange(RasterizeTriangle(PrepareCoords(triangle)));
-            }
-            return res;
-        }
 
         private static List<Point3D> RasterizeTriangle(List<Point3D> points)
         {
@@ -140,7 +135,6 @@ namespace CompGraphicsLab06
 
             for (int ind = 0; ind <= y2 - y0; ind++)
             {
-
                 int XL = leftX[ind];
                 int XR = rightX[ind];
 
@@ -158,10 +152,10 @@ namespace CompGraphicsLab06
 
         private static List<List<Point3D>> Triangulate(List<Point3D> points)
         {
-            List<List<Point3D>> res = new List<List<Point3D>>();
             if (points.Count == 3)
                 return new List<List<Point3D>> { points };
 
+            List<List<Point3D>> res = new List<List<Point3D>>();
             for (int i = 2; i < points.Count; i++)
             {
                 res.Add(new List<Point3D> { points[0], points[i - 1], points[i] });
@@ -170,6 +164,7 @@ namespace CompGraphicsLab06
             return res;
         }
 
+        // d = f(i)
         private static List<int> Interpolate(int i0, int d0, int i1, int d1)
         {
             if (i0 == i1)
@@ -189,12 +184,7 @@ namespace CompGraphicsLab06
             return res;
         }
 
-        public static List<Point3D> PrepareCoords(List<Point3D> init)
-        {
-            var projection = new Projection();
-            return projection.Project3(init, ProjMode);
-        }
-
+        public static List<Point3D> MakeProj(List<Point3D> init) => new Projection().Project3(init, ProjMode);
     }
 }
 
