@@ -47,6 +47,41 @@ namespace CompGraphicsLab06
         { 
             return new Point((int)X, (int)Y); 
         }
+
+        public float DistanceTo(Point3D p2)
+        {
+            return (float)Math.Sqrt((X - p2.X) * (X - p2.X) + (Y - p2.Y) * (Y - p2.Y) + (Z - p2.Z) * (Z - p2.Z));
+        }
+    }
+
+    class Vector3
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+        public float Length
+        {
+            get
+            {
+                return (float)Math.Sqrt(X * X + Y * Y + Z * Z);
+            }
+        }
+
+        public Vector3(float x, float y, float z)
+        {
+            X = x; Y = y; Z = z;
+        }
+
+        public Vector3 Normalize() => Length > 0 ? new Vector3(X / Length, Y / Length, Z / Length) : new Vector3(0, 0, 0);
+
+        public static float ScalarProduct(Vector3 v1, Vector3 v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+        public static Vector3 VectorProduct(Vector3 v1, Vector3 v2)
+        {
+            return new Vector3(v1.Y * v2.Z - v1.Z * v2.Y, v1.Z * v2.X - v1.X * v2.Z, v1.X * v2.Y - v1.Y * v2.X);
+        }
+
+        public static Vector3 operator +(Vector3 v1, Vector3 v2) => new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+        public static Vector3 operator -(Vector3 v1, Vector3 v2) => new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
     }
 
     /// <summary>
