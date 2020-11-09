@@ -187,7 +187,18 @@ namespace CompGraphicsLab06
                 Adjacency.Add(i, new List<int>());
             }
         }
-        public Polyhedron() { }
+        public Polyhedron(Polyhedron old)
+        {
+            Vertexes = new List<Point3D>(old.Vertexes);
+            Edges = new List<Edge>(old.Edges);
+            Adjacency = new Dictionary<int, List<int>>();
+            foreach (var ad in old.Adjacency)
+                Adjacency.Add(ad.Key, new List<int>(ad.Value));
+            Faces = new List<List<int>>();
+            foreach (var f in old.Faces)
+                Faces.Add(new List<int>(f));            
+        }
+
 
         /// <summary>
         /// Добавить ребро

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace CompGraphicsLab06
 {
+    
     public partial class Form1 : Form
     {
         private Graphics graphics;
@@ -108,12 +109,6 @@ namespace CompGraphicsLab06
             Vector3 cU = (Vector3.VectorProduct(cL, cR)).Normalize();
 
             float[,] matrixV = 
-                 /*{
-                     { cR.X, cU.X, cL.X, 0 },
-                     { cR.Y, cU.Y, cL.Y, 0 },
-                     { cR.Z, cU.Z, cL.Z, 0 },
-                     { -Vector3.ScalarProduct(cR, cT), -Vector3.ScalarProduct(cU, cT), -Vector3.ScalarProduct(cL, cT), 1 },
-                 };*/
                  {
                      { cR.X, cR.Y, cR.Z, -Vector3.ScalarProduct(cR, cT) },
                      { cU.X, cU.Y, cU.Z, -Vector3.ScalarProduct(cU, cT) },
@@ -123,9 +118,10 @@ namespace CompGraphicsLab06
 
             foreach (var polyhedron in scene)
             {
-                Affine.ChangePolyhedron(polyhedron, matrixV);
+                Polyhedron curPolyhedron = new Polyhedron(polyhedron);
+                Affine.ChangePolyhedron(curPolyhedron, matrixV);
                 //System.Diagnostics.Debug.WriteLine($"Cube Position: {curPolyhedron.Center}");
-                foreach (var line in projection.Project(polyhedron, 0))
+                foreach (var line in projection.Project(curPolyhedron, 0))
                     graphics.DrawLine(new Pen(Color.Black), PointSum(line.From.ConvertToPoint(),camera.Offset), PointSum(line.To.ConvertToPoint(),camera.Offset));
             }
             pictureBox1.Invalidate();
