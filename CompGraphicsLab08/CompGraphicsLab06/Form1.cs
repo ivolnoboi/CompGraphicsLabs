@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace CompGraphicsLab06
 {
+    
     public partial class Form1 : Form
     {
         private Graphics graphics;
@@ -20,6 +21,7 @@ namespace CompGraphicsLab06
         private Projection projection;
         private List<Point3D> pointsRotate;
         private static List<Color> Colors;
+        private Camera camera = new Camera();
 
         /// <summary>
         /// Текущий многогранник
@@ -42,6 +44,10 @@ namespace CompGraphicsLab06
             Random r = new Random(Environment.TickCount);
             for (int i = 0; i < 1000; ++i)
                 Colors.Add(Color.FromArgb(r.Next(0, 255), r.Next(0, 255), r.Next(0, 255)));
+
+            camera.Position = new Point3D(int.Parse(camPosX.Text), int.Parse(camPosY.Text), int.Parse(camPosZ.Text)); //(299, 180, 0)
+            camera.Focus = new Point3D(0, 0, 1000);
+            camera.Offset = new PointF(pictureBox1.Width / 2, pictureBox1.Height / 2);
         }
 
         private void ClearPictureBox()
@@ -56,10 +62,15 @@ namespace CompGraphicsLab06
 
             if (checkBox1.Checked)
             {
-                float x = float.Parse(textBox16.Text);
-                float y = float.Parse(textBox15.Text);
-                float z = float.Parse(textBox14.Text);
+                float x = float.Parse(camPosX.Text);
+                float y = float.Parse(camPosY.Text);
+                float z = float.Parse(camPosZ.Text);
                 DrawByFaces(DeleteNonFrontFaces.DeleteFaces(curPolyhedron, new Point3D(x * 100, y * 100, z * 100)));
+            }
+            else if (FreeCam.Checked)
+            {
+                //camera.Position = new Point3D(int.Parse(camPosX.Text), int.Parse(camPosY.Text), int.Parse(camPosZ.Text));
+                DrawCam();
             }
             else
             {
@@ -74,6 +85,53 @@ namespace CompGraphicsLab06
                 }
             }
         }
+
+        public void DrawCam()
+        {
+            graphics.Clear(Color.White);
+
+            //System.Diagnostics.Debug.WriteLine($"Angle X: {camera.AngleX}");
+            //change position of camera
+            double dist = camera.Position.DistanceTo(camera.Focus);
+            //System.Diagnostics.Debug.WriteLine($"Distance: {dist}");
+            double angleBeta = (180 - camera.AngleX) / 2;
+            double angleGamma = 90 - angleBeta;
+            float l = (float)(dist * Math.Sqrt(2 * (1 - Math.Cos(camera.AngleX * Math.PI / 180))));
+            float x = (float)(l * Math.Cos(angleGamma * Math.PI / 180));
+            float z = (float)(l * Math.Sin(angleGamma * Math.PI / 180));
+            Point3D currentPosition = camera.Position + new Point3D(x, 0, z);
+            //System.Diagnostics.Debug.WriteLine($"Camera Position: {currentPosition}");
+
+            Vector3 mT = new Vector3(camera.Focus.X, camera.Focus.Y, camera.Focus.Z);
+            Vector3 cT = new Vector3(currentPosition.X, currentPosition.Y, currentPosition.Z);
+            Vector3 cL = (mT - cT).Normalize();
+            Vector3 cR = (Vector3.VectorProduct(new Vector3(0, 1, 0), cL)).Normalize();
+            Vector3 cU = (Vector3.VectorProduct(cL, cR)).Normalize();
+
+            float[,] matrixV = 
+                 {
+                     { cR.X, cR.Y, cR.Z, -Vector3.ScalarProduct(cR, cT) },
+                     { cU.X, cU.Y, cU.Z, -Vector3.ScalarProduct(cU, cT) },
+                     { cL.X, cL.Y, cL.Z, -Vector3.ScalarProduct(cL, cT) },
+                     { 0, 0, 0, 1 }
+                 };
+
+            foreach (var polyhedron in scene)
+            {
+                Polyhedron curPolyhedron = new Polyhedron(polyhedron);
+                Affine.ChangePolyhedron(curPolyhedron, matrixV);
+                //System.Diagnostics.Debug.WriteLine($"Cube Position: {curPolyhedron.Center}");
+                foreach (var line in projection.Project(curPolyhedron, 0))
+                    graphics.DrawLine(new Pen(Color.Black), PointSum(line.From.ConvertToPoint(),camera.Offset), PointSum(line.To.ConvertToPoint(),camera.Offset));
+            }
+            pictureBox1.Invalidate();
+        }
+
+
+
+        public static Point PointSum(Point p1,PointF p2) => new Point(p1.X + (int)p2.X, p1.Y + (int)p2.Y);
+
+
         private void DrawByEdges()
         {
             if (curPolyhedron.IsEmpty())
@@ -761,6 +819,47 @@ namespace CompGraphicsLab06
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void FreeCam_Click(object sender, EventArgs e)
+        {
+            Draw();
+        }
+
+        private void UpBtn_Click(object sender, EventArgs e)
+        {
+            camera.MoveCamera(0, 0, -4);
+            Draw();
+        }
+
+        private void DBtn_Click(object sender, EventArgs e)
+        {
+            camera.MoveCamera(0, 0, 4);
+            Draw();
+        }
+
+        private void RBtn_Click(object sender, EventArgs e)
+        {
+            camera.MoveCamera(4, 0, 0);
+            Draw();
+        }
+
+        private void LBtn_Click(object sender, EventArgs e)
+        {
+            camera.MoveCamera(-4, 0, 0);
+            Draw();
+        }
+
+        private void QBtn_Click(object sender, EventArgs e)
+        {
+            camera.RotateCamera(-2, 0);
+            Draw();
+        }
+
+        private void EBtn_Click(object sender, EventArgs e)
+        {
+            camera.RotateCamera(2, 0);
+            Draw();
         }
     }
 }

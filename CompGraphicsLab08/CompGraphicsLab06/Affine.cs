@@ -17,7 +17,7 @@ namespace CompGraphicsLab06
         /// <summary>
         /// Применения матрицы преобразований к каждой точке многогранника
         /// </summary>
-        static private void ChangePolyhedron(Polyhedron polyhedron, float[,] matrix)
+        static public void ChangePolyhedron(Polyhedron polyhedron, float[,] matrix)
         {
             List<Point3D> points = new List<Point3D>();
             for (int i = 0; i < polyhedron.Vertexes.Count; ++i) // применяем преобразования к каждой точке
