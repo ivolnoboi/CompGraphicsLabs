@@ -187,6 +187,7 @@ namespace CompGraphicsLab06
                 Adjacency.Add(i, new List<int>());
             }
         }
+        public Polyhedron() { }
         public Polyhedron(Polyhedron old)
         {
             Vertexes = new List<Point3D>(old.Vertexes);
