@@ -79,6 +79,13 @@ namespace CompGraphicsLab06
                     DrawByEdges();
                     ZBufferOn(Colors);
                 }
+                else if (checkBox3.Checked)
+                {
+                    float x = float.Parse(ligthX.Text);
+                    float y = float.Parse(ligthY.Text);
+                    float z = float.Parse(ligthZ.Text);
+                    GouraudOn(new Point3D(x, y, z));
+                }
                 else
                 {
                     DrawByEdges();
@@ -811,11 +818,21 @@ namespace CompGraphicsLab06
             pictureBox1.Invalidate();
         }
 
+        private void GouraudOn(Point3D ligth)
+        {
+            Bitmap bmp = GouraudShading.Gouraud(pictureBox1.Width, pictureBox1.Height, curPolyhedron, Color.Beige, ligth, projBox.SelectedIndex);
+            pictureBox1.Image = bmp;
+            pictureBox1.Invalidate();
+        }
+
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             Draw();
         }
-
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            Draw();
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
