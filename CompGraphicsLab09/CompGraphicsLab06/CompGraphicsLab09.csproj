@@ -58,11 +58,14 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GouraudShading.cs" />
     <Compile Include="Primitives.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RasterizingPolyhedron.cs" />
     <Compile Include="RotateFigure.cs" />
+    <Compile Include="Vectors.cs" />
     <Compile Include="Zbuffer.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

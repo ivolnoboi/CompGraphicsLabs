@@ -118,6 +118,14 @@
             this.DBtn = new System.Windows.Forms.Button();
             this.EBtn = new System.Windows.Forms.Button();
             this.QBtn = new System.Windows.Forms.Button();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.ligthZ = new System.Windows.Forms.TextBox();
+            this.ligthY = new System.Windows.Forms.TextBox();
+            this.ligthX = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
             this.SuspendLayout();
@@ -351,7 +359,7 @@
             "Перспективная",
             "Изометрическая"});
             this.projBox.Location = new System.Drawing.Point(13, 644);
-            this.projBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.projBox.Margin = new System.Windows.Forms.Padding(4);
             this.projBox.Name = "projBox";
             this.projBox.Size = new System.Drawing.Size(204, 24);
             this.projBox.TabIndex = 21;
@@ -371,7 +379,7 @@
             // 
             this.rotateOX.AutoSize = true;
             this.rotateOX.Location = new System.Drawing.Point(17, 702);
-            this.rotateOX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOX.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOX.Name = "rotateOX";
             this.rotateOX.Size = new System.Drawing.Size(49, 21);
             this.rotateOX.TabIndex = 23;
@@ -394,7 +402,7 @@
             // 
             this.rotateOY.AutoSize = true;
             this.rotateOY.Location = new System.Drawing.Point(16, 730);
-            this.rotateOY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOY.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOY.Name = "rotateOY";
             this.rotateOY.Size = new System.Drawing.Size(49, 21);
             this.rotateOY.TabIndex = 25;
@@ -407,7 +415,7 @@
             // 
             this.rotateOZ.AutoSize = true;
             this.rotateOZ.Location = new System.Drawing.Point(17, 758);
-            this.rotateOZ.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOZ.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOZ.Name = "rotateOZ";
             this.rotateOZ.Size = new System.Drawing.Size(49, 21);
             this.rotateOZ.TabIndex = 26;
@@ -419,7 +427,7 @@
             // rotateAngle
             // 
             this.rotateAngle.Location = new System.Drawing.Point(96, 730);
-            this.rotateAngle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateAngle.Margin = new System.Windows.Forms.Padding(4);
             this.rotateAngle.Maximum = new decimal(new int[] {
             360,
             0,
@@ -447,7 +455,7 @@
             // rotateBtn
             // 
             this.rotateBtn.Location = new System.Drawing.Point(8, 926);
-            this.rotateBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateBtn.Margin = new System.Windows.Forms.Padding(4);
             this.rotateBtn.Name = "rotateBtn";
             this.rotateBtn.Size = new System.Drawing.Size(205, 28);
             this.rotateBtn.TabIndex = 30;
@@ -573,7 +581,7 @@
             // 
             this.rotateOwn.AutoSize = true;
             this.rotateOwn.Location = new System.Drawing.Point(17, 786);
-            this.rotateOwn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rotateOwn.Margin = new System.Windows.Forms.Padding(4);
             this.rotateOwn.Name = "rotateOwn";
             this.rotateOwn.Size = new System.Drawing.Size(61, 21);
             this.rotateOwn.TabIndex = 43;
@@ -899,7 +907,7 @@
             // 
             this.NeedCentering.AutoSize = true;
             this.NeedCentering.Location = new System.Drawing.Point(1311, 497);
-            this.NeedCentering.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.NeedCentering.Margin = new System.Windows.Forms.Padding(4);
             this.NeedCentering.Name = "NeedCentering";
             this.NeedCentering.Size = new System.Drawing.Size(135, 21);
             this.NeedCentering.TabIndex = 73;
@@ -1003,7 +1011,7 @@
             // 
             this.FreeCam.AutoSize = true;
             this.FreeCam.Location = new System.Drawing.Point(1311, 652);
-            this.FreeCam.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FreeCam.Margin = new System.Windows.Forms.Padding(4);
             this.FreeCam.Name = "FreeCam";
             this.FreeCam.Size = new System.Drawing.Size(154, 21);
             this.FreeCam.TabIndex = 84;
@@ -1014,7 +1022,7 @@
             // UpBtn
             // 
             this.UpBtn.Location = new System.Drawing.Point(1412, 681);
-            this.UpBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.UpBtn.Margin = new System.Windows.Forms.Padding(4);
             this.UpBtn.Name = "UpBtn";
             this.UpBtn.Size = new System.Drawing.Size(100, 28);
             this.UpBtn.TabIndex = 85;
@@ -1025,7 +1033,7 @@
             // LBtn
             // 
             this.LBtn.Location = new System.Drawing.Point(1331, 716);
-            this.LBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LBtn.Margin = new System.Windows.Forms.Padding(4);
             this.LBtn.Name = "LBtn";
             this.LBtn.Size = new System.Drawing.Size(100, 28);
             this.LBtn.TabIndex = 86;
@@ -1036,7 +1044,7 @@
             // RBtn
             // 
             this.RBtn.Location = new System.Drawing.Point(1491, 716);
-            this.RBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RBtn.Margin = new System.Windows.Forms.Padding(4);
             this.RBtn.Name = "RBtn";
             this.RBtn.Size = new System.Drawing.Size(100, 28);
             this.RBtn.TabIndex = 87;
@@ -1047,7 +1055,7 @@
             // DBtn
             // 
             this.DBtn.Location = new System.Drawing.Point(1412, 751);
-            this.DBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DBtn.Margin = new System.Windows.Forms.Padding(4);
             this.DBtn.Name = "DBtn";
             this.DBtn.Size = new System.Drawing.Size(100, 28);
             this.DBtn.TabIndex = 88;
@@ -1058,7 +1066,7 @@
             // EBtn
             // 
             this.EBtn.Location = new System.Drawing.Point(1520, 681);
-            this.EBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.EBtn.Margin = new System.Windows.Forms.Padding(4);
             this.EBtn.Name = "EBtn";
             this.EBtn.Size = new System.Drawing.Size(71, 28);
             this.EBtn.TabIndex = 89;
@@ -1069,7 +1077,7 @@
             // QBtn
             // 
             this.QBtn.Location = new System.Drawing.Point(1329, 681);
-            this.QBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.QBtn.Margin = new System.Windows.Forms.Padding(4);
             this.QBtn.Name = "QBtn";
             this.QBtn.Size = new System.Drawing.Size(71, 28);
             this.QBtn.TabIndex = 90;
@@ -1077,11 +1085,97 @@
             this.QBtn.UseVisualStyleBackColor = true;
             this.QBtn.Click += new System.EventHandler(this.QBtn_Click);
             // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(1311, 786);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(105, 21);
+            this.checkBox3.TabIndex = 91;
+            this.checkBox3.Text = "метод Гуро";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label29.Location = new System.Drawing.Point(1322, 814);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(251, 20);
+            this.label29.TabIndex = 98;
+            this.label29.Text = "Положение источника света";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label30.Location = new System.Drawing.Point(1501, 834);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(18, 20);
+            this.label30.TabIndex = 97;
+            this.label30.Text = "Z";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label31.Location = new System.Drawing.Point(1431, 834);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(19, 20);
+            this.label31.TabIndex = 96;
+            this.label31.Text = "Y";
+            // 
+            // ligthZ
+            // 
+            this.ligthZ.Location = new System.Drawing.Point(1479, 856);
+            this.ligthZ.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthZ.Name = "ligthZ";
+            this.ligthZ.Size = new System.Drawing.Size(61, 22);
+            this.ligthZ.TabIndex = 95;
+            this.ligthZ.Text = "500";
+            // 
+            // ligthY
+            // 
+            this.ligthY.Location = new System.Drawing.Point(1413, 856);
+            this.ligthY.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthY.Name = "ligthY";
+            this.ligthY.Size = new System.Drawing.Size(61, 22);
+            this.ligthY.TabIndex = 94;
+            this.ligthY.Text = "0";
+            // 
+            // ligthX
+            // 
+            this.ligthX.Location = new System.Drawing.Point(1343, 856);
+            this.ligthX.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthX.Name = "ligthX";
+            this.ligthX.Size = new System.Drawing.Size(61, 22);
+            this.ligthX.TabIndex = 93;
+            this.ligthX.Text = "0";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label32.Location = new System.Drawing.Point(1361, 834);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(20, 20);
+            this.label32.TabIndex = 92;
+            this.label32.Text = "X";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1607, 970);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.ligthZ);
+            this.Controls.Add(this.ligthY);
+            this.Controls.Add(this.ligthX);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.QBtn);
             this.Controls.Add(this.EBtn);
             this.Controls.Add(this.DBtn);
@@ -1273,6 +1367,14 @@
         private System.Windows.Forms.Button DBtn;
         private System.Windows.Forms.Button EBtn;
         private System.Windows.Forms.Button QBtn;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox ligthZ;
+        private System.Windows.Forms.TextBox ligthY;
+        private System.Windows.Forms.TextBox ligthX;
+        private System.Windows.Forms.Label label32;
     }
 }
 

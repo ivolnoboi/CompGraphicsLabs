@@ -136,7 +136,7 @@ namespace CompGraphicsLab06
             for (int i = 0; i < points.Count; ++i)
             {
                 float[,] tmp1 = MultMatrix(new float[,] { { points[i].X, points[i].Y, points[i].Z, 1 } }, matr);
-                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3]);
+                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3], points[i].illumination);
             }
             return points;
         }
@@ -161,7 +161,7 @@ namespace CompGraphicsLab06
             for (int i = 0; i < points.Count; ++i)
             {
                 float[,] tmp1 = MultMatrix(new float[,] { { points[i].X, points[i].Y, points[i].Z, 1 } }, matr);
-                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3], points[i].Z);
+                points[i] = new Point3D(tmp1[0, 0] / tmp1[0, 3], tmp1[0, 1] / tmp1[0, 3], points[i].illumination, points[i].Z);
             }
             return points;
         }

@@ -16,13 +16,21 @@ namespace CompGraphicsLab06
         public float Y { get; set; } = 0;
         public float Z { get; set; } = 0;
 
+        public double illumination { get; set; } = 1.0;
+        public Point3D() { }
         public Point3D(float x, float y, float z = 0)
         {
             X = x;
             Y = y;
             Z = z;
         }
-
+        public Point3D(float x, float y, double illum, float z = 0)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            illumination = illum;
+        }
         static public bool operator ==(Point3D point1, Point3D point2)
         {
             return point1.X == point2.X && point1.Y == point2.Y && point1.Z == point2.Z;
