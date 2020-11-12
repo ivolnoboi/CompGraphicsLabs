@@ -321,10 +321,10 @@ namespace CompGraphicsLab06
             curPolyhedron.AddEdges(1, new List<int> { 3 });
             curPolyhedron.AddEdges(2, new List<int> { 1, 3 });
 
-            curPolyhedron.AddFace(new List<int> { 0, 2, 1 });
-            curPolyhedron.AddFace(new List<int> { 0, 1, 3 });
-            curPolyhedron.AddFace(new List<int> { 0, 3, 2 });
-            curPolyhedron.AddFace(new List<int> { 1, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 0, 1, 2 });
+            curPolyhedron.AddFace(new List<int> { 0, 3, 1 });
+            curPolyhedron.AddFace(new List<int> { 0, 2, 3 });
+            curPolyhedron.AddFace(new List<int> { 1, 3, 2 });
 
             scene.Add(curPolyhedron);
             Draw();
