@@ -101,7 +101,11 @@ namespace CompGraphicsLab06
                     {
                         figure.AddEdges(current, new List<int> { current + 1, (current + lstCount) % res.Count });
                         // добавляем точки грани в порядке: текущая, ниже текущей, правее предыдущей, выше предыдущей (правее текущей)
-                        figure.AddFace(new List<int> { current, current+1, (current + 1 + lstCount) % res.Count, (current + lstCount) % res.Count });
+                        if (res[current] == res[(current + lstCount) % res.Count])
+                            figure.AddFace(new List<int> { current, current + 1, (current + 1 + lstCount) % res.Count });
+                        else if (res[current + 1] == res[(current + 1 + lstCount) % res.Count])
+                            figure.AddFace(new List<int> { current, current + 1, (current + lstCount) % res.Count });
+                        else figure.AddFace(new List<int> { current, current + 1, (current + 1 + lstCount) % res.Count, (current + lstCount) % res.Count });
                     }
 
                 }

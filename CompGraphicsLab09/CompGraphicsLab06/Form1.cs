@@ -820,7 +820,7 @@ namespace CompGraphicsLab06
 
         private void GouraudOn(Point3D ligth)
         {
-            Bitmap bmp = GouraudShading.Gouraud(pictureBox1.Width, pictureBox1.Height, curPolyhedron, Color.Beige, ligth, projBox.SelectedIndex);
+            Bitmap bmp = GouraudShading.Gouraud(pictureBox1.Width, pictureBox1.Height, curPolyhedron, Color.PaleTurquoise, ligth, projBox.SelectedIndex);
             pictureBox1.Image = bmp;
             pictureBox1.Invalidate();
         }

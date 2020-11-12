@@ -17,6 +17,7 @@ namespace CompGraphicsLab06
         public float Z { get; set; } = 0;
 
         public double illumination { get; set; } = 1.0;
+        public Point3D() { }
         public Point3D(float x, float y, float z = 0)
         {
             X = x;

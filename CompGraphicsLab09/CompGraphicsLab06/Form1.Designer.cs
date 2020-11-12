@@ -1133,7 +1133,7 @@
             this.ligthZ.Name = "ligthZ";
             this.ligthZ.Size = new System.Drawing.Size(61, 22);
             this.ligthZ.TabIndex = 95;
-            this.ligthZ.Text = "15";
+            this.ligthZ.Text = "500";
             // 
             // ligthY
             // 

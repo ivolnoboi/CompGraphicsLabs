@@ -13,10 +13,6 @@ namespace CompGraphicsLab06
         {
             Point3D firstVec = vertexes[facet[1]] - vertexes[facet[0]];
             Point3D secondVec = vertexes[facet[2]] - vertexes[facet[1]];
-            if (secondVec.X == 0 && secondVec.Y == 0 && secondVec.Z == 0)
-            {
-                secondVec = vertexes[facet[3]] - vertexes[facet[2]];
-            }
             return CrossProduct(firstVec, secondVec);
         }
 

@@ -9,15 +9,16 @@ namespace CompGraphicsLab06
 {
     class GouraudShading
     {
-        private static double CalculateLenghtOfVec(Point3D vec)
+        // Длина вектора
+        private static double LenghtOfVec(Point3D vec)
         {
             return Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y + vec.Z * vec.Z);
         }
 
         private static double ModelLambert(Point3D pt, Point3D normal, Point3D light)
         {
-            Point3D vectr = new Point3D(light.X - pt.X, light.Y - pt.Y, light.Z - pt.Z);
-            double cos = (vectr.X * normal.X + vectr.Y * normal.Y + vectr.Z * normal.Z) / (CalculateLenghtOfVec(normal) * CalculateLenghtOfVec(vectr));
+            Point3D vectr = new Point3D(pt.X - light.X, pt.Y - light.Y, pt.Z - light.Z);
+            double cos = (vectr.X * normal.X + vectr.Y * normal.Y + vectr.Z * normal.Z) / (LenghtOfVec(normal) * LenghtOfVec(vectr));
             return cos;
         }
 
@@ -38,11 +39,22 @@ namespace CompGraphicsLab06
 
         private static Point3D CalculateNormalFace(List<int> face, Polyhedron polyhedron)
         {
-            Point3D p0 = polyhedron.Vertexes[0];
-            Point3D p1 = polyhedron.Vertexes[1];
-            Point3D p2 = polyhedron.Vertexes[polyhedron.Vertexes.Count - 1];
-            Point3D v1 = new Point3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
-            Point3D v2 = new Point3D(p2.X - p0.X, p2.Y - p0.Y, p2.Z - p0.Z);
+            Point3D p0 = polyhedron.Vertexes[face[0]];
+            Point3D p1 = polyhedron.Vertexes[face[1]];
+            Point3D p2 = polyhedron.Vertexes[face[face.Count-1]];
+            Point3D v1;
+            Point3D v2;
+           /* if (p0 == p2)
+            {
+                p2 = polyhedron.Vertexes[face[2]];
+                v1 = new Point3D(p2.X - p1.X, p2.Y - p1.Y, p2.Z - p1.Z);
+                v2 = new Point3D(p0.X - p1.X, p0.Y - p1.Y, p0.Z - p1.Z);
+            }
+            else*/
+            {
+                v1 = new Point3D(p1.X - p0.X, p1.Y - p0.Y, p1.Z - p0.Z);
+                v2 = new Point3D(p2.X - p0.X, p2.Y - p0.Y, p2.Z - p0.Z);
+            }
             return CrossProduct(v1, v2);
         }
 
