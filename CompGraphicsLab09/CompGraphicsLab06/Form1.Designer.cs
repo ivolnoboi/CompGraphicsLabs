@@ -121,6 +121,14 @@
             this.button9 = new System.Windows.Forms.Button();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.ligthZ = new System.Windows.Forms.TextBox();
+            this.ligthY = new System.Windows.Forms.TextBox();
+            this.ligthX = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotateAngle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -1083,6 +1091,7 @@
             this.QBtn.UseVisualStyleBackColor = true;
             this.QBtn.Click += new System.EventHandler(this.QBtn_Click);
             // 
+
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(1374, 814);
@@ -1112,15 +1121,105 @@
             this.trackBar2.Size = new System.Drawing.Size(280, 53);
             this.trackBar2.TabIndex = 93;
             this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
+
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(1311, 786);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(105, 21);
+            this.checkBox3.TabIndex = 91;
+            this.checkBox3.Text = "метод Гуро";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label29.Location = new System.Drawing.Point(1322, 814);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(251, 20);
+            this.label29.TabIndex = 98;
+            this.label29.Text = "Положение источника света";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label30.Location = new System.Drawing.Point(1501, 834);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(18, 20);
+            this.label30.TabIndex = 97;
+            this.label30.Text = "Z";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label31.Location = new System.Drawing.Point(1431, 834);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(19, 20);
+            this.label31.TabIndex = 96;
+            this.label31.Text = "Y";
+            // 
+            // ligthZ
+            // 
+            this.ligthZ.Location = new System.Drawing.Point(1479, 856);
+            this.ligthZ.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthZ.Name = "ligthZ";
+            this.ligthZ.Size = new System.Drawing.Size(61, 22);
+            this.ligthZ.TabIndex = 95;
+            this.ligthZ.Text = "500";
+            // 
+            // ligthY
+            // 
+            this.ligthY.Location = new System.Drawing.Point(1413, 856);
+            this.ligthY.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthY.Name = "ligthY";
+            this.ligthY.Size = new System.Drawing.Size(61, 22);
+            this.ligthY.TabIndex = 94;
+            this.ligthY.Text = "0";
+            // 
+            // ligthX
+            // 
+            this.ligthX.Location = new System.Drawing.Point(1343, 856);
+            this.ligthX.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ligthX.Name = "ligthX";
+            this.ligthX.Size = new System.Drawing.Size(61, 22);
+            this.ligthX.TabIndex = 93;
+            this.ligthX.Text = "0";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label32.Location = new System.Drawing.Point(1361, 834);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(20, 20);
+            this.label32.TabIndex = 92;
+            this.label32.Text = "X";
+
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1607, 970);
+
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.button9);
+
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.ligthZ);
+            this.Controls.Add(this.ligthY);
+            this.Controls.Add(this.ligthX);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.checkBox3);
+
             this.Controls.Add(this.QBtn);
             this.Controls.Add(this.EBtn);
             this.Controls.Add(this.DBtn);
@@ -1314,9 +1413,20 @@
         private System.Windows.Forms.Button DBtn;
         private System.Windows.Forms.Button EBtn;
         private System.Windows.Forms.Button QBtn;
+
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.TrackBar trackBar2;
+
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TextBox ligthZ;
+        private System.Windows.Forms.TextBox ligthY;
+        private System.Windows.Forms.TextBox ligthX;
+        private System.Windows.Forms.Label label32;
+
     }
 }
 
