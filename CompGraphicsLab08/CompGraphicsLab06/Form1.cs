@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using static System.Math;
 using System.IO;
 using Newtonsoft.Json;
+using System.Drawing.Drawing2D;
 
 namespace CompGraphicsLab06
 {
@@ -48,6 +49,26 @@ namespace CompGraphicsLab06
             camera.Position = new Point3D(int.Parse(camPosX.Text), int.Parse(camPosY.Text), int.Parse(camPosZ.Text)); //(299, 180, 0)
             camera.Focus = new Point3D(0, 0, 1000);
             camera.Offset = new PointF(pictureBox1.Width / 2, pictureBox1.Height / 2);
+
+            DrawAxis();
+        }
+
+        private void DrawAxis()
+        {
+            Pen pen = new Pen(Color.Black, 1);
+            //pen.EndCap = LineCap.ArrowAnchor;
+            pen.CustomEndCap = new AdjustableArrowCap(4.0F, 8.0F);
+            graphics.DrawLine(pen, new Point(10, 10), new Point(10, 100));
+            graphics.DrawString($"y", new Font(FontFamily.GenericSansSerif, 10), Brushes.Black, new Point(10, 100));
+
+            graphics.DrawLine(pen, new Point(10, 10), new Point(100, 10));
+            graphics.DrawString($"x", new Font(FontFamily.GenericSansSerif, 10), Brushes.Black, new Point(100, 10));
+
+
+            graphics.DrawLine(pen, new Point(10, 10), new Point(70, 70));
+            graphics.DrawString($"z", new Font(FontFamily.GenericSansSerif, 10), Brushes.Black, new Point(70, 70));
+
+           // pictureBox1.Invalidate();
         }
 
         private void ClearPictureBox()
@@ -59,7 +80,7 @@ namespace CompGraphicsLab06
 
         private void Draw()
         {
-
+            DrawAxis();
             if (checkBox1.Checked)
             {
                 float x = float.Parse(camPosX.Text);
@@ -134,6 +155,7 @@ namespace CompGraphicsLab06
 
         private void DrawByEdges()
         {
+            DrawAxis();
             if (curPolyhedron.IsEmpty())
                 return;
             Random r = new Random(Environment.TickCount);
