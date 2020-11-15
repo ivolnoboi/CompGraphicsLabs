@@ -22,6 +22,7 @@ namespace CompGraphicsLab06
         private List<Point3D> pointsRotate;
         private static List<Color> Colors;
         private Camera camera = new Camera();
+        Bitmap texture;
 
         /// <summary>
         /// Текущий многогранник
@@ -1014,6 +1015,102 @@ namespace CompGraphicsLab06
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             button9_Click(null, null);
+        }
+
+        Point3D Mult(Point3D a, Point3D b)
+        {
+            return new Point3D(a.Y * b.Z - a.Z * b.Y,
+                               a.Z * b.X - a.X * b.Z,
+                               a.X * b.Y - a.Y * b.Z);
+        }
+
+        private void textureButton_Click(object sender, EventArgs e)
+        {
+            Bitmap withTexture = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+            //Смещение по центру pictureBox
+            var fixX = pictureBox1.Width * 0.4;
+            var fixY = pictureBox1.Height * 0.4;
+
+            //отсечение
+            foreach (var f in curPolyhedron.Faces)
+            //var f = currentPolyhedron.Facets[7];
+            {
+                Point3D n = Mult(curPolyhedron.Vertexes[f[1]] - curPolyhedron.Vertexes[f[0]] , curPolyhedron.Vertexes[f[1]] - curPolyhedron.Vertexes[f[2]]);
+                var cos = (-1 * n.Z) / (1 + Math.Sqrt(n.X * n.X + n.Y * n.Y + n.Z * n.Z));
+                if (0 < cos)
+                {
+                    double left = f.Min(p => curPolyhedron.Vertexes[p].X), right = f.Max(p => curPolyhedron.Vertexes[p].X), 
+                        min = f.Min(p => curPolyhedron.Vertexes[p].Y), max = f.Max(p => curPolyhedron.Vertexes[p].Y);
+                    int lInd = f.FindIndex(p => curPolyhedron.Vertexes[p].X == left), rInd = f.FindIndex(p => curPolyhedron.Vertexes[p].X == right), 
+                        maxI = f.FindIndex(p => curPolyhedron.Vertexes[p].Y == max), minI = f.FindIndex(p => curPolyhedron.Vertexes[p].Y == min);
+                    double kWidth = (right - left) / texture.Width, kHeight = (max - min) / texture.Height;
+                    if (kWidth == 0.0)
+                        kWidth = 1;
+                    if (kHeight == 0.0)
+                        kHeight = 1;
+                    var fPoint = f.ConvertAll(p => new PointF(curPolyhedron.Vertexes[p].X, curPolyhedron.Vertexes[p].Y));
+
+                    for (int i = (int)(left); i < right; i++)
+                        for (int j = (int)(min); j < max; j++)
+                            if (i >= 0 && j >= 0 && i < withTexture.Width && j < withTexture.Height)
+                                if (pointInRightPolygon(ref fPoint, new PointF(i, j)))
+                                {
+                                    int u = (int)((i - left) / kWidth), v = (int)((j - min) / kHeight);
+                                    u = u > 0 ? u : 0; v = v > 0 ? v : 0;
+                                    var p = curPolyhedron.Vertexes[f[lInd]] + u * (curPolyhedron.Vertexes[f[rInd]] - curPolyhedron.Vertexes[f[lInd]]) + v * (curPolyhedron.Vertexes[f[rInd]] - curPolyhedron.Vertexes[f[lInd]]);
+                                    withTexture.SetPixel((int)fixX + i, (int)fixY + j, texture.GetPixel(u, v));
+                                }
+                }
+            }
+
+            pictureBox1.Image = withTexture;
+            pictureBox1.Refresh();
+        }
+
+        /// <summary>
+        /// Определить положение точки относительно выпуклого полигона
+        /// </summary>
+        bool pointInRightPolygon(ref List<PointF> polygon, PointF point)
+        {
+            double x0 = polygon[0].X, y0 = polygon[0].Y, xB = polygon[1].X - x0, yB = polygon[1].Y - y0;
+
+            int sign = Math.Sign(yB * (point.X - x0) - xB * (point.Y - y0));
+
+            for (int i = 2; i < polygon.Count; i++)
+            {
+                x0 = polygon[i - 1].X;
+                y0 = polygon[i - 1].Y;
+                xB = polygon[i].X - x0;
+                yB = polygon[i].Y - y0;
+
+                if (sign * (yB * (point.X - x0) - xB * (point.Y - y0)) < 0)
+                {
+                    return false;
+                }
+            }
+            x0 = polygon[polygon.Count - 1].X;
+            y0 = polygon[polygon.Count - 1].Y;
+            xB = polygon[0].X - x0;
+            yB = polygon[0].Y - y0;
+
+            if (sign * (yB * (point.X - x0) - xB * (point.Y - y0)) < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.CheckFileExists = true;
+            dialog.CheckPathExists = true;
+            dialog.ShowDialog();
+            if (dialog.FileName == "")
+                return;
+            texture = new Bitmap(Image.FromFile(dialog.FileName));
+            texturePictureBox.Image = new Bitmap(texture, new Size(texturePictureBox.Width, texturePictureBox.Height));
         }
     }
 }

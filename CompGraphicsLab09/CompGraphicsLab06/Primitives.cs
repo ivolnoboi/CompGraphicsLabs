@@ -45,10 +45,18 @@ namespace CompGraphicsLab06
         {
             return new Point3D(point1.X + point2.X, point1.Y + point2.Y, point1.Z + point2.Z);
         }
+        static public Point3D operator *(Point3D point1, Point3D point2)
+        {
+            return new Point3D(point1.X * point2.X, point1.Y * point2.Y, point1.Z * point2.Z);
+        }
 
         static public Point3D operator -(Point3D point1, Point3D point2)
         {
             return new Point3D(point1.X - point2.X, point1.Y - point2.Y, point1.Z - point2.Z);
+        }
+        static public Point3D operator *(int k, Point3D p)
+        {
+            return new Point3D(p.X * k, p.Y * k, p.Z * k);
         }
 
         public Point ConvertToPoint() 
