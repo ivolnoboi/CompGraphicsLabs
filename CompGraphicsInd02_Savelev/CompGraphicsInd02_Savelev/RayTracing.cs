@@ -4,8 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using Task06;
-//using Point = Task06.Point;
+
 
 namespace CompGraphicsInd02_Savelev
 {
@@ -103,7 +102,6 @@ namespace CompGraphicsInd02_Savelev
                 for (int j = 0; j < heigh; j++)
                 {
                     Point point = get3DCoords(i, j, width, heigh);
-                    Point check = Rasterizer.prepareCoordPoint(point);
                     Color color = Ray(lookup, Camera.normalize(point), scene, lightSources, 3);
                     newImg.SetPixel(i, j, color);
                 }
@@ -133,7 +131,7 @@ namespace CompGraphicsInd02_Savelev
             else
             {
                 Plain plain = (Plain)closest.Element;
-                normal = plainNormal(plain);
+                normal = plain.Normal;
             }
             Color initial = closest.AmbientColor;
             double intens = recalcLight(closestPoint, normal, lights, scene);
@@ -250,7 +248,7 @@ namespace CompGraphicsInd02_Savelev
                     {
                         Plain plain = (Plain)element.Element;
 
-                        Point normal = Camera.normalize(plainNormal(plain));
+                        Point normal = Camera.normalize(plain.Normal);
 
                         Point diff = new Point(lookup.x - plain.MaxPoint.x, lookup.y - plain.MaxPoint.y, lookup.z - plain.MaxPoint.z);
 
@@ -312,18 +310,6 @@ namespace CompGraphicsInd02_Savelev
             return Math.Sqrt(point.x * point.x + point.y * point.y + point.z * point.z);
         }
 
-        private static Point plainNormal(Plain plain)
-        {
-            //Point minPoint = plain.MaxPoint;
-            //Point middlePoint = new Point(plain.MinPoint.x, plain.MaxPoint.y, plain.MaxPoint.z);
-            //Point maxPoint = plain.MinPoint;
-            //Point vec1 = Camera.normalize(AffineTransformations.ptranslation(middlePoint, -minPoint.x, -minPoint.y, -minPoint.z));
-            //Point vec2 = Camera.normalize(AffineTransformations.ptranslation(maxPoint, middlePoint.x, middlePoint.y, middlePoint.z));
-
-            //return new Point(vec1.y * vec2.z - vec1.z * vec2.y, vec1.z * vec2.x - vec1.x * vec2.z, vec1.x * vec2.y - vec1.y * vec2.x);
-            return plain.Normal;
-        }
-
         private static bool pointInPlane(Plain plain, Point point)
         {
             bool xval = (point.x - Math.Max(plain.MaxPoint.x, plain.MinPoint.x) <= 0.00001) && (point.x - Math.Min(plain.MaxPoint.x, plain.MinPoint.x) >= -0.00001);
@@ -333,28 +319,5 @@ namespace CompGraphicsInd02_Savelev
             return xval && yval && zval;
         }
 
-    }
-    class Rasterizer
-    {
-        public static List<Point> prepareCoords(List<Point> init)
-        {
-            List<Point> res = new List<Point>();
-            for (int i = 0; i < init.Count; i++)
-            {
-                res.Add(prepareCoordPoint(init[i]));
-            }
-            return res;
-        }
-
-        public static Point prepareCoordPoint(Point point)
-        {
-            double[,] left = { { point.y, point.z, point.x, 1 } };
-            double[,] right = { { 1, 0, 0, 0},
-                                    { 0, 1, 0, 0 },
-                                    { 0, 0, 1, 1.0/500},
-                                    { 0, 0, 0, 1 }};
-            double[,] points = Proections.multilyMatrix(left, right);
-            return (new Point(points[0, 0] / points[0, 3], points[0, 1] / points[0, 3], points[0, 2] / points[0, 3]));
-        }
     }
 }
