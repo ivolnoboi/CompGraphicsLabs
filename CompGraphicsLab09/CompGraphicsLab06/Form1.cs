@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace CompGraphicsLab06
 {
-    
+
     public partial class Form1 : Form
     {
         private Graphics graphics;
@@ -22,6 +22,7 @@ namespace CompGraphicsLab06
         private List<Point3D> pointsRotate;
         private static List<Color> Colors;
         private Camera camera = new Camera();
+        Bitmap texture;
 
         /// <summary>
         /// Текущий многогранник
@@ -115,7 +116,7 @@ namespace CompGraphicsLab06
             Vector3 cR = (Vector3.VectorProduct(new Vector3(0, 1, 0), cL)).Normalize();
             Vector3 cU = (Vector3.VectorProduct(cL, cR)).Normalize();
 
-            float[,] matrixV = 
+            float[,] matrixV =
                  {
                      { cR.X, cR.Y, cR.Z, -Vector3.ScalarProduct(cR, cT) },
                      { cU.X, cU.Y, cU.Z, -Vector3.ScalarProduct(cU, cT) },
@@ -129,19 +130,19 @@ namespace CompGraphicsLab06
                 Affine.ChangePolyhedron(curPolyhedron, matrixV);
                 //System.Diagnostics.Debug.WriteLine($"Cube Position: {curPolyhedron.Center}");
                 foreach (var line in projection.Project(curPolyhedron, 0))
-                    graphics.DrawLine(new Pen(Color.Black), PointSum(line.From.ConvertToPoint(),camera.Offset), PointSum(line.To.ConvertToPoint(),camera.Offset));
+                    graphics.DrawLine(new Pen(Color.Black), PointSum(line.From.ConvertToPoint(), camera.Offset), PointSum(line.To.ConvertToPoint(), camera.Offset));
             }
             pictureBox1.Invalidate();
         }
 
 
 
-        public static Point PointSum(Point p1,PointF p2) => new Point(p1.X + (int)p2.X, p1.Y + (int)p2.Y);
+        public static Point PointSum(Point p1, PointF p2) => new Point(p1.X + (int)p2.X, p1.Y + (int)p2.Y);
 
 
         private void DrawByEdges()
         {
-            if (curPolyhedron.IsEmpty())
+            if (curPolyhedron is null || curPolyhedron.IsEmpty())
                 return;
             Random r = new Random(Environment.TickCount);
             // graphics.Clear(Color.White);
@@ -335,7 +336,8 @@ namespace CompGraphicsLab06
         /// </summary>
         private void Clear_Click(object sender, EventArgs e)
         {
-            curPolyhedron.Clear();
+            if (!(curPolyhedron is null))
+                curPolyhedron.Clear();
             scene.Clear();
 
             pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -727,7 +729,7 @@ namespace CompGraphicsLab06
                     if (j != N - 1 && i != N - 1)
                     {
                         // текущая точка, вправо от тек., вниз от тек., вправо и вниз от тек. образуют грань 
-                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + (j + 1), (i + 1) * N + j});
+                        polyhedron.AddFace(new List<int> { i * N + j, i * N + j + 1, (i + 1) * N + (j + 1), (i + 1) * N + j });
                     }
                 }
             Affine.scaleCenter(polyhedron, 40);
@@ -738,6 +740,93 @@ namespace CompGraphicsLab06
             pen.Width = 1;
             Draw();
         }
+
+        private void GraphicFloatingHorizont(float X0, float X1, float Y0, float Y1, int countSplit, func f)
+        {
+            int width = pictureBox1.Width;
+            int height = pictureBox1.Height;
+
+            (float cX, float cY) = (width / 2, height / 2);
+
+            graphics = Graphics.FromImage(pictureBox1.Image);
+
+            int scale = 100;
+
+            // верхний и нижний горизонты
+            float[] maxHor = new float[width];
+            float[] minHor = new float[width];
+            for (int i = 0; i < width; i++)
+            {
+                maxHor[i] = float.MinValue;
+                minHor[i] = float.MaxValue;
+            }
+
+            float dy = (Y1 - Y0) / countSplit;
+
+            float angleX = trackBar1.Value / 10f;
+            float angleY = trackBar2.Value / 10f;
+
+            float cosX = (float)Math.Cos(angleX);
+            float sinX = (float)Math.Sin(angleX);
+            float cosY = (float)Math.Cos(angleY);
+            float sinY = (float)Math.Sin(angleY);
+
+            pen.Width = 1;
+
+
+            for (float y = Y0; y < Y1; y += dy)
+            {
+                Point lastPoint = new Point(0, 0);
+                for (float bmpX = -width / 2; bmpX < width / 2; bmpX++)
+                {
+                    float x = (bmpX + X0) / scale;
+
+                    float rotatedX = cosX * y - sinX * x;
+                    float rotatedY = sinX * y + cosX * x;
+
+                    int centeredX = (int)(bmpX + cX);
+
+                    if (centeredX >= width || centeredX <= 0)
+                        continue;
+
+                    float z = cosY * rotatedX + sinY * f(rotatedX, rotatedY);
+                    int centeredY = (int)(z * scale + cY);
+                    if (centeredY >= height || centeredY <= 0)
+                        continue;
+
+                    if (z < minHor[centeredX] )
+                    {
+                        minHor[centeredX] = z;
+                        //(pictureBox1.Image as Bitmap).SetPixel(centeredX, centeredY, Color.DarkRed);
+                        pen.Width = 1.5f;
+                        pen.Color = Color.DarkGreen;
+                        Point curPoint = new Point(centeredX, centeredY);
+                        if (Distance(curPoint, lastPoint) < 20) graphics.DrawLine(pen, lastPoint, new Point(centeredX, centeredY));
+                        lastPoint = new Point(centeredX, centeredY);
+                    }
+
+                    if (z > maxHor[centeredX])
+                    {
+                        maxHor[centeredX] = z;
+                        //(pictureBox1.Image as Bitmap).SetPixel(centeredX, centeredY, Color.LightCoral);
+                        pen.Width = 1;
+                        pen.Color = Color.LightGreen;
+                        Point curPoint = new Point(centeredX, centeredY);
+                        if (Distance(curPoint, lastPoint) < 20) graphics.DrawLine(pen, lastPoint, curPoint);
+                        lastPoint = new Point(centeredX, centeredY);
+                    }
+
+                }
+
+            }
+
+
+            pictureBox1.Invalidate();
+        }
+
+        private double Distance(Point p1, Point p2) => Sqrt((p1.X - p2.X) * (p1.X - p2.X) + (p1.Y - p2.Y) * (p1.Y - p2.Y));
+
+
         private void DrawGraphic_Click(object sender, EventArgs e)
         {
             if (!float.TryParse(textBox12.Text, out float X0))
@@ -877,6 +966,151 @@ namespace CompGraphicsLab06
         {
             camera.RotateCamera(2, 0);
             Draw();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (!float.TryParse(textBox12.Text, out float X0))
+                X0 = -5;
+            if (!float.TryParse(textBox11.Text, out float X1))
+                X1 = 5;
+            if (!float.TryParse(textBox10.Text, out float Y0))
+                Y0 = -5;
+            if (!float.TryParse(textBox9.Text, out float Y1))
+                Y0 = 5;
+            if (!int.TryParse(textBox13.Text, out int cnt))
+                cnt = 10;
+
+            func f;
+            switch (graphicsList.SelectedIndex)
+            {
+                case 0:
+                    f = (x, y) => (float)(Cos(x * x + y * y) / (x * x + y * y + 1));
+                    break;
+                case 1:
+                    f = (x, y) => (float)(Sin(x + y));
+                    break;
+                case 2:
+                    f = (x, y) => (float)(1 / (1 + x * x) + 1 / (1 + y * y));
+                    break;
+                case 3:
+                    f = (x, y) => (float)(Sin(x * x + y * y));
+                    break;
+                case 4:
+                    f = (x, y) => (float)(Sqrt(50 - x * x - y * y));
+                    break;
+                default:
+                    f = (x, y) => (float)0;
+                    break;
+            }
+            ClearPictureBox();
+            GraphicFloatingHorizont(X0, X1, Y0, Y1, cnt, f);
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            button9_Click(null, null);
+        }
+
+        private void trackBar2_Scroll(object sender, EventArgs e)
+        {
+            button9_Click(null, null);
+        }
+
+        Point3D Mult(Point3D a, Point3D b)
+        {
+            return new Point3D(a.Y * b.Z - a.Z * b.Y,
+                               a.Z * b.X - a.X * b.Z,
+                               a.X * b.Y - a.Y * b.Z);
+        }
+
+        private void textureButton_Click(object sender, EventArgs e)
+        {
+            Bitmap withTexture = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+
+            //Смещение по центру pictureBox
+            var fixX = pictureBox1.Width * 0.4;
+            var fixY = pictureBox1.Height * 0.4;
+
+            //отсечение
+            foreach (var f in curPolyhedron.Faces)
+            //var f = currentPolyhedron.Facets[7];
+            {
+                Point3D n = Mult(curPolyhedron.Vertexes[f[1]] - curPolyhedron.Vertexes[f[0]] , curPolyhedron.Vertexes[f[1]] - curPolyhedron.Vertexes[f[2]]);
+                var cos = (-1 * n.Z) / (1 + Math.Sqrt(n.X * n.X + n.Y * n.Y + n.Z * n.Z));
+                if (0 < cos)
+                {
+                    double left = f.Min(p => curPolyhedron.Vertexes[p].X), right = f.Max(p => curPolyhedron.Vertexes[p].X), 
+                        min = f.Min(p => curPolyhedron.Vertexes[p].Y), max = f.Max(p => curPolyhedron.Vertexes[p].Y);
+                    int lInd = f.FindIndex(p => curPolyhedron.Vertexes[p].X == left), rInd = f.FindIndex(p => curPolyhedron.Vertexes[p].X == right), 
+                        maxI = f.FindIndex(p => curPolyhedron.Vertexes[p].Y == max), minI = f.FindIndex(p => curPolyhedron.Vertexes[p].Y == min);
+                    double kWidth = (right - left) / texture.Width, kHeight = (max - min) / texture.Height;
+                    if (kWidth == 0.0)
+                        kWidth = 1;
+                    if (kHeight == 0.0)
+                        kHeight = 1;
+                    var fPoint = f.ConvertAll(p => new PointF(curPolyhedron.Vertexes[p].X, curPolyhedron.Vertexes[p].Y));
+
+                    for (int i = (int)(left); i < right; i++)
+                        for (int j = (int)(min); j < max; j++)
+                            if (i >= 0 && j >= 0 && i < withTexture.Width && j < withTexture.Height)
+                                if (pointInRightPolygon(ref fPoint, new PointF(i, j)))
+                                {
+                                    int u = (int)((i - left) / kWidth), v = (int)((j - min) / kHeight);
+                                    u = u > 0 ? u : 0; v = v > 0 ? v : 0;
+                                    var p = curPolyhedron.Vertexes[f[lInd]] + u * (curPolyhedron.Vertexes[f[rInd]] - curPolyhedron.Vertexes[f[lInd]]) + v * (curPolyhedron.Vertexes[f[rInd]] - curPolyhedron.Vertexes[f[lInd]]);
+                                    withTexture.SetPixel((int)fixX + i, (int)fixY + j, texture.GetPixel(u, v));
+                                }
+                }
+            }
+
+            pictureBox1.Image = withTexture;
+            pictureBox1.Refresh();
+        }
+
+        /// <summary>
+        /// Определить положение точки относительно выпуклого полигона
+        /// </summary>
+        bool pointInRightPolygon(ref List<PointF> polygon, PointF point)
+        {
+            double x0 = polygon[0].X, y0 = polygon[0].Y, xB = polygon[1].X - x0, yB = polygon[1].Y - y0;
+
+            int sign = Math.Sign(yB * (point.X - x0) - xB * (point.Y - y0));
+
+            for (int i = 2; i < polygon.Count; i++)
+            {
+                x0 = polygon[i - 1].X;
+                y0 = polygon[i - 1].Y;
+                xB = polygon[i].X - x0;
+                yB = polygon[i].Y - y0;
+
+                if (sign * (yB * (point.X - x0) - xB * (point.Y - y0)) < 0)
+                {
+                    return false;
+                }
+            }
+            x0 = polygon[polygon.Count - 1].X;
+            y0 = polygon[polygon.Count - 1].Y;
+            xB = polygon[0].X - x0;
+            yB = polygon[0].Y - y0;
+
+            if (sign * (yB * (point.X - x0) - xB * (point.Y - y0)) < 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+            dialog.CheckFileExists = true;
+            dialog.CheckPathExists = true;
+            dialog.ShowDialog();
+            if (dialog.FileName == "")
+                return;
+            texture = new Bitmap(Image.FromFile(dialog.FileName));
+            texturePictureBox.Image = new Bitmap(texture, new Size(texturePictureBox.Width, texturePictureBox.Height));
         }
     }
 }

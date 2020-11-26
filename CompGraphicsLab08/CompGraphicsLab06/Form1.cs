@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using static System.Math;
 using System.IO;
 using Newtonsoft.Json;
+using System.Drawing.Drawing2D;
 
 namespace CompGraphicsLab06
 {
@@ -48,6 +49,7 @@ namespace CompGraphicsLab06
             camera.Position = new Point3D(int.Parse(camPosX.Text), int.Parse(camPosY.Text), int.Parse(camPosZ.Text)); //(299, 180, 0)
             camera.Focus = new Point3D(0, 0, 1000);
             camera.Offset = new PointF(pictureBox1.Width / 2, pictureBox1.Height / 2);
+
         }
 
         private void ClearPictureBox()
@@ -59,7 +61,6 @@ namespace CompGraphicsLab06
 
         private void Draw()
         {
-
             if (checkBox1.Checked)
             {
                 float x = float.Parse(camPosX.Text);
