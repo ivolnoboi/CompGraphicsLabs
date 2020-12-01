@@ -104,7 +104,7 @@ struct Material
 void loadTextures()
 {
 	auto textureFlags = SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT;
-	floorTexture = SOIL_load_OGL_texture("img/floor.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, textureFlags);
+	floorTexture = SOIL_load_OGL_texture("img/tree1.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, textureFlags);
 	ballTexture = SOIL_load_OGL_texture("img/ball.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, textureFlags);
 	ballTexture2 = SOIL_load_OGL_texture("img/ball2.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, textureFlags);
 	ballTexture3 = SOIL_load_OGL_texture("img/ball3.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, textureFlags);
@@ -132,24 +132,53 @@ void drawRoad() {
 
 	glBegin(GL_QUADS);
 
+	/*glNormal3f(0, 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, -400.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-400.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, -400.0);*/
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, -400.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-400.0, 0.0, 00.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(00.0, 0.0, 00.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(00.0, 0.0, -400.0);
+	glEnd();
 
-		glTexCoord2f(0.0, 0.0); glVertex3f(-400.0 , 0.0, -400.0);
-		glTexCoord2f(0.0, 1.0); glVertex3f(-400.0 , 0.0, 400.0);
-		glTexCoord2f(1.0, 1.0); glVertex3f(400.0 , 0.0, 400.0);
-		glTexCoord2f(1.0, 0.0); glVertex3f(400.0 , 0.0, -400.0 );
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(00.0, 0.0, -400.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(000.0, 0.0, 000.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 000.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, -400.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, 00.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-400.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(00.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(00.0, 0.0, 00.0);
+	glEnd();
+
+	glBegin(GL_QUADS);
+	glNormal3f(0, 1, 0);
+	glTexCoord2f(0.0, 0.0); glVertex3f(00.0, 0.0, 00.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(00.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 400.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, 00.0);
+	glEnd();
+
+
 
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
 }
 
-void drawLights() {
-	//Рисуем прожектор на камере
-	/*GLfloat light0Pos[] = { 0, 400, 350, 1 };
-	GLfloat light0Direction[] = { 0, -400, -350 };
-	glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
-	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, light0Direction);
-	glLightf(GL_LIGHT0, GL_SPOT_CUTOFF, 90);*/
+void drawLights()
+{
+
 
 	//Рисуем фонари
 	for (int i = 0; i < lights.size(); i++) {
@@ -170,7 +199,7 @@ void drawLights() {
 		//Рисуем лампы в виде сфер
 		glColor3f(1, 1, 1);
 		if (lights[i].enabled)
-		glMaterialfv(GL_FRONT, GL_EMISSION, new GLfloat[4]{ 0.5, 0.5, 0.1, 1.0 });
+			glMaterialfv(GL_FRONT, GL_EMISSION, new GLfloat[4]{ 0.5, 0.5, 0.1, 1.0 });
 		glPushMatrix();
 		glTranslatef(pos.x, pos.y + 18, pos.z);
 		glutSolidSphere(18, 12, 12);
@@ -188,19 +217,14 @@ void drawLights() {
 		GLfloat light3_specular[] = { 1,1,1 };
 		GLfloat light3_diffuse[] = { 0.55, 0.48, 0.3 };
 		GLfloat light3_position[] = { pos.x, pos.y, pos.z,  1.0 };
-		GLfloat light3_spot_direction[] = { -pos.x, 100 - pos.y, -pos.z };
-		//{-1, 0 , 0};
+		GLfloat light3_spot_direction[] = { -pos.x, 150 - pos.y, -pos.z };
 
-			//glEnable(GL_LIGHT1 + i);
 		glLightfv(GL_LIGHT1 + i, GL_SPECULAR, light3_specular);
 		glLightfv(GL_LIGHT1 + i, GL_DIFFUSE, light3_diffuse);
 		glLightfv(GL_LIGHT1 + i, GL_POSITION, light3_position);
-		glLightf(GL_LIGHT1 + i, GL_SPOT_CUTOFF, 60);
+		glLightf(GL_LIGHT1 + i, GL_SPOT_CUTOFF, 50);
 		glLightfv(GL_LIGHT1 + i, GL_SPOT_DIRECTION, light3_spot_direction);
-		glLightf(GL_LIGHT1 + i, GL_SPOT_EXPONENT, 5.0);
-
-		/*if (lights[i].enabled) glMaterialfv(GL_FRONT, GL_EMISSION, lightMaterial);
-		else glMaterialfv(GL_FRONT, GL_EMISSION, noLightMaterial);*/
+		glLightf(GL_LIGHT1 + i, GL_SPOT_EXPONENT, 3.0);
 
 
 		glPopMatrix();
@@ -296,14 +320,14 @@ void drawBalls()
 
 	// Глянцевые шары
 	glColor3f(0.0, 0.6, 0.6); // выбираем голубой цвет
-    // Шары на нижнем ярусе
+	// Шары на нижнем ярусе
 	draw_ball(15, 60, 0, 90);
 	draw_ball(15, -60, 0, 90);
-	
+
 	// Шары на среднем ярусе
 	draw_ball(10, 0, 40, 175);
 	draw_ball(10, 0, -40, 175);
-	
+
 	// Шары на верхнем ярусе
 	draw_ball(7, 25, 0, 240);
 	draw_ball(7, -25, 0, 240);
@@ -318,7 +342,7 @@ void drawBalls()
 // функции для вычисления координат шариков гирлянды
 float getX(float radius, float angle)
 {
-	return radius * cos(angle*180.0/M_PI);
+	return radius * cos(angle * 180.0 / M_PI);
 }
 
 float getY(float radius, float angle)
@@ -536,8 +560,7 @@ void drawCar() {
 
 //Задать начальные параметры OpenGL
 void init() {
-	//	glClearColor(0.3f, 0.5f, 0.5f, 1.0f);
-	glClearColor(0.2f, 0.4f, 0.5f, 1.0f);
+	glClearColor(0.3, 0.2, 64 / 255.0, 0.5);
 	glLoadIdentity();
 	loadTextures();
 	glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
@@ -574,7 +597,7 @@ void render()
 
 	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 2);
 	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 2);
-	glLightfv(GL_LIGHT0, GL_POSITION, new GLfloat[4]{0, 600, 750, 1.0});
+	glLightfv(GL_LIGHT0, GL_POSITION, new GLfloat[4]{ 0, 600, 750, 1.0 });
 	//glEnable(GL_LIGHT0);
 	//активируем включенные фонари как источники света
 	for (int i = 0; i < lights.size(); i++)
