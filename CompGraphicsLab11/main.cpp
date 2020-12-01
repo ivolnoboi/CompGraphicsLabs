@@ -129,14 +129,16 @@ void drawRoad() {
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	glEnable(GL_TEXTURE_2D);
-
+	/*
 	glBegin(GL_QUADS);
-
-	/*glNormal3f(0, 1, 0);
+	glNormal3f(0, 1, 0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, -400.0);
 	glTexCoord2f(0.0, 1.0); glVertex3f(-400.0, 0.0, 400.0);
 	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 400.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, -400.0);*/
+	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, -400.0);
+	glEnd();
+	*/
+
 	glBegin(GL_QUADS);
 	glNormal3f(0, 1, 0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, -400.0);
@@ -167,10 +169,6 @@ void drawRoad() {
 	glTexCoord2f(0.0, 1.0); glVertex3f(00.0, 0.0, 400.0);
 	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 400.0);
 	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, 00.0);
-	glEnd();
-
-
-
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
@@ -222,7 +220,7 @@ void drawLights()
 		glLightfv(GL_LIGHT1 + i, GL_SPECULAR, light3_specular);
 		glLightfv(GL_LIGHT1 + i, GL_DIFFUSE, light3_diffuse);
 		glLightfv(GL_LIGHT1 + i, GL_POSITION, light3_position);
-		glLightf(GL_LIGHT1 + i, GL_SPOT_CUTOFF, 50);
+		glLightf(GL_LIGHT1 + i, GL_SPOT_CUTOFF, 90);
 		glLightfv(GL_LIGHT1 + i, GL_SPOT_DIRECTION, light3_spot_direction);
 		glLightf(GL_LIGHT1 + i, GL_SPOT_EXPONENT, 3.0);
 
@@ -613,8 +611,9 @@ void render()
 	}
 
 
-	drawRoad(); //рисуем дорогу
+
 	drawCar(); //рисуем машину
+	drawRoad(); //рисуем дорогу
 	drawLights(); //рисуем фонари 
 	draw_fir_tree();
 	drawBalls();
