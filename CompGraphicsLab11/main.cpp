@@ -131,10 +131,13 @@ void drawRoad() {
 	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0); glVertex3f(-400.0, 0.0, -400.0);
-	glTexCoord2f(0.0, 1.0); glVertex3f(-400.0, 0.0, 400.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(400.0, 0.0, 400.0);
-	glTexCoord2f(1.0, 0.0); glVertex3f(400.0, 0.0, -400.0);
+
+
+		glTexCoord2f(0.0, 0.0); glVertex3f(-400.0 , 0.0, -400.0);
+		glTexCoord2f(0.0, 1.0); glVertex3f(-400.0 , 0.0, 400.0);
+		glTexCoord2f(1.0, 1.0); glVertex3f(400.0 , 0.0, 400.0);
+		glTexCoord2f(1.0, 0.0); glVertex3f(400.0 , 0.0, -400.0 );
+
 	glEnd();
 
 	glDisable(GL_TEXTURE_2D);
@@ -182,13 +185,14 @@ void drawLights() {
 
 		GLfloat noLightMaterial[] = { 0, 0, 0, 1 };
 		GLfloat lightMaterial[] = { 0.7, 0.7, 0.7, 0 };
-
+		GLfloat light3_specular[] = { 1,1,1 };
 		GLfloat light3_diffuse[] = { 0.55, 0.48, 0.3 };
 		GLfloat light3_position[] = { pos.x, pos.y, pos.z,  1.0 };
 		GLfloat light3_spot_direction[] = { -pos.x, 100 - pos.y, -pos.z };
 		//{-1, 0 , 0};
 
 			//glEnable(GL_LIGHT1 + i);
+		glLightfv(GL_LIGHT1 + i, GL_SPECULAR, light3_specular);
 		glLightfv(GL_LIGHT1 + i, GL_DIFFUSE, light3_diffuse);
 		glLightfv(GL_LIGHT1 + i, GL_POSITION, light3_position);
 		glLightf(GL_LIGHT1 + i, GL_SPOT_CUTOFF, 60);
@@ -269,30 +273,46 @@ void draw_ball(int size, float distanceX, float distanceZ, float height, GLuint 
 // Рисование новогодних шариков на ёлку
 void drawBalls()
 {
-	//glColor3f(1.0, 0.0, 0.0); // выбираем красный цвет
 	glColor3f(1, 1, 1);
 
+	// Текстурированные шары
 	// Шары на нижнем ярусе
 	draw_ball(15, 0, 60, 90, ballTexture);
-	draw_ball(15, 60, 0, 90, ballTexture);
-	draw_ball(15, -60, 0, 90, ballTexture);
 	draw_ball(15, 0, -60, 90, ballTexture);
 
 	// Шары на среднем ярусе
-	draw_ball(10, 0, 40, 175, ballTexture2);
 	draw_ball(10, 40, 0, 175, ballTexture2);
 	draw_ball(10, -40, 0, 175, ballTexture2);
-	draw_ball(10, 0, -40, 175, ballTexture2);
 
 	// Шары на верхнем ярусе
 	draw_ball(7, 0, 25, 240, ballTexture3);
-	draw_ball(7, 25, 0, 240, ballTexture3);
-	draw_ball(7, -25, 0, 240, ballTexture3);
 	draw_ball(7, 0, -25, 240, ballTexture3);
 
-	// Шар на верхушке ёлки
+	Material m = Material();
+	m.set_diffuse(1, 1, 1, 1);
+	m.set_specular(1, 1, 1, 1.0);
+	m.set_shininess(128);
+	set_material(m);
+
+	// Глянцевые шары
+	glColor3f(0.0, 0.6, 0.6); // выбираем голубой цвет
+    // Шары на нижнем ярусе
+	draw_ball(15, 60, 0, 90);
+	draw_ball(15, -60, 0, 90);
+	
+	// Шары на среднем ярусе
+	draw_ball(10, 0, 40, 175);
+	draw_ball(10, 0, -40, 175);
+	
+	// Шары на верхнем ярусе
+	draw_ball(7, 25, 0, 240);
+	draw_ball(7, -25, 0, 240);
+
+	// Шар на верхушке ёлки (Жёлтый)
 	glColor3f(1.0, 0.93, 0.0);
-	draw_ball(8, 0, 0, 280, 0);
+	draw_ball(15, 0, 0, 280, 0);
+
+	set_material(Material());
 }
 
 // функции для вычисления координат шариков гирлянды
@@ -325,6 +345,7 @@ void drawGarland()
 
 	Material garland = Material();
 	garland.set_emission(shine, shine, shine, 1.0);
+	garland.set_shininess(100);
 
 	compute_shine();
 
@@ -540,7 +561,7 @@ void reshape(int width, int height) {
 //отрисовка
 void render()
 {
-	angle += 0.1;
+	angle += 0.2;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	gluLookAt(0.0f, 400.0f, 600.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f); //местоположение наблюдателя и вектор наблюдения
@@ -551,6 +572,9 @@ void render()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 2);
+	//glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 2);
+	glLightfv(GL_LIGHT0, GL_POSITION, new GLfloat[4]{0, 600, 750, 1.0});
 	//glEnable(GL_LIGHT0);
 	//активируем включенные фонари как источники света
 	for (int i = 0; i < lights.size(); i++)
@@ -589,7 +613,7 @@ void render()
 	}
 
 	//деактивируем прожектор на камере
-	//glDisable(GL_LIGHT0);
+	glDisable(GL_LIGHT0);
 
 	glDisable(GL_LIGHTING);
 	glDisable(GL_DEPTH_TEST);
