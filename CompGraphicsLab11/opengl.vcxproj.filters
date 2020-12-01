@@ -19,4 +19,20 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\GlutGlew\freeglut\bin\freeglut.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\GlutGlew\glew\bin\Release\Win32\glew32.dll">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\GlutGlew\freeglut\bin\x64\freeglut.dll">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\GlutGlew\glew\bin\Release\x64\glew32.dll">
+      <Filter>Resource Files</Filter>
+    </CopyFileToFolders>
+  </ItemGroup>
 </Project>
