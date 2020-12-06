@@ -74,10 +74,10 @@ void render2() {
 	glLoadIdentity();
 	glRotatef(rotate_z, 0.0, 0.0, 1.0);
 	//! Устанавливаем шейдерную программу текущей 
-	//glUseProgram(Program);
+	glUseProgram(Program);
 	static float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	//! Передаем юниформ в шейдер 
-	//glUniform4fv(Unif_color, 1, red);
+	glUniform4fv(Unif_color, 1, red);
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 0.0, 0.0); glVertex2f(-0.5f, -0.5f);
 	glColor3f(0.0, 1.0, 0.0); glVertex2f(-0.5f, 0.5f);
@@ -86,7 +86,7 @@ void render2() {
 	glEnd();
 	glFlush();
 	//! Отключаем шейдерную программу 
-	//glUseProgram(0);
+	glUseProgram(0);
 	checkOpenGLerror();
 	glutSwapBuffers();
 }
