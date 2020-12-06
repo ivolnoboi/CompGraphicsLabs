@@ -75,14 +75,14 @@ void initShader()
 	const char* vsSource =
 		"attribute vec3 coord;\n"
 		"attribute vec3 color;\n"
-		"out vec3 var_color;\n"
+		"varying vec3 var_color;\n"
 		"uniform mat4 matrix;\n"
 		"void main() {\n"
 		"gl_Position = matrix * vec4(coord , 1.0);\n"
 		"var_color = color;\n"
 		"}\n";
 	const char* fsSource =
-		"in vec3 var_color;\n"
+		"varying vec3 var_color;\n"
 		"void main() {\n"
 		"gl_FragColor = vec4(var_color , 1.0);\n"
 		"}\n";
