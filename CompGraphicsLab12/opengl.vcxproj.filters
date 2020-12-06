@@ -47,5 +47,8 @@
     <ClCompile Include="task5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+        <ClCompile Include="shader011.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
