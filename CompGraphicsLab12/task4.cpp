@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <glm/trigonometric.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
 //! Переменные с индентификаторами ID
@@ -10,16 +12,53 @@ GLuint Program;
 
 //! ID атрибутов
 GLint  Attrib_vertex;
-GLint  Attrib_color;
 
-//! ID юниформ переменной цвета
-//GLint Unif_color;
+GLint Unif_matrix;
 
-//! ID юниформ переменной цвета
-//GLint Unif_color2;
+glm::mat4 Matrix_projection;
 
 double rotate_z = 0;
 float angle = 0;
+
+
+GLfloat vertices[] =
+{
+	-1.0f , -1.0f , -1.0f ,
+	1.0f , -1.0f , -1.0f ,
+	1.0f , 1.0f , -1.0f ,
+	-1.0f , 1.0f , -1.0f ,
+	-1.0f , -1.0f , 1.0f ,
+	1.0f , -1.0f , 1.0f ,
+	1.0f , 1.0f , 1.0f ,
+	-1.0f , 1.0f , 1.0f
+};
+
+GLfloat colors[] = {
+  1.0f , 0.5f , 1.0f ,
+  1.0f , 0.5f , 0.5f ,
+  0.5f , 0.5f , 1.0f ,
+  0.0f , 1.0f , 1.0f ,
+  1.0f , 0.0f , 1.0f ,
+  1.0f , 1.0f , 0.0f ,
+  1.0f , 0.0f , 1.0f ,
+  0.0f , 1.0f , 1.0f
+};
+int indices[] = {
+	0, 4, 5,
+	0, 5, 1,
+	1, 5, 6,
+	1, 6, 2,
+	2, 6, 7,
+	2, 7, 3,
+	3, 7, 4,
+	3, 4, 0,
+	4, 7, 6,
+	4, 6, 5,
+	3, 0, 1,
+	3, 1, 2
+};
+auto Indices_count = sizeof(indices) / sizeof(indices[0]);
+
 
 //! Проверка ошибок OpenGL, если есть, то вывод в консоль тип ошибки
 void checkOpenGLerror() {
@@ -33,17 +72,17 @@ void initShader()
 {
 	//! Исходный код шейдеров 
 	const char* vsSource =
-		"attribute vec2 coord;\n"
-		"attribute vec3 color;\n"
-		"varying vec3 var_color;\n"
+		"attribute vec3 coord;\n"
+		"varying vec4 var_color;\n"
+		"uniform mat4 matrix;\n"
 		"void main() {\n"
-		"	gl_Position = vec4(coord, 0.0, 1.0);\n"
-		"	var_color = color;\n"
+		"	gl_Position = matrix*vec4(coord, 1.0);\n"
+		"	var_color = gl_Color;\n"
 		"}\n";
 	const char* fsSource =
-		"varying vec3 var_color;\n"
+		"varying vec4 var_color;\n"
 		"void main() {\n"
-		"  gl_FragColor = vec4(0.5*var_color, 1.0);\n"
+		"  gl_FragColor = var_color;\n"
 		"}\n";
 	//! Переменные для хранения идентификаторов шейдеров 
 	GLuint vShader, fShader;
@@ -94,9 +133,17 @@ void initShader()
 	glLinkProgram(Program);
 	//! Проверяем статус сборки
 	int link_ok;
-	glGetProgramiv(Program, GL_LINK_STATUS, &link_ok); if (!link_ok)
+	glGetProgramiv(Program, GL_LINK_STATUS, &link_ok);
+	if (!link_ok)
 	{
 		std::cout << "error attach shaders \n";
+		int loglen;
+		glGetProgramiv(Program, GL_INFO_LOG_LENGTH, &loglen);
+		int realLogLen;
+		char* log = new char[loglen];
+		glGetProgramInfoLog(Program, loglen, &realLogLen, log);
+		std::cout << log << "\n";
+		delete log;
 	}
 
 	///! Вытягиваем ID атрибута из собранной программы
@@ -106,20 +153,13 @@ void initShader()
 	{
 		std::cout << "could not bind attrib " << attr_name << std::endl; return;
 	}
-	attr_name = "color";
-	Attrib_color = glGetAttribLocation(Program, attr_name);
-	if (Attrib_vertex == -1)
-	{
-		std::cout << "could not bind attrib " << attr_name << std::endl; return;
-	}
 
-	//! Вытягиваем ID юниформ
-	/*const char* unif_name = "color";
-	Unif_color = glGetUniformLocation(Program, unif_name); 
-	if (Unif_color == -1)
+	const char* unif_name = "matrix";
+	Unif_matrix = glGetUniformLocation(Program, unif_name);
+	if (Unif_matrix == -1)
 	{
 		std::cout << "could not bind uniform " << unif_name << std::endl; return;
-	}*/
+	}
 	checkOpenGLerror();
 }
 
@@ -142,29 +182,32 @@ void render2()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	angle += 0.05f;
+	angle += 0.0005f;
 	glLoadIdentity();
-	glTranslatef(0.5, 0.5, 0.0);
-	glScalef(0.5, 0.5, 0.5);
-	glRotatef(angle, 0.0, 1.0, 0.0);
-	glTranslatef(-0.5, -0.5, 0.0);
+
+	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+	glm::mat4 View = glm::lookAt(glm::vec3(4, 3, 3), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+
+	glm::mat4 rotate_x = { 1.0f, 0.0f, 0.0f, 0.0f,
+						   0.0f, glm::cos(angle), -glm::sin(angle), 0.0f,
+						   0.0f, glm::sin(angle), glm::cos(angle), 0.0f,
+						   0.0f, 0.0f, 0.0f, 1.0f };
+
+
+	Matrix_projection = Projection * View/* * Model */ * rotate_x;
 	//! Устанавливаем шейдерную программу текущей
 	glUseProgram(Program);
-	/*static float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-	static float green[4] = { 0.0f, 1.0f, 0.0f, 1.0f };
-	static float blue[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
 	//! Передаем юниформ в шейдер
-	glUniform4fv(Unif_color, 1, green);
-	glUniform4fv(Unif_color2, 1, red);*/
+	glUniformMatrix4fv(Unif_matrix, 1, GL_FALSE, &Matrix_projection[0][0]);
+
 	glBegin(GL_TRIANGLES);
-	glColor3f(1.0, 0.0, 0.0); 
-	glVertex2f(-0.5f, -0.5f);
-	glColor3f(0.0, 1.0, 0.0); 
-	glVertex2f(-0.5f, 0.5f);
-	glColor3f(1.0, 1.0, 1.0); 
-	glVertex2f(0.5f, -0.5f);
+	for (int i = 0; i < Indices_count; i++)
+	{
+		glColor3f(colors[indices[i] * 3], colors[indices[i] * 3 + 1], colors[indices[i] * 3 + 2]);
+		glVertex3f(vertices[indices[i] * 3], vertices[indices[i] * 3 + 1], vertices[indices[i] * 3 + 2]);
+	}
 	glEnd();
-	glFlush();
+	//glFlush();
 	//! Отключаем шейдерную программу
 	glUseProgram(0);
 	checkOpenGLerror();
@@ -178,6 +221,8 @@ int main(int argc, char** argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_RGBA | GLUT_ALPHA | GLUT_DOUBLE);
 	glutInitWindowSize(800, 800);
 	glutCreateWindow("Simple shaders");
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glClearColor(0, 0, 1, 0);
 	//! Обязательно перед инициализацией шейдеров
 	GLenum glew_status = glewInit();
