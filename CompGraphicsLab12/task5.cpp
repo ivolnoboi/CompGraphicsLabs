@@ -28,7 +28,7 @@ GLint Indices_count;
 
 GLint Unif_matrix;
 
-glm::mat4 Matrix_projection; // = glm::perspective(45.0f, 4/3.0f, 1.0f, 200.0f);;
+glm::mat4 Matrix_projection; 
 
 //! Вершина 
 struct vertex
@@ -171,18 +171,18 @@ void initVBO()
 
 
 	GLint indices[] = {
-0, 4, 5, 
-0, 5, 1,
-1, 5, 6,
-1, 6, 2,
-2, 6, 7,
-2, 7, 3,
-3, 7, 4, 
-3, 4, 0,
-4, 7, 6, 
-4, 6, 5,
-3, 0, 1, 
-3, 1, 2
+		0, 4, 5, 
+		0, 5, 1,
+		1, 5, 6,
+		1, 6, 2,
+		2, 6, 7,
+		2, 7, 3,
+		3, 7, 4, 
+		3, 4, 0,
+		4, 7, 6, 
+		4, 6, 5,
+		3, 0, 1, 
+		3, 1, 2
 	};
 	Indices_count = sizeof(indices) / sizeof(indices[0]);
 
@@ -244,18 +244,13 @@ void render()
 						   0.0f, glm::sin(angle_x), glm::cos(angle_x), 0.0f,
 						   0.0f, 0.0f, 0.0f, 1.0f };
 
-	//glm::mat4 Model = glm::mat4(1.0f);
-	Matrix_projection = Projection * View/* * Model */* rotate_x;
+	Matrix_projection = Projection * View * rotate_x;
 
 	//! Устанавливаем шейдерную программу текущей 
 	glUseProgram(Program);
 	glUniformMatrix4fv(Unif_matrix, 1, GL_FALSE, &Matrix_projection[0][0]);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO_element);
-
-	/*static float red[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-	//! Передаем юниформ в шейдер
-	glUniform4fv(Unif_color, 1, red);*/
 
 	//! Включаем массив атрибутов 
 	glEnableVertexAttribArray(Attrib_vertex);
@@ -264,48 +259,28 @@ void render()
 	//! Указывая pointer 0 при подключенном буфере, мы указываем что данные в 	VBO
 	glVertexAttribPointer(Attrib_vertex, 3 , GL_FLOAT, GL_FALSE, 0, 0);
 
-	//! Включаем массив атрибутов 
-	//glEnableVertexAttribArray(1);
-	//! Подключаем VBO  	
 
-	//! Указывая pointer 0 при подключенном буфере, мы указываем что данные в 	VBO
-	//glVertexAttribPointer(1, 3 /*2*/, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(Attrib_color);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO_color);
 	glVertexAttribPointer(Attrib_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-	/*//! Включаем массив атрибутов
-	glEnableVertexAttribArray(2);
-	//! Подключаем VBO
-	glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-	//! Указывая pointer 0 при подключенном буфере, мы указываем что данные в 	VBO
-	glVertexAttribPointer(2, 3 , GL_FLOAT, GL_FALSE, 0, 0);*/
-
-
-
-
-
 	//! Передаем данные на видеокарту(рисуем)  	
-	//glDrawArrays(GL_TRIANGLES, 0, 12 * 4);
 	glDrawElements(GL_TRIANGLES,      // mode
 		Indices_count,    // count
 		GL_UNSIGNED_INT,   // type
 		0);
-	//! Отключаем VBO  	
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
 	//! Отключаем массив атрибутов 
 	glDisableVertexAttribArray(Attrib_vertex);
 
 	//Отключаем массив атрибутов 
 	glDisableVertexAttribArray(Attrib_color);
 
-	//glFlush();
-
+	glFlush();
 
 	checkOpenGLerror();
 
 	glutSwapBuffers();
-
 
 	//! Отключаем шейдерную программу  
 	glUseProgram(0);
