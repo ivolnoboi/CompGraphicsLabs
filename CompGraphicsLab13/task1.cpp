@@ -10,23 +10,6 @@
 using namespace std;
 
 GLint Program;
-//ID атрибута вершин 
-GLint Attrib_vertex;
-
-//ID атрибута цветов 
-GLint Attrib_color;
-
-//ID Vertex Buffer Object 
-GLuint VBO_vertex;
-
-//ID Vertex Buffer Object 
-GLuint VBO_color;
-
-//ID VBO for element indices 
-GLuint VBO_element;
-
-//Количество индексов 
-GLint Indices_count;
 
 GLint Unif_matrix;
 
@@ -95,8 +78,10 @@ void initShader()
 		"uniform sampler2D ourTexture1;\n"
 		"uniform sampler2D ourTexture2;\n"
 		"void main() {\n"
-		//"color = texture(ourTexture1, TexCoord)  * vec4(ourColor, 1.0f);\n"
-		" color = mix(texture(ourTexture1, TexCoord), texture(ourTexture2, TexCoord), 0.35) * vec4(ourColor, 1.0f);\n"
+		//"color = texture(ourTexture1, TexCoord);\n"  //1 текстура 
+		//"color = texture(ourTexture1, TexCoord)  * vec4(ourColor, 1.0f);\n" //  1 текстура + цвет 
+		//" color = mix(texture(ourTexture1, TexCoord), texture(ourTexture2, TexCoord), 0.5);\n" // 2 текстуры
+		" color = mix(texture(ourTexture1, TexCoord), texture(ourTexture2, TexCoord), 0.5) * vec4(ourColor, 1.0f);\n" // 2 текстуры + цвет
 		"}\n";
 	//! Переменные для хранения идентификаторов шейдеров 
 	GLuint vShader, fShader;
@@ -133,24 +118,24 @@ void initShader()
 		return;
 	}
 	///! Вытягиваем ID атрибута из собранной программы   	
-	const char* attr_name = "coord";
+	/*const char* attr_name = "coord";
 	Attrib_vertex = glGetAttribLocation(Program, attr_name);
 	if (Attrib_vertex == -1)
 	{
 		std::cout << "could not bind attrib " << attr_name << std::endl;
 		return;
-	}
+	}*/
 
 	///! Вытягиваем ID атрибута из собранной программы   	
-	attr_name = "color";
+	/*attr_name = "color";
 	Attrib_color = glGetAttribLocation(Program, attr_name);
 	if (Attrib_color == -1)
 	{
 		std::cout << "could not bind attrib " << attr_name << std::endl;
 		return;
-	}
+	}*/
 
-	attr_name = "matrix";
+	const char* attr_name = "matrix";
 	Unif_matrix = glGetUniformLocation(Program, attr_name);
 
 	checkOpenGLerror();
@@ -167,10 +152,8 @@ void text()
 	// ====================
 	glGenTextures(1, &texture1);
 	glBindTexture(GL_TEXTURE_2D, texture1); // All upcoming GL_TEXTURE_2D operations now have effect on our texture object
-	// Set our texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// Set texture filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// Load, create texture and generate mipmaps
@@ -179,16 +162,15 @@ void text()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+	glBindTexture(GL_TEXTURE_2D, 0); 
+
 	// ===================
 	// Texture 2
 	// ===================
 	glGenTextures(1, &texture2);
 	glBindTexture(GL_TEXTURE_2D, texture2);
-	// Set our texture parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// Set texture filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// Load, create texture and generate mipmaps
@@ -203,7 +185,6 @@ GLuint VBO, VAO, EBO;
 //! Инициализация VBO 
 void initVBO()
 {
-	// Set up vertex data (and buffer(s)) and attribute pointers
 	GLfloat vertices[] = {
 
 		// лицевая грань
@@ -231,15 +212,15 @@ void initVBO()
 		-0.5f, 0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f, // 11 = 3
 		-0.5f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,     1.0f, 1.0f, // 12 = 2
 	};
-	GLuint indices[] = {  // Note that we start from 0!
+	GLuint indices[] = { 
 
 		// лицевая грань
-		0, 1, 3, // First Triangle
-		1, 2, 3,  // Second Triangle
+		0, 1, 3, 
+		1, 2, 3,  
 
 		// верхняя крышка
-		0, 3, 5, // First Triangle
-		0, 4, 5,  // Second Triangle
+		0, 3, 5, 
+		0, 4, 5, 
 
 		// правая крышка
 		7, 8, 6,
@@ -270,17 +251,7 @@ void initVBO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	// Position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	// Color attribute
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	// TexCoord attribute
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
 
-	glBindVertexArray(0); // Unbind VAO
 
 	checkOpenGLerror();
 }
@@ -299,9 +270,9 @@ void freeVBO()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glDeleteBuffers(1, &VBO_vertex);
+/*	glDeleteBuffers(1, &VBO_vertex);
 	glDeleteBuffers(1, &VBO_element);
-	glDeleteBuffers(1, &VBO_color);
+	glDeleteBuffers(1, &VBO_color);*/
 
 }
 double angle_x = 0;
@@ -338,10 +309,23 @@ void render()
 	glUseProgram(Program);
 	glUniformMatrix4fv(Unif_matrix, 1, GL_FALSE, &Matrix_projection[0][0]);
 
+	// Position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+	// Color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+	// TexCoord attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
+
+	glBindVertexArray(0); // Unbind VAO
+
 	// Bind Textures using texture units
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glUniform1i(glGetUniformLocation(Program, "ourTexture1"), 0);
+
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texture2);
 	glUniform1i(glGetUniformLocation(Program, "ourTexture2"), 1);
