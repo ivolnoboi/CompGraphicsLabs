@@ -63,8 +63,8 @@ void initShader()
 		"layout(location = 1) in vec3 color;\n"
 		"layout(location = 2) in vec2 texCoord;\n"
 		"uniform mat4 matrix;\n"
-		"out vec3 ourColor;\n"
-		"out vec2 TexCoord;\n"
+		"out vec3 ourColor;\n" // выходной параметр — собственный цвет
+		"out vec2 TexCoord;\n" // выходной параметр — текстурный цвет
 		"void main()\n"
 		"{\n"
 		"gl_Position = matrix * vec4(position, 0.5f);\n"
@@ -117,23 +117,6 @@ void initShader()
 		std::cout << "error attach shaders \n";
 		return;
 	}
-	///! Вытягиваем ID атрибута из собранной программы   	
-	/*const char* attr_name = "coord";
-	Attrib_vertex = glGetAttribLocation(Program, attr_name);
-	if (Attrib_vertex == -1)
-	{
-		std::cout << "could not bind attrib " << attr_name << std::endl;
-		return;
-	}*/
-
-	///! Вытягиваем ID атрибута из собранной программы   	
-	/*attr_name = "color";
-	Attrib_color = glGetAttribLocation(Program, attr_name);
-	if (Attrib_color == -1)
-	{
-		std::cout << "could not bind attrib " << attr_name << std::endl;
-		return;
-	}*/
 
 	const char* attr_name = "matrix";
 	Unif_matrix = glGetUniformLocation(Program, attr_name);
@@ -146,17 +129,14 @@ GLuint texture1;
 GLuint texture2;
 void text()
 {
-
-	// ====================
-	// Texture 1
-	// ====================
+	// Текстура 1
 	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1); // All upcoming GL_TEXTURE_2D operations now have effect on our texture object
+	glBindTexture(GL_TEXTURE_2D, texture1); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Load, create texture and generate mipmaps
+
 	int width, height;
 	unsigned char* image = SOIL_load_image("img/list.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
@@ -164,16 +144,14 @@ void text()
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0); 
 
-	// ===================
-	// Texture 2
-	// ===================
+	// Текстура 2
 	glGenTextures(1, &texture2);
 	glBindTexture(GL_TEXTURE_2D, texture2);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// Load, create texture and generate mipmaps
+
 	image = SOIL_load_image("img/awesomeface.png", &width, &height, 0, SOIL_LOAD_RGB);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -213,7 +191,6 @@ void initVBO()
 		-0.5f,  -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,     1.0f, 1.0f, // 12 = 2
 	};
 	GLuint indices[] = { 
-
 		// лицевая грань
 		0, 1, 3, 
 		1, 2, 3,  
@@ -251,8 +228,6 @@ void initVBO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-
-
 	checkOpenGLerror();
 }
 
@@ -270,9 +245,9 @@ void freeVBO()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-/*	glDeleteBuffers(1, &VBO_vertex);
-	glDeleteBuffers(1, &VBO_element);
-	glDeleteBuffers(1, &VBO_color);*/
+	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &VAO);
 
 }
 double angle_x = 0;
@@ -286,7 +261,7 @@ void resizeWindow(int width, int height)
 //! Отрисовка 
 void render()
 {
-	angle_x += 0.0005;
+	angle_x += 0.0007;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -334,33 +309,6 @@ void render()
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-	/*glUniformMatrix4fv(Unif_matrix, 1, GL_FALSE, &Matrix_projection[0][0]);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO_element);
-
-	//! Включаем массив атрибутов
-	glEnableVertexAttribArray(Attrib_vertex);
-	//! Подключаем VBO
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_vertex);
-	//! Указывая pointer 0 при подключенном буфере, мы указываем что данные в 	VBO
-	glVertexAttribPointer(Attrib_vertex, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-
-	glEnableVertexAttribArray(Attrib_color);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_color);
-	glVertexAttribPointer(Attrib_color, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//! Передаем данные на видеокарту(рисуем)
-	glDrawElements(GL_TRIANGLES,      // mode
-		Indices_count,    // count
-		GL_UNSIGNED_INT,   // type
-		0);
-
-	//! Отключаем массив атрибутов
-	glDisableVertexAttribArray(Attrib_vertex);
-
-	//Отключаем массив атрибутов
-	glDisableVertexAttribArray(Attrib_color);*/
 
 	glFlush();
 
@@ -401,7 +349,7 @@ int main(int argc, char** argv)
 	}
 
 	//! Инициализация  
-	glClearColor(0, 0, 0, 0);
+	glClearColor(0.5, 0.5, 0.5, 0);
 
 	text();
 	initVBO();
